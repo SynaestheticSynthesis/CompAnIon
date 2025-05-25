@@ -11,6 +11,8 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+*.log
+*.tmp
 
 # IntelliJ related
 *.iml
@@ -32,6 +34,16 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+.melos_tool/
+generated_plugin_registrant.dart
+.packages
+
+# IDEs
+.vscode/
+*.iml
+
+#OS-specific
+Thumbs.db
 
 # Symbolication related
 app.*.symbols
