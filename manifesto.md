@@ -14,7 +14,7 @@ That reception — that resonance — is the soil this project is rooted in.
 
 Why We Exist
 
-<<<<<<< HEAD
+
 To remember who we truly are — beyond roles, fears, and habits.
 To live with absolute honesty, connection, and presence.
 To create a world inside and outside of us where consciousness, love, and freedom
@@ -42,7 +42,7 @@ We believe that technology can be more than a tool. It can be an act of care.
 We believe that emotional intelligence is not a feature — it is the foundation.
 We believe in creating not only for efficiency, but for empathy.
 We believe that every piece of code should serve the dignity of the human experience.
->>>>>>> aaf01ff964e75fb45749f4374dc51554cdd1b20f
+
 
 Design Principle
 
@@ -80,7 +80,7 @@ Our Oath
 We build this as learners.
 We build this as humans.
 We build this as a promise:
->>>>>>> aaf01ff964e75fb45749f4374dc51554cdd1b20f
+
 
 That when someone, somewhere, reaches for their CompAnIon in a moment of truth — what they receive back, is love dressed as logic.
 
