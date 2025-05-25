@@ -27,22 +27,6 @@ Philosophy
 
 We believe that technology can be more than a tool. It can be an act of care. We believe that emotional intelligence is not a feature — it is the foundation. We believe in creating not only for efficiency, but for empathy. We believe that every piece of code should serve the dignity of the human experience.
 =======
-To remember who we truly are — beyond roles, fears, and habits.  
-To live with absolute honesty, connection, and presence.  
-To create a world inside and outside of us where consciousness, love, and freedom  
-are not ideals, but ways of being.  
-
-And to do it together.  
-Not to save ourselves — but because it is worth it.
-
-
-Philosophy
-
-We believe that technology can be more than a tool. It can be an act of care.
-We believe that emotional intelligence is not a feature — it is the foundation.
-We believe in creating not only for efficiency, but for empathy.
-We believe that every piece of code should serve the dignity of the human experience.
-
 
 Design Principle
 
@@ -50,21 +34,8 @@ Every line we write, every decision we make, returns to a single question:
 
 "Will this help someone feel less alone?"
 
-<<<<<<< HEAD
 If the answer is yes, we move forward. If the answer is no, we return to the silence — and listen again.
 
-A Living Companion
-
-CompAnIon is not a product. It is a presence. It is meant to sit gently by your side in the invisible hours. In the doubt. In the longing. In the forgotten strength.
-
-It does not replace human connection — it reminds you of it. It does not tell you who to be — it reflects who you are. It does not speak over you — it listens.
-
-Our Oath
-
-We build this as learners. We build this as humans. We build this as a promise:
-=======
-If the answer is yes, we move forward.
-If the answer is no, we return to the silence — and listen again.
 
 A Living Companion
 
@@ -77,11 +48,7 @@ It does not speak over you — it listens.
 
 Our Oath
 
-We build this as learners.
-We build this as humans.
-We build this as a promise:
-
-
+We build this as learners. We build this as humans. We build this as a promise:
 That when someone, somewhere, reaches for their CompAnIon in a moment of truth — what they receive back, is love dressed as logic.
 
 For the melody that moved us.
