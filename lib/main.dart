@@ -2,6 +2,31 @@ import 'package:flutter/material.dart';
 import 'engine/companion_engine.dart';
 import 'core/mock_input.dart';
 import 'core/emotional_state.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'services/dialogue_engine.dart';
+import 'screens/home_screen.dart'; // Δημιουργούμε το επόμενο
+
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => DialogueEngine(),
+      child: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'CompAnIon',
+      theme: ThemeData.dark(),
+      home: HomeScreen(),
+    );
+  }
+}
+
 
 void main() {
   runApp(CompanionApp());
