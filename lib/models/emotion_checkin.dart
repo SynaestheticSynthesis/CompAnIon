@@ -1,15 +1,16 @@
-class EmotionCheckIn {
-  final String emotion;
-  final String emoji;
-  final DateTime timestamp;
-  final String text; // <-- Add this field
+import 'package:isar/isar.dart';
 
-  EmotionCheckIn({
-    required this.emotion,
-    required this.emoji,
-    required this.timestamp,
-    required this.text, // <-- Add this parameter
-  });
+part 'emotion_checkin.g.dart';
+
+@Collection()
+class EmotionCheckIn {
+  Id id = Isar.autoIncrement;
+
+  late String emotion;
+  late String emoji;
+  late DateTime timestamp;
+  String? text; // Optional reflection
+
+  EmotionCheckIn();
 }
 
- 

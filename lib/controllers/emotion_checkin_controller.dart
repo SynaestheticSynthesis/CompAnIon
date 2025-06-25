@@ -1,22 +1,27 @@
-  // lib/controllers/emotion_checkin_controller.dart
+// lib/controllers/emotion_checkin_controller.dart
 
-  import 'package:flutter/material.dart';
-  import '../models/emotion_checkin.dart';
+import 'package:flutter/material.dart';
+import '../models/emotion_checkin.dart';
+import '../services/isar_service.dart';
 
-  class EmotionCheckInController with ChangeNotifier {
-    final List<EmotionCheckIn> _checkIns = [];
+class EmotionCheckInController with ChangeNotifier {
+  final IsarService _isarService = IsarService();
+  List<EmotionCheckIn> _checkIns = [];
 
-    List<EmotionCheckIn> get checkIns => _checkIns;
+  List<EmotionCheckIn> get checkIns => _checkIns;
 
-    void addCheckIn(EmotionCheckIn checkIn) {
-      _checkIns.add(checkIn);
-      notifyListeners(); // ενημέρωση UI
-    }
-
-    void clearAll() {
-      _checkIns.clear();
-      notifyListeners();
-    }
-
-  // Μελλοντικά: save to local storage ή cloud
+  Future<void> loadCheckIns() async {
+    _checkIns = await _isarService.getAllCheckIns();
+    notifyListeners();
   }
+
+  Future<void> addCheckIn(EmotionCheckIn checkIn) async {
+    await _isarService.saveCheckIn(checkIn);
+    await loadCheckIns();
+  }
+
+  Future<void> deleteCheckIn(Id id) async {
+    await _isarService.deleteCheckIn(id);
+    await loadCheckIns();
+  }
+}
