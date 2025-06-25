@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'
+import 'package:flutter/material.dart';
 final Map<String, String> emotionResponses = {
   'Calm': 'Μείνε εκεί... Είσαι μέσα στη ροή. 🌊',
   'Sad': 'Είμαι εδώ. Ας μείνουμε μαζί στη σιωπή. 🌧️',
@@ -19,7 +19,6 @@ class CompanionEmotionCheckinView extends StatefulWidget {
 class _CompanionEmotionCheckinViewState extends State<CompanionEmotionCheckinView> {
   String? selectedEmotion; // κρατάει το επιλεγμένο συναίσθημα
   String? responseMessage;
-  String? responseMessage;
   bool showResponse = false;
 
 
@@ -39,10 +38,11 @@ class _CompanionEmotionCheckinViewState extends State<CompanionEmotionCheckinVie
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: GestureDetector(
+                    // ...existing code...
                     onTap: () {
                       setState(() {
-                        selectedEmotion = emotion;
-                        responseMessage = emotionResponses[emotion['label']];
+                        selectedEmotion = emotion['label'] as String;
+                        responseMessage = emotionResponses[selectedEmotion!];
                         showResponse = true;
                       });
 
@@ -54,6 +54,7 @@ class _CompanionEmotionCheckinViewState extends State<CompanionEmotionCheckinVie
                         }
                       });
                     },
+                    // ...existing code...
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 250),
                       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
@@ -146,3 +147,4 @@ class _CompanionEmotionCheckinViewState extends State<CompanionEmotionCheckinVie
     {'label': 'Μοναξιά', 'icon': '😔'},
     {'label': 'Ευγνωμοσύνη', 'icon': '🙏'},
   ];
+}

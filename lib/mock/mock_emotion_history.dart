@@ -1,4 +1,4 @@
-import 'package:companion/models/emotion_checkin_model.dart';
+import 'package:companion_core/models/emotion_checkin_model.dart';
 
 final List<EmotionCheckInModel> mockEmotionHistory = [
   EmotionCheckInModel(

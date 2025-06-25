@@ -1,24 +1,57 @@
 import '../emotional_state.dart';
-import 'response_scenarios.dart';
+
+
+
+// ...existing code...
+class ResponseScenarios {
+  String escalatedStressSupport(EmotionalState state) => "Υποστήριξη για κλιμακούμενο στρες.";
+  String stressSupport(EmotionalState state) => "Υποστήριξη για στρες.";
+  String lonelinessSupport(EmotionalState state) => "Υποστήριξη για μοναξιά.";
+  String lowEnergySupport(EmotionalState state) => "Υποστήριξη για χαμηλή ενέργεια.";
+  String defaultSupport(EmotionalState state) => "Γενική υποστήριξη.";
+  String getCompanionResponse(EmotionalState state) {
+    // Example logic for companion response
+    if (state.stressLevel > 7) {
+      return "Φαίνεται ότι έχεις υψηλό στρες. Θέλεις να μιλήσουμε για αυτό;";
+    }
+    return "Είμαι εδώ για σένα, πώς μπορώ να σε βοηθήσω σήμερα;"; 
+}
+// ...existing code...
+}
+
+class CompanionLogic {
+  String? analyze(EmotionalState state) {
+    // Example logic
+    if (state.stressLevel > 7) {
+      return "Υψηλό στρες ανιχνεύθηκε.";
+    }
+    return null;
+  }
+}
 
 String generateResponse(EmotionalState state) {
   final scenarios = ResponseScenarios();
 
-  if (state.hasEscalatedStress()) {
-    return scenarios.escalatedStressSupport(state);
-  }
+  try {
+    if (state.hasEscalatedStress()) {
+      return scenarios.escalatedStressSupport(state);
+    }
 
-  if (state.stressLevel >= 7) {
-    return scenarios.stressSupport(state);
-  }
+    if (state.stressLevel >= 7) {
+      return scenarios.stressSupport(state);
+    }
 
-  if (state.lonelinessLevel >= 7) {
-    return scenarios.lonelinessSupport(state);
-  }
+    if (state.lonelinessLevel >= 7) {
+      return scenarios.lonelinessSupport(state);
+    }
 
-  if (state.energyLevel <= 3) {
-    return scenarios.lowEnergySupport(state);
-  }
+    if (state.energyLevel <= 3) {
+      return scenarios.lowEnergySupport(state);
+    }
 
-  return scenarios.defaultSupport(state);
+    return scenarios.defaultSupport(state);
+  } catch (e) {
+    print('[CompAnIon Logic Error]: $e');
+    return "Δεν μπόρεσα να βρω κατάλληλη υποστήριξη αυτή τη στιγμή. Είμαι εδώ αν θέλεις να μιλήσουμε.";
+  }
 }

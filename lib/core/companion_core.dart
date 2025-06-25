@@ -1,41 +1,49 @@
 // lib/core/companion_core.dart
+import 'emotional_state.dart';
 
 class CompanionCore {
   int _stressLevel = 0;
   int _lonelinessLevel = 0;
-  String _currentContext = 'default'; // <-- ΝΕΟ ΠΕΔΙΟ
+  int _energyLevel = 10;
+  String _currentContext = 'default';
 
   final List<String> _history = [];
 
   void updateStress(int level) {
+    final validated = level.clamp(0, 10);
+    _stressLevel = validated;
+    // EmotionalState can be created here if needed for further processing.
     var state = EmotionalState(
       stressLevel: _stressLevel,
       lonelinessLevel: _lonelinessLevel,
-      context: _currentContext, // <-- ΝΕΟ ΠΕΔΙΟ
+      energyLevel: _energyLevel,
+      context: _currentContext,
     );
-    if (level > 80) {
+    if (_stressLevel > 8) {
       _notify("Πίεση εντοπίστηκε - Θυμήσου ότι έχεις ξεπεράσει δυσκολότερα.");
-      _history.add("[Stress: $level] -> Alerted");
-    } else if (level > 50) {
+      _history.add("[Stress: $_stressLevel] -> Alerted");
+    } else if (_stressLevel > 5) {
       _notify("Ήπια πίεση εντοπίστηκε - Κάνε ένα μικρό βήμα πίσω, αν χρειαστεί.");
-      _history.add("[Stress: $level] -> Alerted");
+      _history.add("[Stress: $_stressLevel] -> Alerted");
     } else {
-      _history.add("[Stress: $level] -> OK");
+      _history.add("[Stress: $_stressLevel] -> OK");
     }
   }
 
   void updateLoneliness(int level) {
-    var state = EmotionalState(
-      stressLevel: _stressLevel,
-      lonelinessLevel: _lonelinessLevel,
-      context: _currentContext, // <-- ΝΕΟ ΠΕΔΙΟ
-    );
-    if (level > 70) {
+    final validated = level.clamp(0, 10);
+    _lonelinessLevel = validated;
+    if (_lonelinessLevel > 7) {
       _notify("Αίσθημα μοναξιάς εντοπίστηκε - Είσαι σημαντικός. Δεν είσαι μόνος.");
-      _history.add("[Loneliness: $level] -> Alerted");
+      _history.add("[Loneliness: $_lonelinessLevel] -> Alerted");
     } else {
-      _history.add("[Loneliness: $level] -> OK");
+      _history.add("[Loneliness: $_lonelinessLevel] -> OK");
     }
+  }
+
+  void setContext(String context) {
+    _currentContext = context;
+    print("\n[Context] Τρέχον πλαίσιο: $_currentContext");
   }
 
   void _notify(String message) {
@@ -46,10 +54,6 @@ class CompanionCore {
     print("\n[History Log]:");
     for (var event in _history) {
       print("  $event");
-    }
-    void setContext(String context) {
-      _currentContext = context;
-      print("\n[Context] Τρέχον πλαίσιο: $_currentContext");
     }
   }
 }

@@ -2,37 +2,14 @@ import 'package:flutter/material.dart';
 import 'engine/companion_engine.dart';
 import 'core/mock_input.dart';
 import 'core/emotional_state.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'services/dialogue_engine.dart';
-import 'screens/home_screen.dart'; // Δημιουργούμε το επόμενο
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => DialogueEngine(),
-      child: MyApp(),
-    ),
-  );
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CompAnIon',
-      theme: ThemeData.dark(),
-      home: HomeScreen(),
-    );
-  }
-}
-
-
-void main() {
-  runApp(CompanionApp());
+  runApp(const CompanionApp());
 }
 
 class CompanionApp extends StatelessWidget {
+  const CompanionApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,15 +18,17 @@ class CompanionApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         scaffoldBackgroundColor: Colors.grey[100],
       ),
-      home: CompanionHomePage(),
+      home: const CompanionHomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class CompanionHomePage extends StatefulWidget {
+  const CompanionHomePage({super.key});
+
   @override
-  _CompanionHomePageState createState() => _CompanionHomePageState();
+  State<CompanionHomePage> createState() => _CompanionHomePageState();
 }
 
 class _CompanionHomePageState extends State<CompanionHomePage> {
@@ -57,44 +36,89 @@ class _CompanionHomePageState extends State<CompanionHomePage> {
 
   String emotionalStatus = '';
   List<String> logs = [];
+  String? errorMessage;
 
-  void simulateCompanion() {
-    final input = MockInput.generateRandom();
-    final response = engine.process(input);
+  final TextEditingController _customInputController = TextEditingController();
 
-    setState(() {
-      emotionalStatus = input.toString();
-      logs.add(response);
-    });
+  @override
+  void dispose() {
+    _customInputController.dispose();
+    super.dispose();
+  }
+
+  void simulateCompanion({String? customInput}) {
+    try {
+      final input = customInput != null && customInput.trim().isNotEmpty
+          ? MockInput.fromText(customInput)
+          : MockInput.generateRandom();
+      final response = engine.process(input);
+
+      setState(() {
+        emotionalStatus = input.toString();
+        logs.add(response);
+        errorMessage = null;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Σφάλμα: ${e.toString()}';
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CompAnIon Simulator'),
+        title: const Text('CompAnIon Simulator'),
         centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            ElevatedButton(
-              onPressed: simulateCompanion,
-              child: Text('Simulate Emotional Input'),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _customInputController,
+                    decoration: const InputDecoration(
+                      labelText: 'Custom Emotional Input',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () => simulateCompanion(
+                    customInput: _customInputController.text,
+                  ),
+                  child: const Text('Send'),
+                ),
+              ],
             ),
-            SizedBox(height: 16),
-            Text(
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () => simulateCompanion(),
+              child: const Text('Simulate Random Emotional Input'),
+            ),
+            const SizedBox(height: 16),
+            if (errorMessage != null)
+              Text(
+                errorMessage!,
+                style: const TextStyle(color: Colors.red),
+              ),
+            const SizedBox(height: 8),
+            const Text(
               'Current Emotional Input:',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(emotionalStatus),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
                 itemCount: logs.length,
                 itemBuilder: (context, index) => ListTile(
-                  leading: Icon(Icons.bolt),
+                  leading: const Icon(Icons.bolt),
                   title: Text(logs[index]),
                 ),
               ),
