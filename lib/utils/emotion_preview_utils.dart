@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:companion_core/utils/emotion_preview_utils.dart'; // Removed invalid import
-import 'package:companion_core/models/emotion_checkin_model.dart';
+import 'package:companion_core/models/emotion_checkin.dart';
 
 // Dummy implementation of getTomorrowPreview for testing purposes
 String getTomorrowPreview(List<EmotionCheckIn> checkIns) {

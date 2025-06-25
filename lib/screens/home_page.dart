@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:companion_app/widgets/presence_pulse.dart';
+import 'package:companion_core/widgets/presence_pulse.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

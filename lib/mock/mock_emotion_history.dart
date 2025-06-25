@@ -18,5 +18,8 @@ final List<EmotionCheckIn> mockEmotionHistory = [
     emotionIcon: '🌊',
     timestamp: DateTime.now().subtract(Duration(hours: 5)),
     note: 'Πολλά tasks στη δουλειά, νιώθω πίεση.',
-  ),
+  ), 
+
+
+
   
