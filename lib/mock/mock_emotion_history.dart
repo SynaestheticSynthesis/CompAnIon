@@ -212,3 +212,73 @@ final List<EmotionCheckIn> mockEmotionHistory = [
     text: 'Felt good today'
   ),
 ];
+
+  List<EmotionCheckIn> getMockEmotionHistory() {
+  return List.from(mockEmotionHistory);
+}
+EmotionCheckIn? getLatestEmotionCheckIn() {
+  if (mockEmotionHistory.isEmpty) return null;
+  return mockEmotionHistory.reduce((a, b) => a.timestamp.isAfter(b.timestamp) ? a : b);
+}
+EmotionCheckIn? getFirstEmotionCheckIn() {
+  if (mockEmotionHistory.isEmpty) return null;
+  return mockEmotionHistory.reduce((a, b) => a.timestamp.isBefore(b.timestamp) ? a : b);
+} 
+List<EmotionCheckIn> getLastNDaysEmotionHistory(int n) {
+  final now = DateTime.now();
+  return mockEmotionHistory.where((checkIn) {
+    final diff = now.difference(checkIn.timestamp);
+    return diff.inDays < n;
+  }).toList();
+}
+List<EmotionCheckIn> getLastNWeeksEmotionHistory(int n) {
+  final now = DateTime.now();
+  return mockEmotionHistory.where((checkIn) {
+    final diff = now.difference(checkIn.timestamp);
+    return diff.inDays < n * 7;
+  }).toList();
+}
+List<EmotionCheckIn> getLastNMonthsEmotionHistory(int n) {
+  final now = DateTime.now();
+  return mockEmotionHistory.where((checkIn) {
+    final diff = now.difference(checkIn.timestamp);
+    return diff.inDays < n * 30; // Approximation of a month
+  }).toList();
+}
+  List<EmotionCheckIn> getLastNYearsEmotionHistory(int n) {
+  final now = DateTime.now();
+  return mockEmotionHistory.where((checkIn) {
+    final diff = now.difference(checkIn.timestamp);
+    return diff.inDays < n * 365; // Approximation of a year
+  }).toList();
+}
+List<EmotionCheckIn> getLastNEmotions(int n) {
+  return mockEmotionHistory.take(n).toList();
+}
+List<EmotionCheckIn> getEmotionsByLabel(String label) {
+  return mockEmotionHistory.where((checkIn) => checkIn.emotion == label).toList();
+}
+
+List<EmotionCheckIn> getEmotionsByDate(DateTime date) {
+  return mockEmotionHistory.where((checkIn) {
+    final checkInDate = DateTime(checkIn.timestamp.year, checkIn.timestamp.month, checkIn.timestamp.day);
+    return checkInDate == date;
+  }).toList();
+}
+List<EmotionCheckIn> getEmotionsByDateRange(DateTime start, DateTime end) {
+  return mockEmotionHistory.where((checkIn) {
+    final checkInDate = DateTime(checkIn.timestamp.year, checkIn.timestamp.month, checkIn.timestamp.day);
+    return checkInDate.isAfter(start) && checkInDate.isBefore(end);
+  }).toList();
+}
+List<EmotionCheckIn> getEmotionsByEmoji(String emoji) {
+  return mockEmotionHistory.where((checkIn) => checkIn.emoji == emoji).toList();
+  }
+  List<EmotionCheckIn> getEmotionsByText(String text) {
+
+  return mockEmotionHistory.where((checkIn) => checkIn.text != null && checkIn.text!.contains(text)).toList();
+  } 
+  List<EmotionCheckIn> getEmotionsByTimestamp(DateTime timestamp) {
+  return mockEmotionHistory.where((checkIn) => checkIn.timestamp == timestamp).toList();
+  }
+  

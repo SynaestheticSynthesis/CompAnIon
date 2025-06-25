@@ -1,19 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:companion_core/data/journal_entries.dart';
 import 'package:intl/intl.dart';
+import '../controllers/journal_entry_controller.dart';
+import '../models/journal_entry.dart';
 
-class JournalScreen extends StatelessWidget {
+class JournalScreen extends StatefulWidget {
   const JournalScreen({super.key});
 
   @override
+  State<JournalScreen> createState() => _JournalScreenState();
+}
+
+class _JournalScreenState extends State<JournalScreen> {
+  final JournalEntryController _controller = JournalEntryController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.loadEntries();
+    _controller.addListener(_onUpdate);
+  }
+
+  void _onUpdate() => setState(() {});
+
+  @override
+  void dispose() {
+    _controller.removeListener(_onUpdate);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final entries = _controller.entries;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Journal Entries'),
         backgroundColor: Colors.blueGrey.shade900,
       ),
       backgroundColor: Colors.black,
-      body: journalEntries.isEmpty
+      body: entries.isEmpty
           ? const Center(
         child: Text(
           'There are no journal entries yet.',
@@ -22,9 +47,9 @@ class JournalScreen extends StatelessWidget {
       )
           : ListView.builder(
         padding: const EdgeInsets.all(16),
-        itemCount: journalEntries.length,
+        itemCount: entries.length,
         itemBuilder: (context, index) {
-          final entry = journalEntries[index];
+          final entry = entries[index];
 
           return Card(
             color: Colors.blueGrey.shade800,
@@ -40,12 +65,12 @@ class JournalScreen extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        entry.emoji,
+                        entry.emoji ?? '',
                         style: const TextStyle(fontSize: 28),
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        entry.emotion,
+                        entry.emotion ?? '',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -64,7 +89,7 @@ class JournalScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    entry.text,
+                    entry.text ?? '', // Provide a default value if null
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,

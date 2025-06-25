@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:companion_core/screens/journal_screen.dart';
 
-import '../models/journal_entry_model.dart';
+import '../controllers/journal_entry_controller.dart';
+import '../models/journal_entry.dart';
 
-// Global list to store journal entries
-final List<JournalEntry> journalEntries = [];
 
 class EmotionReflectionScreen extends StatefulWidget {
   final String emotion;
@@ -22,18 +21,19 @@ class EmotionReflectionScreen extends StatefulWidget {
 
 class _EmotionReflectionScreenState extends State<EmotionReflectionScreen> {
   final TextEditingController _textController = TextEditingController();
+  final JournalEntryController _journalController = JournalEntryController();
 
-  void _continueToJournal() {
-    Navigator.push(
+  void _continueToJournal() async {
+    final entry = JournalEntry()
+      ..emotion = widget.emotion
+      ..text = _textController.text
+      ..createdAt = DateTime.now();
+
+    await _journalController.addEntry(entry);
+
+    Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (context) => JournalScreen(
-          emotion: widget.emotion,
-          emoji: widget.emoji,
-          text: _textController.text,
-          createdAt: DateTime.now(),
-        ),
-      ),
+      MaterialPageRoute(builder: (_) => const JournalScreen()),
     );
   }
 
@@ -95,17 +95,10 @@ class _EmotionReflectionScreenState extends State<EmotionReflectionScreen> {
                     createdAt: DateTime.now(),
                   );
 
-                  journalEntries.add(entry);
-
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => JournalScreen(
-                        emotion: widget.emotion,
-                        emoji: widget.emoji,
-                        text: _textController.text,
-                        createdAt: DateTime.now(),
-                      ),
+                      builder: (_) => const JournalScreen(),
                     ),
                   );
                 },
@@ -120,48 +113,4 @@ class _EmotionReflectionScreenState extends State<EmotionReflectionScreen> {
   }
 }
 
-class JournalScreen extends StatelessWidget {
-  final String emotion;
-  final String emoji;
-  final String text;
-  final DateTime createdAt;
-
-  const JournalScreen({
-    Key? key,
-    required this.emotion,
-    required this.emoji,
-    required this.text,
-    required this.createdAt,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Journal Entry'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '$emoji $emotion',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              text,
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Created at: ${createdAt.toLocal()}',
-              style: const TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// Compare this snippet from lib/controllers/journal_entry_controller.dart:

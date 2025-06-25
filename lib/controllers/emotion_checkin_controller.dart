@@ -1,6 +1,7 @@
 // lib/controllers/emotion_checkin_controller.dart
 
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import '../models/emotion_checkin.dart';
 import '../services/isar_service.dart';
 
