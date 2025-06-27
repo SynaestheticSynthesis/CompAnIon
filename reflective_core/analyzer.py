@@ -1,28 +1,30 @@
-# reflective_core/analyzer.py
+# analyzer.py
 
-import re
+def analyze_conversation(text):
+    lines = text.strip().split("\n")
+    insights = []
+    self_awareness_score = 0
+    emotional_depth_score = 0
+    initiator = None
 
-def extract_insights(conversation_text):
-    insights = {}
+    for i, line in enumerate(lines):
+        if "θέλω" in line or "θέλω να" in line:
+            self_awareness_score += 1
+        if "φοβάμαι" in line or "νιώθω" in line or "πίεση" in line:
+            emotional_depth_score += 1
+        if i == 0 and "user" in line.lower():
+            initiator = "user"
 
-    # Count how often the user uses introspective prompts
-    introspective_patterns = [
-        r"\b(ποιος είμαι|τι θέλω|πώς νιώθω|γιατί φοβάμαι|τι με κρατά)\b",
-        r"\b(who am I|what do I want|why am I stuck|how do I feel)\b"
-    ]
-    insights["introspective_prompts"] = sum(
-        len(re.findall(p, conversation_text, re.IGNORECASE))
-        for p in introspective_patterns
-    )
+        insights.append({
+            "line": line,
+            "insight": "contains self-awareness" if "θέλω" in line else "neutral"
+        })
 
-    # Check for emotional tone shifts
-    tone_shift_count = conversation_text.lower().count("i feel") + conversation_text.lower().count("νιώθω")
-    insights["emotional_references"] = tone_shift_count
+    profile = {
+        "self_awareness_level": "High" if self_awareness_score > 2 else "Medium",
+        "emotional_depth": emotional_depth_score,
+        "initiator": initiator == "user",
+        "raw_insights": insights
+    }
 
-    # Detect calls to action
-    if "let's do it" in conversation_text.lower() or "ξεκινάμε" in conversation_text.lower():
-        insights["calls_to_action"] = True
-    else:
-        insights["calls_to_action"] = False
-
-    return insights
+    return profile

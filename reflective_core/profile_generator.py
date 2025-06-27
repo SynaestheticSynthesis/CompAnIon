@@ -1,24 +1,18 @@
-# reflective_core/profile_generator.py
+# profile_generator.py
 
-from analyzer import extract_insights
+import json
+from analyzer import analyze_conversation
+from utils import save_json
 
-def generate_profile(conversation_text):
-    insights = extract_insights(conversation_text)
-
-    profile = {
-        "self_awareness_level": "High" if insights["introspective_prompts"] >= 3 else "Medium",
-        "emotional_depth": insights["emotional_references"],
-        "initiator": "Yes" if insights["calls_to_action"] else "No",
-        "raw_insights": insights
-    }
-
-    return profile
-
-
-# Για δοκιμή
-if __name__ == "__main__":
+def main():
     with open("example_conversation.txt", "r", encoding="utf-8") as f:
-        text = f.read()
-        profile = generate_profile(text)
-        for k, v in profile.items():
-            print(f"{k}: {v}")
+        conversation = f.read()
+
+    result = analyze_conversation(conversation)
+    print("\n🧠 Reflective Analysis Result:\n")
+    print(json.dumps(result, indent=4, ensure_ascii=False))
+
+    save_json("profile_output.json", result)
+
+if __name__ == "__main__":
+    main()
