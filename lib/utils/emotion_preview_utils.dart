@@ -49,7 +49,7 @@ void main() {
     ];
 
     final result = getTomorrowPreview(checkIns);
-
+    
     expect(result, contains("ανάσες")); // preview για "Άγχος"
   });
 }

@@ -9,8 +9,15 @@ import 'controllers/emotion_checkin_controller.dart';
 // Remove the old model import and use only the unified one:
 import 'models/emotion_checkin.dart';
 import 'package:companion_core/screens/reflective_test_screen.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../models/journal_entry.dart';
+import '../models/emotion_checkin.dart';
+import 'services/hive_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await HiveService.init();
   runApp(const CompanionApp());
 }
 
@@ -43,7 +50,7 @@ class CompanionApp extends StatelessWidget {
             ), // Placeholder, set real values on navigation
         '/journal': (context) => const JournalScreen(),
         '/breathing': (context) => const BreathingScreen(),
-        '/reflective_test': (context) => const ReflectiveTestScreen(),
+        '/reflective_test': (context) =>  ReflectiveTestScreen(),
       },
     );
   }

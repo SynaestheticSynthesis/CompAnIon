@@ -1,28 +1,29 @@
 // lib/controllers/emotion_checkin_controller.dart
 
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
+import 'package:hive/hive.dart';
 import '../models/emotion_checkin.dart';
-import '../services/isar_service.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../services/hive_service.dart';
 
 class EmotionCheckInController with ChangeNotifier {
-  final IsarService _isarService = IsarService();
+  final HiveService _hiveService = HiveService();
   List<EmotionCheckIn> _checkIns = [];
 
   List<EmotionCheckIn> get checkIns => _checkIns;
 
   Future<void> loadCheckIns() async {
-    _checkIns = await _isarService.getAllCheckIns();
+    _checkIns = await _hiveService.getAllCheckIns();
     notifyListeners();
   }
 
   Future<void> addCheckIn(EmotionCheckIn checkIn) async {
-    await _isarService.saveCheckIn(checkIn);
+    await _hiveService.saveCheckIn(checkIn);
     await loadCheckIns();
   }
 
-  Future<void> deleteCheckIn(Id id) async {
-    await _isarService.deleteCheckIn(id);
+  Future<void> deleteCheckIn(int key) async {
+    await _hiveService.deleteCheckIn(key);
     await loadCheckIns();
   }
 }

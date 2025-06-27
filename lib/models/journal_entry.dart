@@ -1,15 +1,26 @@
-import 'package:isar/isar.dart';
+import 'package:hive/hive.dart';
 
 part 'journal_entry.g.dart';
 
-@Collection()
-class JournalEntry {
-  Id id = Isar.autoIncrement;
 
-  late String text;
-  late DateTime createdAt;
+@HiveType(typeId: 0)
+class JournalEntry extends HiveObject {
+  @HiveField(0)
+  String text;
+
+  @HiveField(1)
+  DateTime createdAt;
+
+  @HiveField(2)
   String? emotion;
+
+  @HiveField(3)
   String? emoji;
 
-  JournalEntry();
+  JournalEntry({
+    required this.text,
+    required this.createdAt,
+    this.emotion,
+    this.emoji,
+  });
 }

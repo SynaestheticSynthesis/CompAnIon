@@ -1,16 +1,26 @@
-import 'package:isar/isar.dart';
+import 'package:hive/hive.dart';
 
 part 'emotion_checkin.g.dart';
 
-@Collection()
-class EmotionCheckIn {
-  Id id = Isar.autoIncrement;
 
-  late String emotion;
-  late String emoji;
-  late DateTime timestamp;
-  String? text; // Optional reflection
+@HiveType(typeId: 1)
+class EmotionCheckIn extends HiveObject {
+  @HiveField(0)
+  String emotion;
 
-  EmotionCheckIn();
+  @HiveField(1)
+  String emoji;
+
+  @HiveField(2)
+  DateTime timestamp;
+
+  @HiveField(3)
+  String? text;
+
+  EmotionCheckIn({
+    required this.emotion,
+    required this.emoji,
+    required this.timestamp,
+    this.text,
+  });
 }
-
