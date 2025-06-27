@@ -23,7 +23,7 @@ def analyze_entry(text):
     profile = {
         "self_awareness_level": "High" if self_awareness_score > 2 else "Medium",
         "emotional_depth": emotional_depth_score,
-        "initiator": initiator == "user",
+        "initiator_is_user": initiator == "user",
         "raw_insights": insights
     }
 

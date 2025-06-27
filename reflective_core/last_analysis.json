@@ -1,0 +1,11 @@
+{
+    "self_awareness_level": "Medium",
+    "emotional_depth": 0,
+    "initiator_is_user": false,
+    "raw_insights": [
+        {
+            "line": "Whats up??",
+            "insight": "neutral"
+        }
+    ]
+}
