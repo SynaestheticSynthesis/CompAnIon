@@ -8,6 +8,7 @@ import 'screens/breathing_screen.dart';
 import 'controllers/emotion_checkin_controller.dart';
 // Remove the old model import and use only the unified one:
 import 'models/emotion_checkin.dart';
+import 'package:companion_core/screens/reflective_test_screen.dart';
 
 void main() {
   runApp(const CompanionApp());
@@ -42,6 +43,7 @@ class CompanionApp extends StatelessWidget {
             ), // Placeholder, set real values on navigation
         '/journal': (context) => const JournalScreen(),
         '/breathing': (context) => const BreathingScreen(),
+        '/reflective_test': (context) => const ReflectiveTestScreen(),
       },
     );
   }
