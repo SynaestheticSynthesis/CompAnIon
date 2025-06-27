@@ -1,17 +1,18 @@
-profile_state = {
-    "positive": 0,
-    "negative": 0,
-    "neutral": 0,
-    "personal": 0,
-    "objective": 0,
-    "entries": 0
-}
+# profile_generator.py
 
-def update_profile(analysis):
-    profile_state["entries"] += 1
+import json
+from analyzer import analyze_conversation
+from utils import save_json
 
-    for emotion in analysis["emotions"]:
-        if emotion.lower() in profile_state:
-            profile_state[emotion.lower()] += 1
+def main():
+    with open("example_conversation.txt", "r", encoding="utf-8") as f:
+        conversation = f.read()
 
-    return profile_state
+    result = analyze_conversation(conversation)
+    print("\n🧠 Reflective Analysis Result:\n")
+    print(json.dumps(result, indent=4, ensure_ascii=False))
+
+    save_json("profile_output.json", result)
+
+if __name__ == "__main__":
+    main()

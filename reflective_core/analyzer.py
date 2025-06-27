@@ -1,26 +1,30 @@
-from textblob import TextBlob
+# analyzer.py
 
-def analyze_entry(text):
-    blob = TextBlob(text)
-    polarity = blob.sentiment.polarity
-    subjectivity = blob.sentiment.subjectivity
+def analyze_conversation(text):
+    lines = text.strip().split("\n")
+    insights = []
+    self_awareness_score = 0
+    emotional_depth_score = 0
+    initiator = None
 
-    emotions = []
-    if polarity > 0.2:
-        emotions.append("Positive")
-    elif polarity < -0.2:
-        emotions.append("Negative")
-    else:
-        emotions.append("Neutral")
+    for i, line in enumerate(lines):
+        if "θέλω" in line or "θέλω να" in line:
+            self_awareness_score += 1
+        if "φοβάμαι" in line or "νιώθω" in line or "πίεση" in line:
+            emotional_depth_score += 1
+        if i == 0 and "user" in line.lower():
+            initiator = "user"
 
-    if subjectivity > 0.5:
-        emotions.append("Personal")
-    else:
-        emotions.append("Objective")
+        insights.append({
+            "line": line,
+            "insight": "contains self-awareness" if "θέλω" in line else "neutral"
+        })
 
-    return {
-        "polarity": polarity,
-        "subjectivity": subjectivity,
-        "emotions": emotions,
-        "keywords": blob.noun_phrases
+    profile = {
+        "self_awareness_level": "High" if self_awareness_score > 2 else "Medium",
+        "emotional_depth": emotional_depth_score,
+        "initiator": initiator == "user",
+        "raw_insights": insights
     }
+
+    return profile
