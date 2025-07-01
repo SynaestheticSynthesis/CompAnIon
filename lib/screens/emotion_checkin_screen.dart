@@ -4,7 +4,6 @@ import 'package:companion_core/data/emotion_constants.dart';
 import 'package:companion_core/widgets/emotion_option.dart';
 import 'package:companion_core/screens/emotion_reflection_screen.dart';
 import 'package:companion_core/controllers/emotion_checkin_controller.dart';
-import 'package:companion_core/screens/emotion_checkin_screen.dart'; // Ensure this file defines EmotionCheckIn
 
 
 
@@ -25,11 +24,14 @@ class _EmotionCheckInPageState extends State<EmotionCheckInPage> {
 
   void _onTapEmotion(Map<String, dynamic> emotion) {
     final checkIn = EmotionCheckIn(
+    final checkIn = EmotionCheckIn(
       emotion: emotion['label'] as String,
       emoji: emotion['emoji'] as String,
-      timestamp: DateTime.now(), text: '',
+      // Add the correct named parameters below, each on its own line.
+      // For example, if the correct names are 'dateTime' and 'note', use:
+      dateTime: DateTime.now(),
+      note: '',
     );
-
     _controller.addCheckIn(checkIn); // ✅ Saved
 
     setState(() => _selectedValue = emotion['value'] as String);
@@ -56,7 +58,7 @@ class _EmotionCheckInPageState extends State<EmotionCheckInPage> {
         title: const Text('How are you feeling today?'),
         backgroundColor: Colors.blueGrey.shade900,
       ),
-      body: Padding(
+          itemCount: emotionOptions.length,               // Correct variable name
         padding: const EdgeInsets.all(16),
         child: GridView.builder(
           itemCount: emotionOptions.length,               // ✔️ σωστό όνομα

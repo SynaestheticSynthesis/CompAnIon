@@ -1,28 +1,29 @@
 // lib/controllers/emotion_checkin_controller.dart
 
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
 import '../models/emotion_checkin.dart';
-import '../services/isar_service.dart';
+import '../data/app_database.dart';
 
 class EmotionCheckInController with ChangeNotifier {
-  final IsarService _isarService = IsarService();
+  final AppDatabase db;
   List<EmotionCheckIn> _checkIns = [];
+
+  EmotionCheckInController(this.db);
 
   List<EmotionCheckIn> get checkIns => _checkIns;
 
   Future<void> loadCheckIns() async {
-    _checkIns = await _isarService.getAllCheckIns();
+    _checkIns = await db.getAllEmotionCheckIns();
     notifyListeners();
   }
 
-  Future<void> addCheckIn(EmotionCheckIn checkIn) async {
-    await _isarService.saveCheckIn(checkIn);
+  Future<void> addCheckIn(EmotionCheckIns checkIn) async {
+    await db.insertEmotionCheckIn(checkIn);
     await loadCheckIns();
   }
 
-  Future<void> deleteCheckIn(Id id) async {
-    await _isarService.deleteCheckIn(id);
+  Future<void> deleteCheckIn(int id) async {
+    await db.deleteEmotionCheckIn(id);
     await loadCheckIns();
   }
 }

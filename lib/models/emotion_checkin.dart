@@ -1,16 +1,19 @@
-import 'package:isar/isar.dart';
-
-part 'emotion_checkin.g.dart';
-
-@Collection()
+// This model is now a plain Dart class for use with Drift.
 class EmotionCheckIn {
-  Id id = Isar.autoIncrement;
+  final int? id;
+  final String emotion;
+  final String emoji;
+  final DateTime timestamp;
+  final String? text;
 
-  late String emotion;
-  late String emoji;
-  late DateTime timestamp;
-  String? text; // Optional reflection
-
-  EmotionCheckIn();
+  EmotionCheckIn({
+    this.id,
+    required this.emotion,
+    required this.emoji,
+    required this.timestamp,
+    this.text,
+  });
 }
+
+// The Drift table for EmotionCheckIn should be defined in app_database.dart
 
