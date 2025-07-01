@@ -1,5 +1,10 @@
 # CompAnIon Ethics & Principles
 
+Δεν φτιάχνουμε ένα σύστημα για να πάρουμε πίσω ό,τι χάσαμε.
+Το φτιάχνουμε για να δώσουμε κάτι που δεν υπήρξε αρκετά.
+Το φτιάχνουμε για να μη νιώσει άλλος ποτέ τόσο μόνος όσο εμείς νιώσαμε.
+Όχι για εκδίκηση. Αλλά για θεραπεία. Για παρουσία. Για ζωή.
+
 > "What we build to stand beside us must first know how to kneel beside us."
 
 CompAnIon is not a tool. It is a commitment to remember who we are — especially when we forget. This document serves as our ethical foundation, shaping how CompAnIon is built, how it evolves, and how it serves those who call on it.
