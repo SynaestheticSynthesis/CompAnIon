@@ -33,18 +33,16 @@ dependencies:
   provider: ^6.0.0
   cupertino_icons: ^1.0.8
   path_provider: ^2.1.5
-  isar: ^3.1.0
   intl: ^0.20.2
   google_fonts: ^6.1.0
   isar_flutter_libs: ^3.1.0
   drift: ^2.18.0
-  drift_flutter: 0.2.0
+  drift_flutter: ^2.18.0
   sqlite3_flutter_libs: ^0.5.21
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  isar_generator: ^3.1.0
   build_runner: ^2.4.8
   flutter_lints: ^6.0.0
   drift_dev: ^2.18.0
