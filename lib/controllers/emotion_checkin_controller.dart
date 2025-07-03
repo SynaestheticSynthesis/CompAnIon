@@ -32,5 +32,8 @@ class EmotionCheckInController with ChangeNotifier {
     await loadCheckIns();
   }
 }
-}
-}
+// This controller manages the emotion check-in data, allowing for loading, adding, and deleting check-ins.
+// It uses the AppDatabase to interact with the underlying database and notifies listeners when data changes.
+// The controller provides methods to load all check-ins, add a new check-in,  and delete an existing check-in by its ID.
+// The EmotionCheckInController is designed to be used with a ChangeNotifierProvider in Flutter, allowing the UI to reactively update when the check-in data changes.
+// The controller is initialized with an instance of AppDatabase, which is used to perform database operations.
