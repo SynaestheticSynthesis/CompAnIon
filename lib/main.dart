@@ -1,61 +1,98 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'core/presence_mode.dart';
-import 'screens/awakening_screen.dart';
-import 'screens/home_page.dart';
-import 'screens/emotion_checkin_screen.dart';
-import 'screens/emotion_reflection_screen.dart' as reflection;
-import 'screens/journal_screen.dart';
-import 'screens/breathing_screen.dart';
-import 'controllers/emotion_checkin_controller.dart';
-import 'models/emotion_checkin.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'services/memory_log.dart';
-import 'features/story_mode.dart';
+import 'emotion_check_in.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await MemoryLog.init();
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => PresenceModeProvider(),
-      child: const CompanionApp(),
-    ),
-  );
+void main() {
+  runApp(const CompAnIonApp());
 }
 
-class CompanionApp extends StatelessWidget {
-  const CompanionApp({super.key});
+class CompAnIonApp extends StatefulWidget {
+  const CompAnIonApp({super.key});
+
+  @override
+  State<CompAnIonApp> createState() => _CompAnIonAppState();
+}
+
+class _CompAnIonAppState extends State<CompAnIonApp> {
+  bool _isDark = false;
+
+  // Custom color schemes
+  ThemeData get _lightTheme => ThemeData(
+        brightness: Brightness.light,
+        primaryColor: const Color(0xFFB2FF59), // light green
+        scaffoldBackgroundColor: const Color(0xFFF9FFF3),
+        colorScheme: ColorScheme.light(
+          primary: const Color(0xFFB2FF59), // light green
+          secondary: const Color(0xFFFFF176), // yellow accent
+          background: const Color(0xFFF9FFF3),
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFFB2FF59),
+          foregroundColor: Colors.black,
+        ),
+        cardColor: Colors.white,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFFFF176),
+            foregroundColor: Colors.black,
+          ),
+        ),
+      );
+
+  ThemeData get _darkTheme => ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: const Color(0xFF232946), // deep space blue
+        scaffoldBackgroundColor: const Color(0xFF121629),
+        colorScheme: ColorScheme.dark(
+          primary: const Color(0xFF232946),
+          secondary: const Color(0xFF9F86FF), // violet accent
+          background: const Color(0xFF121629),
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF232946),
+          foregroundColor: Colors.white,
+        ),
+        cardColor: const Color(0xFF232946),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color(0xFF9F86FF),
+            foregroundColor: Colors.white,
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CompAnIon',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.black,
-        colorScheme: const ColorScheme.dark(
-          primary: Colors.tealAccent,
-          secondary: Colors.amberAccent,
-        ),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(color: Colors.white),
+    final theme = _isDark ? _darkTheme : _lightTheme;
+    final bgColor = theme.scaffoldBackgroundColor;
+    return AnimatedTheme(
+      data: theme,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOutCubic,
+      child: Builder(
+        builder: (context) => AnimatedContainer(
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOutCubic,
+          color: bgColor,
+          child: TweenAnimationBuilder<double>(
+            tween: Tween(begin: 1.0, end: 1.0), // subtle scale placeholder
+            duration: const Duration(milliseconds: 400),
+            builder: (context, scale, child) => Transform.scale(
+              scale: scale,
+              child: MaterialApp(
+                title: 'CompAnIon',
+                theme: _lightTheme,
+                darkTheme: _darkTheme,
+                themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
+                home: EmotionCheckInScreen(
+                  onToggleTheme: () => setState(() => _isDark = !_isDark),
+                  isDark: _isDark,
+                ),
+                debugShowCheckedModeBanner: false,
+              ),
+            ),
+          ),
         ),
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const AwakeningScreen(),
-        '/home': (context) => const HomePage(),
-        '/emotionCheckIn': (context) => const EmotionCheckInPage(),
-        '/emotionReflection': (context) => reflection.EmotionReflectionScreen(
-              emotion: '',
-              emoji: '',
-            ),
-        '/journal': (context) => const JournalScreen(),
-        '/breathing': (context) => const BreathingScreen(),
-        '/story': (context) => const StoryMode(),
-      },
     );
   }
 }
