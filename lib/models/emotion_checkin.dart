@@ -1,4 +1,4 @@
-// This model is now a plain Dart class for use with Drift.
+export '../data/app_database.dart' show EmotionCheckIn;
 class EmotionCheckIn {
   final int? id;
   final String emotion;

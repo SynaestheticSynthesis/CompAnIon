@@ -1,7 +1,6 @@
 // lib/controllers/emotion_checkin_controller.dart
 
 import 'package:flutter/material.dart';
-import '../models/emotion_checkin.dart';
 import '../data/app_database.dart';
 
 class EmotionCheckInController with ChangeNotifier {
@@ -17,8 +16,14 @@ class EmotionCheckInController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addCheckIn(EmotionCheckIns checkIn) async {
-    await db.insertEmotionCheckIn(checkIn);
+  Future<void> addCheckIn(EmotionCheckIn checkIn) async {
+    final companion = EmotionCheckInsCompanion.insert(
+      emotion: checkIn.emotion.isNotEmpty ? checkIn.emotion : 'No emotion',
+      emoji: checkIn.emoji.isNotEmpty ? checkIn.emoji : '🙂',
+      timestamp: checkIn.timestamp,
+      text: Value(checkIn.text ?? ''),
+    );
+    await db.insertEmotionCheckIn(companion);
     await loadCheckIns();
   }
 
@@ -26,4 +31,6 @@ class EmotionCheckInController with ChangeNotifier {
     await db.deleteEmotionCheckIn(id);
     await loadCheckIns();
   }
+}
+}
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../controllers/journal_entry_controller.dart';
-import '../models/journal_entry.dart';
+import '../data/app_database.dart'; // Use only app_database.dart for JournalEntry
 
 class JournalScreen extends StatefulWidget {
   const JournalScreen({super.key});
@@ -11,11 +11,12 @@ class JournalScreen extends StatefulWidget {
 }
 
 class _JournalScreenState extends State<JournalScreen> {
-  final JournalEntryController _controller = JournalEntryController();
+  late final JournalEntryController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = JournalEntryController(AppDatabase());
     _controller.loadEntries();
     _controller.addListener(_onUpdate);
   }
@@ -65,12 +66,12 @@ class _JournalScreenState extends State<JournalScreen> {
                   Row(
                     children: [
                       Text(
-                        entry.emoji ?? '',
+                        entry.emoji ?? '📝',
                         style: const TextStyle(fontSize: 28),
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        entry.emotion ?? '',
+                        entry.emotion ?? 'No emotion',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -89,7 +90,7 @@ class _JournalScreenState extends State<JournalScreen> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    entry.text ?? '', // Provide a default value if null
+                    entry.text, // Drift's JournalEntry.text is non-nullable
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
@@ -103,4 +104,5 @@ class _JournalScreenState extends State<JournalScreen> {
       ),
     );
   }
+}
 }
