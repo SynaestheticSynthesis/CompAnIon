@@ -1,8 +1,6 @@
 import '../emotional_state.dart';
+import '../core/presence_mode.dart';
 
-
-
-// ...existing code...
 class ResponseScenarios {
   String escalatedStressSupport(EmotionalState state) => "Υποστήριξη για κλιμακούμενο στρες.";
   String stressSupport(EmotionalState state) => "Υποστήριξη για στρες.";
@@ -19,8 +17,6 @@ class ResponseScenarios {
     }
     return "Είμαι εδώ για σένα, πώς μπορώ να σε βοηθήσω σήμερα;"; 
 }
-// ...existing code...
-}
 
 class CompanionLogic {
   String? analyze(EmotionalState state) {
@@ -32,29 +28,33 @@ class CompanionLogic {
   }
 }
 
-String generateResponse(EmotionalState state) {
+String generateResponse(EmotionalState state, {PresenceMode mode = PresenceMode.gentle}) {
   final scenarios = ResponseScenarios();
 
   try {
+    if (mode == PresenceMode.silent) {
+      return "Είμαι εδώ αν με χρειαστείς.";
+    }
     if (state.hasEscalatedStress()) {
       return scenarios.escalatedStressSupport(state);
     }
-
     if (state.stressLevel >= 7) {
       return scenarios.stressSupport(state);
     }
-
     if (state.lonelinessLevel >= 7) {
       return scenarios.lonelinessSupport(state);
     }
-
     if (state.energyLevel <= 3) {
       return scenarios.lowEnergySupport(state);
     }
-
+    if (mode == PresenceMode.active) {
+      return "Θυμήσου: είμαι πάντα δίπλα σου, ό,τι κι αν νιώθεις.";
+    }
     return scenarios.defaultSupport(state);
   } catch (e) {
     print('[CompAnIon Logic Error]: $e');
     return "Δεν μπόρεσα να βρω κατάλληλη υποστήριξη αυτή τη στιγμή. Είμαι εδώ αν θέλεις να μιλήσουμε.";
+  }
+}
   }
 }
