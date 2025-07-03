@@ -32,5 +32,3 @@ class EmotionCheckInController with ChangeNotifier {
     await loadCheckIns();
   }
 }
-}
-}

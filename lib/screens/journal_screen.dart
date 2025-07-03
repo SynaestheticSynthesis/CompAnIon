@@ -35,74 +35,77 @@ class _JournalScreenState extends State<JournalScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Journal Entries'),
+        title: const Text('Your Reflections'),
         backgroundColor: Colors.blueGrey.shade900,
+        centerTitle: true,
+        elevation: 0,
       ),
       backgroundColor: Colors.black,
       body: entries.isEmpty
           ? const Center(
-        child: Text(
-          'There are no journal entries yet.',
-          style: TextStyle(color: Colors.white70),
-        ),
-      )
+              child: Text(
+                'No journal entries yet.\nYour reflections will appear here.',
+                style: TextStyle(color: Colors.white70, fontSize: 17),
+                textAlign: TextAlign.center,
+              ),
+            )
           : ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: entries.length,
-        itemBuilder: (context, index) {
-          final entry = entries[index];
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+              itemCount: entries.length,
+              itemBuilder: (context, index) {
+                final entry = entries[index];
 
-          return Card(
-            color: Colors.blueGrey.shade800,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            margin: const EdgeInsets.only(bottom: 16),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        entry.emoji ?? '📝',
-                        style: const TextStyle(fontSize: 28),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        entry.emotion ?? 'No emotion',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        DateFormat('dd MMM, HH:mm').format(entry.createdAt),
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white54,
-                        ),
-                      ),
-                    ],
+                return Card(
+                  color: Colors.blueGrey.shade800,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
                   ),
-                  const SizedBox(height: 12),
-                  Text(
-                    entry.text, // Drift's JournalEntry.text is non-nullable
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
+                  margin: const EdgeInsets.only(bottom: 18),
+                  child: Padding(
+                    padding: const EdgeInsets.all(18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              entry.emoji ?? '📝',
+                              style: const TextStyle(fontSize: 30),
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              entry.emotion ?? 'No emotion',
+                              style: const TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              DateFormat('dd MMM, HH:mm').format(entry.createdAt),
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white54,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                        Text(
+                          entry.entryText, // Drift's JournalEntry.entryText is non-nullable
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            height: 1.4,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
-}
 }

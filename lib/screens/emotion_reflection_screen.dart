@@ -32,7 +32,7 @@ class _EmotionReflectionScreenState extends State<EmotionReflectionScreen> {
     final entry = JournalEntriesCompanion.insert(
       emotion: Value(widget.emotion.isNotEmpty ? widget.emotion : 'No emotion'),
       emoji: Value(widget.emoji.isNotEmpty ? widget.emoji : '📝'),
-      text: _textController.text.isNotEmpty ? _textController.text : 'No text',
+      entryText: _textController.text.isNotEmpty ? _textController.text : 'No text',
       createdAt: DateTime.now(),
     );
 
@@ -56,47 +56,71 @@ class _EmotionReflectionScreenState extends State<EmotionReflectionScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.blueGrey.shade900,
-        title: const Text("Would you like to reflect?"),
+        title: const Text("Reflect on your feeling"),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "${widget.emoji} Νιώθεις ${widget.emotion}",
-              style: const TextStyle(fontSize: 20, color: Colors.white),
+            Row(
+              children: [
+                Text(
+                  widget.emoji,
+                  style: const TextStyle(fontSize: 32),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  "You feel ${widget.emotion}",
+                  style: const TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.w600),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 18),
             const Text(
-              "Write down your thoughts or feelings about this emotion.",
-              style: TextStyle(color: Colors.white70, fontSize: 16),
+              "Would you like to write a few words about this moment? Anything you share is just for you.",
+              style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.4),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 18),
             Expanded(
               child: TextField(
                 controller: _textController,
                 maxLines: null,
                 expands: true,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white, fontSize: 17),
                 decoration: InputDecoration(
-                  hintText: "Write your thoughts here...",
-                  hintStyle: const TextStyle(color: Colors.white38),
+                  hintText: "Let your thoughts flow here...",
+                  hintStyle: const TextStyle(color: Colors.white38, fontSize: 16),
                   filled: true,
                   fillColor: Colors.blueGrey.shade800,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(18),
                     borderSide: BorderSide.none,
                   ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
             Center(
               child: ElevatedButton.icon(
                 onPressed: _continueToJournal,
-                icon: const Icon(Icons.arrow_forward),
-                label: const Text('Continue'),
+                icon: const Icon(Icons.favorite, color: Colors.pinkAccent),
+                label: const Text(
+                  'Save Reflection',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pinkAccent.withOpacity(0.13),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22),
+                  ),
+                  elevation: 0,
+                ),
               ),
             )
           ],
@@ -105,5 +129,3 @@ class _EmotionReflectionScreenState extends State<EmotionReflectionScreen> {
     );
   }
 }
-
-// Compare this snippet from lib/controllers/journal_entry_controller.dart:
