@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:companion_core/screens/journal_screen.dart';
 
 import '../controllers/journal_entry_controller.dart';
-import '../models/journal_entry.dart';
-
+import '../data/app_database.dart';
 
 class EmotionReflectionScreen extends StatefulWidget {
   final String emotion;
@@ -21,13 +20,21 @@ class EmotionReflectionScreen extends StatefulWidget {
 
 class _EmotionReflectionScreenState extends State<EmotionReflectionScreen> {
   final TextEditingController _textController = TextEditingController();
-  final JournalEntryController _journalController = JournalEntryController();
+  late final JournalEntryController _journalController;
+
+  @override
+  void initState() {
+    super.initState();
+    _journalController = JournalEntryController(AppDatabase());
+  }
 
   void _continueToJournal() async {
-    final entry = JournalEntry()
-      ..emotion = widget.emotion
-      ..text = _textController.text
-      ..createdAt = DateTime.now();
+    final entry = JournalEntriesCompanion.insert(
+      emotion: Value(widget.emotion.isNotEmpty ? widget.emotion : 'No emotion'),
+      emoji: Value(widget.emoji.isNotEmpty ? widget.emoji : '📝'),
+      text: _textController.text.isNotEmpty ? _textController.text : 'No text',
+      createdAt: DateTime.now(),
+    );
 
     await _journalController.addEntry(entry);
 
@@ -87,21 +94,7 @@ class _EmotionReflectionScreenState extends State<EmotionReflectionScreen> {
             const SizedBox(height: 20),
             Center(
               child: ElevatedButton.icon(
-                onPressed: () {
-                  final entry = JournalEntry(
-                    emotion: widget.emotion,
-                    emoji: widget.emoji,
-                    text: _textController.text,
-                    createdAt: DateTime.now(),
-                  );
-
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const JournalScreen(),
-                    ),
-                  );
-                },
+                onPressed: _continueToJournal,
                 icon: const Icon(Icons.arrow_forward),
                 label: const Text('Continue'),
               ),

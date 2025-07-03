@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:drift/native.dart'; // For testing
 import 'package:drift_flutter/drift_flutter.dart';
 
 part 'app_database.g.dart';
@@ -6,7 +7,7 @@ part 'app_database.g.dart';
 @DataClassName('JournalEntry')
 class JournalEntries extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get text => text()();
+  TextColumn get entryText => text()(); // Renamed from 'text'
   DateTimeColumn get createdAt => dateTime()();
   TextColumn get emotion => text().nullable()();
   TextColumn get emoji => text().nullable()();
@@ -18,12 +19,15 @@ class EmotionCheckIns extends Table {
   TextColumn get emotion => text()();
   TextColumn get emoji => text()();
   DateTimeColumn get timestamp => dateTime()();
-  TextColumn get text => text().nullable()();
+  TextColumn get entryText => text().nullable()(); // Renamed from 'text'
 }
 
 @DriftDatabase(tables: [JournalEntries, EmotionCheckIns])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(FlutterQueryExecutor.inDatabaseFolder(path: 'db.sqlite'));
+
+  // For testing
+  AppDatabase.forTesting() : super(NativeDatabase.memory());
 
   @override
   int get schemaVersion => 1;

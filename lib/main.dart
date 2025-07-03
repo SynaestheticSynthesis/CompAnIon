@@ -6,10 +6,15 @@ import 'screens/emotion_reflection_screen.dart' as reflection;
 import 'screens/journal_screen.dart';
 import 'screens/breathing_screen.dart';
 import 'controllers/emotion_checkin_controller.dart';
-// Remove the old model import and use only the unified one:
 import 'models/emotion_checkin.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'services/memory_log.dart';
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await MemoryLog.init();
   runApp(const CompanionApp());
 }
 

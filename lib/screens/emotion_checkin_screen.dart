@@ -1,13 +1,9 @@
-import 'package:companion_core/models/emotion_checkin.dart';
 import 'package:flutter/material.dart';
 import 'package:companion_core/data/emotion_constants.dart';
 import 'package:companion_core/widgets/emotion_option.dart';
 import 'package:companion_core/screens/emotion_reflection_screen.dart';
 import 'package:companion_core/controllers/emotion_checkin_controller.dart';
-
-
-
-
+import 'package:companion_core/data/app_database.dart'; // Already imported
 
 class EmotionCheckInPage extends StatefulWidget {
   const EmotionCheckInPage({super.key});
@@ -19,20 +15,22 @@ class EmotionCheckInPage extends StatefulWidget {
 class _EmotionCheckInPageState extends State<EmotionCheckInPage> {
   String? _selectedValue;
 
-  final EmotionCheckInController _controller = EmotionCheckInController();
+  late final EmotionCheckInController _controller;
 
+  @override
+  void initState() {
+    super.initState();
+    _controller = EmotionCheckInController(AppDatabase());
+  }
 
   void _onTapEmotion(Map<String, dynamic> emotion) {
     final checkIn = EmotionCheckIn(
-    final checkIn = EmotionCheckIn(
       emotion: emotion['label'] as String,
       emoji: emotion['emoji'] as String,
-      // Add the correct named parameters below, each on its own line.
-      // For example, if the correct names are 'dateTime' and 'note', use:
-      dateTime: DateTime.now(),
-      note: '',
+      timestamp: DateTime.now(),
+      text: '', // or null if you prefer
     );
-    _controller.addCheckIn(checkIn); // ✅ Saved
+    _controller.addCheckIn(checkIn);
 
     setState(() => _selectedValue = emotion['value'] as String);
 
@@ -47,9 +45,6 @@ class _EmotionCheckInPageState extends State<EmotionCheckInPage> {
     );
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,10 +53,10 @@ class _EmotionCheckInPageState extends State<EmotionCheckInPage> {
         title: const Text('How are you feeling today?'),
         backgroundColor: Colors.blueGrey.shade900,
       ),
-          itemCount: emotionOptions.length,               // Correct variable name
+      body: Padding(
         padding: const EdgeInsets.all(16),
         child: GridView.builder(
-          itemCount: emotionOptions.length,               // ✔️ σωστό όνομα
+          itemCount: emotionOptions.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 16,
@@ -80,5 +75,10 @@ class _EmotionCheckInPageState extends State<EmotionCheckInPage> {
         ),
       ),
     );
+  }
+}
+    );
+  }
+}
   }
 }
