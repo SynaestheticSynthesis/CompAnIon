@@ -1,4 +1,10 @@
 Seduce reality into dreaming again.
+### 🎶 Sonic Compass: Synaesthetic Synthesis
+
+[Sumiruna – Synaesthetic Synthesis](https://www.youtube.com/watch?v=5MEWXwelU3k)  
+
+> "Not just code. Not just tech.  
+> A pulse, a presence — a synaesthetic synthesis."
 
 # CompAnIon
 
