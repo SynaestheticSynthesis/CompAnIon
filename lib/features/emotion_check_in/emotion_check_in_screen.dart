@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'reflection_screen.dart';
+import '../reflection/reflection_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:share_plus/share_plus.dart';
 import 'package:intl/intl.dart';
-// Add for location (mocked for now)
-import 'dart:math';
+import '../../core/logic/context_signals.dart';
 
 /// EmotionCheckInScreen
 /// A simple screen where the user can select and record their current emotion.
@@ -55,32 +54,17 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> {
     _detectContextSignals();
   }
 
+  void _detectContextSignals() {
+    _timeOfDay = ContextSignals.getTimeOfDay();
+    _location = ContextSignals.getLocation();
+    _weather = ContextSignals.getWeather();
+    setState(() {});
+  }
+
   @override
   void dispose() {
     _commentController.dispose();
     super.dispose();
-  }
-
-  // Detect context signals (time, location, weather)
-  void _detectContextSignals() {
-    // Time of day
-    final hour = DateTime.now().hour;
-    if (hour < 6) {
-      _timeOfDay = 'night';
-    } else if (hour < 12) {
-      _timeOfDay = 'morning';
-    } else if (hour < 18) {
-      _timeOfDay = 'afternoon';
-    } else {
-      _timeOfDay = 'evening';
-    }
-    // Location (mocked)
-    final locations = ['home', 'work', 'outside', 'cafe'];
-    _location = locations[Random().nextInt(locations.length)];
-    // Weather (mocked)
-    final weathers = ['sunny', 'cloudy', 'rainy', 'windy'];
-    _weather = weathers[Random().nextInt(weathers.length)];
-    setState(() {});
   }
 
   // Load history from shared_preferences

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'emotion_check_in.dart';
+import 'features/emotion_check_in/emotion_check_in_screen.dart';
+import 'features/reflection/reflection_screen.dart';
 
 void main() {
   runApp(const CompAnIonApp());
