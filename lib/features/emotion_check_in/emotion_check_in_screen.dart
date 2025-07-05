@@ -337,6 +337,22 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
     }
   }
 
+  // Animated greeting based on time of day
+  String get _animatedGreeting {
+    switch (_timeOfDay) {
+      case 'morning':
+        return "🌅 Good morning, friend!";
+      case 'afternoon':
+        return "🌞 Good afternoon, friend!";
+      case 'evening':
+        return "🌙 Good evening, friend!";
+      case 'night':
+        return "🌌 Night is here. How are you?";
+      default:
+        return "Hello, friend!";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -359,6 +375,27 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Animated greeting
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: 1),
+              duration: const Duration(milliseconds: 900),
+              curve: Curves.easeInOut,
+              builder: (context, value, child) => Opacity(
+                opacity: value,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 8 * value),
+                  child: Text(
+                    _animatedGreeting,
+                    style: GoogleFonts.nunito(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: theme.colorScheme.primary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
             // Welcome message
             Text(
               _welcomeMessage,
