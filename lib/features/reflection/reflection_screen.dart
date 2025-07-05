@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../core/emotion_hierarchy.dart';
 
 /// ReflectionScreen
 /// Εμφανίζει ερωτήσεις αυτογνωσίας μετά το check-in και αποθηκεύει τις απαντήσεις.
@@ -39,6 +42,8 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
   // Branching follow-up questions based on emotion or answer
   String? _followUp;
 
+  List<Map<String, dynamic>> _expandedPrompts = [];
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +55,20 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
     _fadeAnimation = CurvedAnimation(parent: _fadeController, curve: Curves.easeIn);
     _fadeController.forward();
     _loadDraft();
+    _loadExpandedPrompts();
+  }
+
+  Future<void> _loadExpandedPrompts() async {
+    try {
+      final jsonStr = await rootBundle.loadString('lib/core/prompts/expanded_prompts.json');
+      final data = json.decode(jsonStr);
+      setState(() {
+        _expandedPrompts = List<Map<String, dynamic>>.from(data['prompts']);
+      });
+    } catch (e) {
+      // If file not found or error, fallback to default
+      _expandedPrompts = [];
+    }
   }
 
   // Αυτόματη αποθήκευση κάθε φορά που αλλάζει απάντηση
@@ -102,6 +121,14 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
     await prefs.remove(_draftKey);
   }
 
+  // Helper to get a prompt by id
+  Map<String, dynamic>? _getPromptById(String id) {
+    return _expandedPrompts.firstWhere(
+      (p) => p['id'] == id,
+      orElse: () => {},
+    );
+  }
+
   void _nextQuestion() {
     if (_currentIndex < _questions.length - 1) {
       _fadeController.reverse().then((_) {
@@ -117,19 +144,28 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
       final negative = ['sad', 'disappointed', 'angry', 'anxious'];
       final positive = ['happy', 'excited', 'grateful', 'joy'];
       if (_followUp == null) {
-        if (negative.any((e) => widget.emotion.toLowerCase().contains(e)) ||
-            lastAnswer.contains('δεν') ||
-            lastAnswer.contains('δύσκολο') ||
-            lastAnswer.contains('στεναχωρ')) {
+        final cat = classifyEmotion(widget.emotion);
+        if (cat == 'negative') {
           setState(() {
             _followUp = 'Είναι δύσκολο να νιώθεις έτσι. Θέλεις να γράψεις τι θα σε βοηθούσε να νιώσεις καλύτερα ή να ζητήσεις υποστήριξη;';
           });
           return;
-        } else if (positive.any((e) => widget.emotion.toLowerCase().contains(e)) ||
-            lastAnswer.contains('χαρά') ||
-            lastAnswer.contains('ευγνωμοσύνη')) {
+        } else if (cat == 'positive') {
           setState(() {
             _followUp = 'Τι σε κάνει να νιώθεις ευγνωμοσύνη αυτή τη στιγμή;';
+          });
+          return;
+        } else if (cat == 'mixed') {
+          setState(() {
+            _followUp = 'Τα συναισθήματά σου φαίνονται σύνθετα. Θέλεις να γράψεις τι τα κάνει έτσι ή απλώς να τα παρατηρήσεις;';
+          });
+          return;
+        }
+      } else {
+        final prompt = _getPromptById('self_reflection');
+        if (prompt != null && prompt.isNotEmpty) {
+          setState(() {
+            _followUp = prompt['message'] as String;
           });
           return;
         }
@@ -148,6 +184,18 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
   }
 
   final TextEditingController _followUpAnswer = TextEditingController();
+
+  void _prevQuestion() {
+    if (_currentIndex > 0) {
+      _fadeController.reverse().then((_) {
+        setState(() {
+          _currentIndex--;
+        });
+        _fadeController.forward();
+        _saveDraft();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -205,9 +253,11 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
                             controller: _followUpAnswer,
                             minLines: 2,
                             maxLines: 4,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Η απάντησή σου...'
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              hintText: _expandedPrompts.isNotEmpty && _expandedPrompts.first['follow_up'] != null
+                                  ? (_expandedPrompts.first['follow_up'] as List).join('\n')
+                                  : 'Η απάντησή σου...',
                             ),
                           ),
                         ],

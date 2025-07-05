@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:share_plus/share_plus.dart';
 import 'package:intl/intl.dart';
 import '../../core/logic/context_signals.dart';
+import '../../core/emotion_hierarchy.dart';
 
 /// EmotionCheckInScreen
 /// A simple screen where the user can select and record their current emotion.
@@ -283,19 +284,27 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> {
 
   // Use emotion history to adapt feedback
   String get _personalizedFeedback {
-    final dom = _dominantEmotion;
-    if (_history.length >= 5 && dom != null) {
-      if (dom.contains('Happy') || dom.contains('Excited')) {
-        return 'You often feel positive lately. What helps you keep this mood?';
-      } else if (dom.contains('Sad') || dom.contains('Disappointed')) {
-        return 'It seems you’ve felt down several times recently. Is there something you’d like to talk about or change?';
-      } else if (dom.contains('Angry')) {
-        return 'Anger has appeared more than once. Would expressing it creatively help?';
-      } else if (dom.contains('Anxious')) {
-        return 'Anxiety has been present. Would a short breathing exercise help you?';
+    final cat = _dominantEmotionCategory;
+    if (_history.length >= 5 && cat != null) {
+      switch (cat) {
+        case 'positive':
+          return 'You often feel positive lately. What helps you keep this mood?';
+        case 'negative':
+          return 'It seems you’ve felt down several times recently. Is there something you’d like to talk about or change?';
+        case 'neutral':
+          return 'You often feel neutral. Is there something you wish would change or stay the same?';
+        case 'mixed':
+          return 'Your feelings are complex or mixed. Would you like to reflect more or just notice this?';
       }
     }
     return _feedbackMessage;
+  }
+
+  // Use emotion hierarchy for dominant emotion category
+  String? get _dominantEmotionCategory {
+    final dom = _dominantEmotion;
+    if (dom == null) return null;
+    return classifyEmotion(dom);
   }
 
   @override

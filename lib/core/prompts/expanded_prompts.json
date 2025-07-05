@@ -1,0 +1,12 @@
+{
+  "prompts": [
+    {
+      "id": "self_reflection",
+      "message": "What personal value feels overlooked or under-appreciated in this moment?",
+      "follow_up": [
+        "Would you like to explore specific actions to honor that value?",
+        "How can you create more space for that feeling?"
+      ]
+    }
+  ]
+}

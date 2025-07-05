@@ -1,3 +1,9 @@
+> 🛡️ This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International** license.
+> See `LICENSE.md` for details.
+
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
+
 Seduce reality into dreaming again.
 ### 🎶 Sonic Compass: Synaesthetic Synthesis
 
@@ -7,13 +13,6 @@ Seduce reality into dreaming again.
 > A pulse, a presence — a synaesthetic synthesis."
 
 # CompAnIon
-
-> 🛡️ This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International** license.
-> See `LICENSE.md` for details.
-
-[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
-
-
 
 **Your Conscious Companion**
 
@@ -84,6 +83,16 @@ You are invited to read, reflect, and — if you feel moved — respond in your 
 - Personal journaling & growth tracking
 - Deep integration with biosignals & self-reflective dialogues
 - Optional, privacy-respecting cloud sync
+
+---
+
+## 🤝 Vision & Guidelines for Contributors
+
+- **Empathy-first:** Every feature and prompt should respect the user’s emotional state and autonomy.
+- **User autonomy:** Always offer a way to skip, pause, or decline any prompt or suggestion.
+- **Privacy by default:** Store the minimum data needed, locally and ephemerally where possible.
+- **Transparency:** Document how each module serves the project’s human-centered vision.
+- **Mindful evolution:** All changes should be reviewed for their impact on user dignity and presence.
 
 ---
 
