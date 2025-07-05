@@ -354,7 +354,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
         elevation: 0,
         backgroundColor: theme.colorScheme.primary,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -505,48 +505,50 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                   ),
                 ],
               ),
-              SizedBox(
-                height: 220,
-                child: ListView.builder(
-                  itemCount: _history.length,
-                  itemBuilder: (context, index) {
-                    final entry = _history[index];
-                    final dt = DateTime.tryParse(entry['timestamp'] ?? '');
-                    final formatted = dt != null ? '${dt.year}-${dt.month.toString().padLeft(2, '0')}-${dt.day.toString().padLeft(2, '0')} ${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}' : entry['timestamp'];
-                    final emotion = entry['emotion'] ?? '';
-                    final comment = entry['comment'] ?? '';
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 4),
-                      child: ListTile(
-                        leading: Text(
-                          emotion.split(' ').first,
-                          style: const TextStyle(fontSize: 24),
-                        ),
-                        title: Text(emotion.substring(emotion.indexOf(' ') + 1)),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(formatted ?? ''),
-                            if (comment.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4.0),
-                                child: Text('“$comment”', style: const TextStyle(fontStyle: FontStyle.italic)),
-                              ),
-                            if ((entry['reflection'] ?? '').isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4.0),
-                                child: Text('Reflection: ${(entry['reflection'] as String).replaceAll('||', '\n')}', style: const TextStyle(color: Colors.blueGrey)),
-                              ),
-                          ],
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () => _deleteEntry(index),
-                        ),
+              // Remove fixed height from ListView and use shrinkWrap + physics
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _history.length,
+                itemBuilder: (context, index) {
+                  final entry = _history[index];
+                  final dt = DateTime.tryParse(entry['timestamp'] ?? '');
+                  final formatted = dt != null
+                      ? '${dt.year}-${dt.month.toString().padLeft(2, '0')}-${dt.day.toString().padLeft(2, '0')} ${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}'
+                      : entry['timestamp'];
+                  final emotion = entry['emotion'] ?? '';
+                  final comment = entry['comment'] ?? '';
+                  return Card(
+                    margin: const EdgeInsets.symmetric(vertical: 4),
+                    child: ListTile(
+                      leading: Text(
+                        emotion.split(' ').first,
+                        style: const TextStyle(fontSize: 24),
                       ),
-                    );
-                  },
-                ),
+                      title: Text(emotion.substring(emotion.indexOf(' ') + 1)),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(formatted ?? ''),
+                          if (comment.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: Text('“$comment”', style: const TextStyle(fontStyle: FontStyle.italic)),
+                            ),
+                          if ((entry['reflection'] ?? '').isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: Text('Reflection: ${(entry['reflection'] as String).replaceAll('||', '\n')}', style: const TextStyle(color: Colors.blueGrey)),
+                            ),
+                        ],
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _deleteEntry(index),
+                      ),
+                    ),
+                  );
+                },
               ),
               // Στατιστικά συναισθημάτων
               const SizedBox(height: 16),
