@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:intl/intl.dart';
 import '../../core/logic/context_signals.dart';
 import '../../core/emotion_hierarchy.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// EmotionCheckInScreen
 /// A simple screen where the user can select and record their current emotion.
@@ -19,7 +20,7 @@ class EmotionCheckInScreen extends StatefulWidget {
   State<EmotionCheckInScreen> createState() => _EmotionCheckInScreenState();
 }
 
-class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> {
+class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with SingleTickerProviderStateMixin {
   // List of available emotions
   final List<String> _emotions = [
     '😊 Happy',
@@ -48,11 +49,19 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> {
   String _location = '';
   String _weather = '';
 
+  AnimationController? _emojiAnimController;
+
   @override
   void initState() {
     super.initState();
     _loadHistory();
     _detectContextSignals();
+    _emojiAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 350),
+      lowerBound: 0.9,
+      upperBound: 1.15,
+    );
   }
 
   void _detectContextSignals() {
@@ -65,6 +74,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> {
   @override
   void dispose() {
     _commentController.dispose();
+    _emojiAnimController?.dispose();
     super.dispose();
   }
 
@@ -307,8 +317,29 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> {
     return classifyEmotion(dom);
   }
 
+  // Προσωποποιημένο μήνυμα καλωσορίσματος
+  String get _welcomeMessage {
+    if (_history.isEmpty) {
+      return "Καλώς ήρθες! Πώς νιώθεις αυτή τη στιγμή;";
+    }
+    final cat = _dominantEmotionCategory;
+    switch (cat) {
+      case 'positive':
+        return "Χαίρομαι που επιστρέφεις με θετική διάθεση! Πώς νιώθεις τώρα;";
+      case 'negative':
+        return "Είμαι εδώ για σένα, ό,τι κι αν νιώθεις. Πώς είσαι σήμερα;";
+      case 'neutral':
+        return "Παρατήρησε πώς νιώθεις αυτή τη στιγμή, χωρίς πίεση.";
+      case 'mixed':
+        return "Τα συναισθήματα αλλάζουν. Πώς είσαι τώρα;";
+      default:
+        return "Πώς νιώθεις αυτή τη στιγμή;";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Emotion Check-In'),
@@ -320,55 +351,129 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> {
               onPressed: widget.onToggleTheme,
             ),
         ],
+        elevation: 0,
+        backgroundColor: theme.colorScheme.primary,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Welcome message
+            Text(
+              _welcomeMessage,
+              style: GoogleFonts.nunito(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.secondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 18),
             // Context-aware prompt
             Text(
               _contextPrompt,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: GoogleFonts.nunito(
+                fontSize: 16,
+                color: theme.hintColor,
+              ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 32),
-            // Emotion selection buttons
+            const SizedBox(height: 28),
+            // Animated emotion selection
             Wrap(
-              spacing: 12,
-              runSpacing: 12,
+              spacing: 16,
+              runSpacing: 16,
               alignment: WrapAlignment.center,
               children: _emotions.map((emotion) {
                 final isSelected = _selectedEmotion == emotion;
-                return ChoiceChip(
-                  label: Text(emotion),
-                  selected: isSelected,
-                  onSelected: (_) {
+                return GestureDetector(
+                  onTap: () {
                     setState(() {
                       _selectedEmotion = emotion;
                     });
+                    _emojiAnimController?.forward(from: 0.9);
                   },
-                  selectedColor: Colors.blue.shade100,
+                  child: AnimatedScale(
+                    scale: isSelected ? (_emojiAnimController?.value ?? 1.1) : 1.0,
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.elasticOut,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? theme.colorScheme.secondary.withOpacity(0.18)
+                            : theme.cardColor,
+                        borderRadius: BorderRadius.circular(22),
+                        border: Border.all(
+                          color: isSelected
+                              ? theme.colorScheme.secondary
+                              : Colors.grey.withOpacity(0.2),
+                          width: isSelected ? 2.2 : 1.0,
+                        ),
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: theme.colorScheme.secondary.withOpacity(0.18),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                )
+                              ]
+                            : [],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            emotion.split(' ').first,
+                            style: const TextStyle(fontSize: 32),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            emotion.substring(emotion.indexOf(' ') + 1),
+                            style: GoogleFonts.nunito(
+                              fontSize: 18,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                              color: isSelected
+                                  ? theme.colorScheme.secondary
+                                  : theme.textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               }).toList(),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 18),
             // Comment input
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: TextField(
                 controller: _commentController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Add a comment (optional)',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  filled: true,
+                  fillColor: theme.cardColor.withOpacity(0.95),
                 ),
                 minLines: 1,
                 maxLines: 2,
               ),
             ),
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: _selectedEmotion == null ? null : _recordEmotion,
-              child: const Text('Record Emotion'),
+              icon: const Icon(Icons.check_circle_outline),
+              label: const Text('Record Emotion'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              ),
             ),
             const SizedBox(height: 24),
             if (_history.isNotEmpty) ...[
