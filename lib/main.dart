@@ -23,23 +23,6 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
   int _selectedIndex = 0;
   Locale _locale = const Locale('en');
 
-  // List of screens for navigation
-  final List<Widget> _screens = [
-    EmotionCheckInScreen(),
-    RememberMeScreen(),
-    SettingsScreen(
-      currentLocale: _locale,
-      onLocaleChanged: (locale) {
-        setState(() => _locale = locale);
-      },
-    ),
-  ];
-  final List<String> _titles = [
-    'Emotion Check-In',
-    'Remember Me',
-    'Settings',
-  ];
-
   // Custom color schemes
   ThemeData get _lightTheme => ThemeData(
         brightness: Brightness.light,
@@ -89,6 +72,19 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
   Widget build(BuildContext context) {
     final theme = _isDark ? _darkTheme : _lightTheme;
     final bgColor = theme.scaffoldBackgroundColor;
+
+    // Build screens dynamically to access latest _locale and setState
+    final List<Widget> _screens = [
+      EmotionCheckInScreen(),
+      RememberMeScreen(),
+      SettingsScreen(
+        currentLocale: _locale,
+        onLocaleChanged: (locale) {
+          setState(() => _locale = locale);
+        },
+      ),
+    ];
+
     return AnimatedTheme(
       data: theme,
       duration: const Duration(milliseconds: 400),

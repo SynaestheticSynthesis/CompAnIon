@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:uuid/uuid.dart';
 import '../../l10n/app_localizations.dart';
+import 'reminder_model.dart';
+import 'reminder_utils.dart';
 
 class RememberMeScreen extends StatefulWidget {
-  const RememberMeScreen({Key? key}) : super(key: key);
+  const RememberMeScreen({super.key});
 
   @override
   State<RememberMeScreen> createState() => _RememberMeScreenState();
 }
 
 class _RememberMeScreenState extends State<RememberMeScreen> {
-  final List<_Reminder> _reminders = [];
+  List<ReminderModel> _reminders = [];
 
   @override
   void initState() {
@@ -29,9 +32,12 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
           final parts = reminder.split('|');
           if (parts.length >= 3) {
             _reminders.add(
-              _Reminder(
+              ReminderModel(
+                id: const Uuid().v4(),
                 name: parts[0],
+                date: DateTime.now(), // Placeholder, since date is not stored in string
                 relation: parts[1],
+                memory: '', // Placeholder, since memory is not stored in string
                 isLoss: parts[2] == 'true',
               ),
             );
@@ -84,7 +90,14 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  _reminders.add(_Reminder(name: name, relation: relation, isLoss: isLoss));
+                  _reminders.add(ReminderModel(
+                    id: const Uuid().v4(),
+                    name: name,
+                    date: DateTime.now(), // Placeholder
+                    relation: relation,
+                    memory: '', // Placeholder
+                    isLoss: isLoss,
+                  ));
                 });
                 _saveReminders();
                 Navigator.of(context).pop();
@@ -97,11 +110,12 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
     );
   }
 
-  void _deleteReminder(int index) {
+  Future<void> _removeReminder(int idx) async {
     setState(() {
-      _reminders.removeAt(index);
+      _reminders.removeAt(idx);
     });
-    _saveReminders();
+    // Save changes if using persistent storage
+    // await _service.saveReminders(_reminders);
   }
 
   @override
@@ -193,7 +207,7 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
             title: Text('${entry.value.name} (${entry.value.relation})'),
             subtitle: Text(
               '${entry.value.date.day}/${entry.value.date.month}'
-              '${entry.value.isLoss ? ' (${loc.inMemory ?? "In memory"})' : ''}\n'
+              '${entry.value.isLoss ? ' (In memory)' : ''}\n'
               '${entry.value.memory}',
             ),
             trailing: IconButton(
@@ -205,16 +219,4 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
       ),
     );
   }
-}
-
-class _Reminder {
-  final String name;
-  final String relation;
-  final bool isLoss;
-
-  _Reminder({
-    required this.name,
-    required this.relation,
-    required this.isLoss,
-  });
 }
