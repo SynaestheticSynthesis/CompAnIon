@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../core/logic/context_signals.dart';
 import '../../core/emotion_hierarchy.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/app_localizations.dart';
 
 /// EmotionCheckInScreen
 /// A simple screen where the user can select and record their current emotion.
@@ -356,9 +357,10 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Emotion Check-In'),
+        title: Text(loc.menuEmotionCheckIn),
         actions: [
           if (widget.onToggleTheme != null && widget.isDark != null)
             IconButton(
@@ -491,7 +493,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
               child: TextField(
                 controller: _commentController,
                 decoration: InputDecoration(
-                  labelText: 'Add a comment (optional)',
+                  labelText: loc.addCommentOptional,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
@@ -505,7 +507,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
             ElevatedButton.icon(
               onPressed: _selectedEmotion == null ? null : _recordEmotion,
               icon: const Icon(Icons.check_circle_outline),
-              label: const Text('Record Emotion'),
+              label: Text(loc.recordEmotion),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -517,27 +519,27 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Emotion History:',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Text(
+                    loc.emotionHistory,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   TextButton(
                     onPressed: _clearHistory,
-                    child: const Text('Clear All'),
+                    child: Text(loc.clearAll),
                   ),
                   IconButton(
                     icon: const Icon(Icons.download),
-                    tooltip: 'Εξαγωγή ιστορικού (CSV)',
+                    tooltip: loc.exportHistoryCSV,
                     onPressed: _exportHistoryAsCSV,
                   ),
                   IconButton(
                     icon: const Icon(Icons.share),
-                    tooltip: 'Κοινή χρήση ιστορικού (CSV)',
+                    tooltip: loc.shareHistoryCSV,
                     onPressed: () => _exportHistoryAsCSV(share: true),
                   ),
                   IconButton(
                     icon: const Icon(Icons.preview),
-                    tooltip: 'Προεπισκόπηση CSV',
+                    tooltip: loc.previewCSV,
                     onPressed: _previewCSV,
                   ),
                 ],
