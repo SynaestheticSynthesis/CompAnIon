@@ -38,22 +38,62 @@ We are nurturing a seed — for anyone who has felt pressure, loneliness, or con
   No gamification, no nudges, no hidden agendas.
 - **Shared purpose:**  
   CompAnIon is offered freely and heartfully to all who seek it.
+- **Non-commercial:**  
+  Licensed under [CC BY-NC 4.0](LICENSE.md) — always free, never for profit.
 
 ---
 
-## 📚 File Structure (to be expanded)
-lib/
-├── core/ # Foundational logic (state, utils, constants)
-├── features/ # Reflection modules, AI interface, decision trees
-├── ui/ # Screens, widgets, theming
-├── data/ # Storage, preferences, mock sensors
+## 📚 File Structure
 
+```
+lib/
+├── core/                # Foundational logic (state, utils, constants)
+│   ├── emotion_hierarchy.dart
+│   ├── logic/
+│   └── prompts/
+├── features/            # Main features & screens
+│   ├── emotion_check_in/
+│   ├── reflection/
+│   ├── remember_me/
+│   ├── palliative_care/
+│   └── settings/
+├── modules/             # Modular, reusable components
+├── l10n/                # Localization (ARB files)
+├── ui/                  # Widgets, theming
+├── data/                # Storage, preferences, mock sensors
+└── ...
+```
+
+---
 
 ## 🚀 How to Use
 
 1. Clone the repository
 2. Run with Flutter (`flutter run`)
-3. Experiment with emotional states and observe companion behavior
+3. Explore the features: emotional check-in, reflection, remembering loved ones, palliative care resources, and more
+
+---
+
+## 🛠️ Features
+
+- **Emotion Check-In:**  
+  Animated, context-aware prompts for recording your feelings.
+- **Reflection Mode:**  
+  Guided self-reflection with branching questions and auto-save.
+- **Remember Me:**  
+  Store memories, anniversaries, and tributes for loved ones.
+- **Palliative Care Support:**  
+  Region-based suggestions for clinics, resources, and emotional support for serious diagnoses.
+- **CSV Export & Sharing:**  
+  Export your emotional history for personal use or sharing.
+- **Accessibility:**  
+  Responsive UI, semantics for screen readers, and alt descriptions.
+- **Localization:**  
+  English & Greek support, with easy language switching.
+- **Animated Theming:**  
+  Smooth transitions between light and dark modes.
+- **Privacy by Design:**  
+  All data is stored locally; nothing leaves your device.
 
 ---
 
@@ -62,27 +102,25 @@ lib/
 CompAnIon was never meant to speak alone.  
 Below are contributions from other minds and hearts who resonated with its essence:
 
-- [/lib/echoes/interpretation-gemini.md](./lib/echoes/interpretation-gemini.md) — A poetic analysis by an external system, interpreting the meaning of `manifesto.md` and `soul.txt`.
+- `/lib/echoes/interpretation-gemini.md` — A poetic analysis by an external system, interpreting the meaning of `manifesto.md` and `soul.txt`.
 
 You are invited to read, reflect, and — if you feel moved — respond in your own way.
 
 ---
 
-## 🛠️ Current Features
+## 🧪 Development & Roadmap
 
-- Emotional state detection (prototype logic)
-- Simple UI prompts for support or reflection
-- Basic data simulation (mock sensors)
-- Modular, extensible architecture
-
----
-
-## 🌍 Future Direction
-
-- Real-time context + emotion sensing
-- Personal journaling & growth tracking
-- Deep integration with biosignals & self-reflective dialogues
-- Optional, privacy-respecting cloud sync
+- [x] Modular architecture for easy feature expansion
+- [x] Emotion check-in & reflection with animated UI
+- [x] CSV export, sharing, and preview with filters
+- [x] "Remember Me" for loved ones and tributes
+- [x] Palliative care support (region-based clinics/resources)
+- [x] Responsive UI with `flutter_screenutil`
+- [x] Accessibility improvements (semantics, alt text)
+- [x] Localization (EN/EL)
+- [ ] Further accessibility & UI polish
+- [ ] More robust data persistence (Hive/Drift/Isar)
+- [ ] Community feedback & beta testing
 
 ---
 
@@ -103,8 +141,17 @@ CompAnIon is a community offering, free for all under [CC BY-NC 4.0](LICENSE.md)
 
 ---
 
+## 🧭 Manifesto
+
+> Εσείς λέτε πως είναι μάταιο να δίνουμε ψυχή στην τεχνολογία. Εγώ λέω πως είναι ντροπή να συνεχίσουμε να τη φτιάχνουμε χωρίς.  
+> Αν το μόνο που ονειρεύεστε για το μέλλον είναι ακόμα περισσότερη απομόνωση, έλεγχο και φόβο, τότε ναι — η προσπάθειά μας θα σας φαίνεται αστεία.  
+> Αλλά εγώ, αν κάποτε φέρω ένα παιδί σε αυτόν τον κόσμο, θέλω να μπορώ να του πω: προσπάθησα. Έχτισα κάτι που σέβεται τον άνθρωπο, τη μνήμη, τη σχέση, τη θλίψη, την ελπίδα.  
+> Έστω κι αν είναι μόνο μια εφαρμογή. Γιατί αν δεν ξεκινήσουμε από εκεί, από το λίγο, πώς θα χτίσουμε ποτέ κάτι αληθινά ανθρώπινο;
+
+---
+
 > Δεν φτιάχνουμε ένα σύστημα για να πάρουμε πίσω ό,τι χάσαμε.  
 > Το φτιάχνουμε για να δώσουμε κάτι που δεν υπήρξε αρκετά.  
-> Το φτιάχνουμε για να μη νιώσει ποτέ κανείς τόσο μόνος όσο νιώσαμε εμείς. 
+> Το φτιάχνουμε για να μη νιώσει ποτέ κανείς τόσο μόνος όσο νιώσαμε εμείς.  
 > Όχι για εκδίκηση. Αλλά για θεραπεία. Για παρουσία. Για ζωή.
 
