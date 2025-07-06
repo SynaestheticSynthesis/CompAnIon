@@ -162,57 +162,64 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 12),
-                    Row(
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
                       children: [
                         if (!e.isLoss)
-                          ...[
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.phone),
-                              label: Text(loc.call ?? 'Call'),
-                              onPressed: () {/* integrate call intent */},
-                            ),
-                            const SizedBox(width: 8),
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.edit_note),
-                              label: Text(loc.write ?? 'Write'),
-                              onPressed: () {/* integrate note intent */},
-                            ),
-                          ],
-                        ElevatedButton.icon(
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.phone),
+                            label: Text(loc.call ?? 'Call'),
+                            onPressed: () {/* integrate call intent */},  onPressed: () {/* integrate call intent */},
+                          ),
+                        if (!e.isLoss)
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.edit_note),
+                            label: Text(loc.write ?? 'Write'),
+                            onPressed: () {/* integrate note intent */},  icon: const Icon(Icons.edit_note),
+                          ),    label: Text(loc.write ?? 'Write'),
+                        ElevatedButton.icon() {/* integrate note intent */},
                           icon: const Text('🙏', style: TextStyle(fontSize: 20)),
                           label: Text(e.isLoss ? (loc.lightCandle ?? 'Light a candle') : (loc.rememberSilently ?? 'Remember silently')),
                           onPressed: () {/* soft tribute action */},
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )),
+                        ),],
+                      ],Flexible(
+                    ),    child: ElevatedButton.icon(
+                  ],        icon: const Text('🙏', style: TextStyle(fontSize: 20)),
+                ),          label: Text(e.isLoss ? (loc.lightCandle ?? 'Light a candle') : (loc.rememberSilently ?? 'Remember silently')),
+              ),            onPressed: () {/* soft tribute action */},
+            )),           ),
           if (upcoming.isEmpty)
-            Padding(
+            Padding(  ],
               padding: const EdgeInsets.symmetric(vertical: 32),
               child: Text(
                 loc.noSpecialDatesToday ?? 'No special dates today.\nAdd a loved one to remember.',
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 18, color: Colors.grey),
-              ),
-            ),
-          const Divider(height: 32),
+              ),coming.isEmpty)
+            ),dding(
+          const Divider(height: 32),ets.symmetric(vertical: 32),
           Text(loc.allReminders ?? 'All Reminders:', style: const TextStyle(fontWeight: FontWeight.bold)),
-          ..._reminders.asMap().entries.map((entry) => ListTile(
-            leading: entry.value.isLoss
-                ? const Text('🙏', style: TextStyle(fontSize: 24))
+          ..._reminders.asMap().entries.map((entry) => ListTile(ay.\nAdd a loved one to remember.',
+            leading: entry.value.isLossnter,
+                ? const Text('🙏', style: TextStyle(fontSize: 24)).grey),
                 : const Icon(Icons.cake),
             title: Text('${entry.value.name} (${entry.value.relation})'),
-            subtitle: Text(
-              '${entry.value.date.day}/${entry.value.date.month}'
-              '${entry.value.isLoss ? ' (In memory)' : ''}\n'
-              '${entry.value.memory}',
-            ),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
+            subtitle: Text(ght: 32),
+              '${entry.value.date.day}/${entry.value.date.month}' TextStyle(fontWeight: FontWeight.bold)),
+              '${entry.value.isLoss ? ' (In memory)' : ''}\n'le(
+              '${entry.value.memory}',s
+            ),  ? const Text('🙏', style: TextStyle(fontSize: 24))
+            trailing: IconButton(s.cake),
+              icon: const Icon(Icons.delete, color: Colors.red),tion})'),
               onPressed: () => _removeReminder(entry.key),
+            ),'${entry.value.date.day}/${entry.value.date.month}'
+          )), '${entry.value.isLoss ? ' (In memory)' : ''}\n'
+        ],    '${entry.value.memory}',
+      ),    ),
+    );      trailing: IconButton(
+  }           icon: const Icon(Icons.delete, color: Colors.red),
+}             onPressed: () => _removeReminder(entry.key),
             ),
           )),
         ],
