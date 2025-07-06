@@ -124,7 +124,10 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
           const Divider(height: 32),
           const Text('All Reminders:', style: TextStyle(fontWeight: FontWeight.bold)),
           ..._entries.asMap().entries.map((entry) => ListTile(
-            leading: Icon(entry.value.isLoss ? Icons.candle : Icons.cake),
+            leading: Text(
+              entry.value.isLoss ? '🙏' : '',
+              style: const TextStyle(fontSize: 24),
+            ),
             title: Text('${entry.value.name} (${entry.value.relation})'),
             subtitle: Text(
               '${DateFormat('d MMM').format(entry.value.date)}'

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'features/emotion_check_in/emotion_check_in_screen.dart';
 import 'features/reflection/reflection_screen.dart';
+import '../modules/remember_me/remember_me_screen.dart';
 
 void main() {
   runApp(const CompAnIonApp());
@@ -15,6 +16,18 @@ class CompAnIonApp extends StatefulWidget {
 
 class _CompAnIonAppState extends State<CompAnIonApp> {
   bool _isDark = false;
+  int _selectedIndex = 0;
+
+  // List of screens for navigation
+  final List<Widget> _screens = [
+    EmotionCheckInScreen(),
+    RememberMeScreen(),
+  ];
+
+  final List<String> _titles = [
+    'Emotion Check-In',
+    'Remember Me',
+  ];
 
   // Custom color schemes
   ThemeData get _lightTheme => ThemeData(
@@ -74,22 +87,58 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
           duration: const Duration(milliseconds: 400),
           curve: Curves.easeInOutCubic,
           color: bgColor,
-          child: TweenAnimationBuilder<double>(
-            tween: Tween(begin: 1.0, end: 1.0), // subtle scale placeholder
-            duration: const Duration(milliseconds: 400),
-            builder: (context, scale, child) => Transform.scale(
-              scale: scale,
-              child: MaterialApp(
-                title: 'CompAnIon',
-                theme: _lightTheme,
-                darkTheme: _darkTheme,
-                themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
-                home: EmotionCheckInScreen(
-                  onToggleTheme: () => setState(() => _isDark = !_isDark),
-                  isDark: _isDark,
-                ),
-                debugShowCheckedModeBanner: false,
+          child: MaterialApp(
+            title: 'CompAnIon',
+            theme: _lightTheme,
+            darkTheme: _darkTheme,
+            themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(
+              appBar: AppBar(
+                title: Text(_titles[_selectedIndex]),
+                actions: [
+                  IconButton(
+                    icon: Icon(_isDark ? Icons.dark_mode : Icons.light_mode),
+                    tooltip: _isDark ? 'Switch to Light Theme' : 'Switch to Dark Theme',
+                    onPressed: () => setState(() => _isDark = !_isDark),
+                  ),
+                ],
               ),
+              drawer: Drawer(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    DrawerHeader(
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary,
+                      ),
+                      child: const Text(
+                        'CompAnIon Menu',
+                        style: TextStyle(fontSize: 22, color: Colors.white),
+                      ),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.emoji_emotions),
+                      title: const Text('Emotion Check-In'),
+                      selected: _selectedIndex == 0,
+                      onTap: () {
+                        setState(() => _selectedIndex = 0);
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.favorite),
+                      title: const Text('Remember Me'),
+                      selected: _selectedIndex == 1,
+                      onTap: () {
+                        setState(() => _selectedIndex = 1);
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              body: _screens[_selectedIndex],
             ),
           ),
         ),
