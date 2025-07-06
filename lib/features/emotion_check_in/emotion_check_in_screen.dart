@@ -9,6 +9,7 @@ import '../../core/logic/context_signals.dart';
 import '../../core/emotion_hierarchy.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// EmotionCheckInScreen
 /// A simple screen where the user can select and record their current emotion.
@@ -373,7 +374,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
         backgroundColor: theme.colorScheme.primary,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
+        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 24.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -421,81 +422,88 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
             const SizedBox(height: 28),
             // Animated emotion selection
             Wrap(
-              spacing: 16,
-              runSpacing: 16,
+              spacing: 16.w,
+              runSpacing: 16.h,
               alignment: WrapAlignment.center,
               children: _emotions.map((emotion) {
                 final isSelected = _selectedEmotion == emotion;
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedEmotion = emotion;
-                    });
-                    _emojiAnimController?.forward(from: 0.9);
-                  },
-                  child: AnimatedScale(
-                    scale: isSelected ? (_emojiAnimController?.value ?? 1.1) : 1.0,
-                    duration: const Duration(milliseconds: 350),
-                    curve: Curves.elasticOut,
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 250),
-                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? theme.colorScheme.secondary.withOpacity(0.18)
-                            : theme.cardColor,
-                        borderRadius: BorderRadius.circular(22),
-                        border: Border.all(
+                return Semantics(
+                  label: 'Emotion: ${emotion.split(' ').last}',
+                  selected: isSelected,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedEmotion = emotion;
+                      });
+                      _emojiAnimController?.forward(from: 0.9);
+                    },
+                    child: AnimatedScale(
+                      scale: isSelected ? (_emojiAnimController?.value ?? 1.1) : 1.0,
+                      duration: const Duration(milliseconds: 350),
+                      curve: Curves.elasticOut,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 250),
+                        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
+                        decoration: BoxDecoration(
                           color: isSelected
-                              ? theme.colorScheme.secondary
-                              : Colors.grey.withOpacity(0.2),
-                          width: isSelected ? 2.2 : 1.0,
+                              ? theme.colorScheme.secondary.withOpacity(0.18)
+                              : theme.cardColor,
+                          borderRadius: BorderRadius.circular(22.r),
+                          border: Border.all(
+                            color: isSelected
+                                ? theme.colorScheme.secondary
+                                : Colors.grey.withOpacity(0.2),
+                            width: isSelected ? 2.2.w : 1.0.w,
+                          ),
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    color: theme.colorScheme.secondary.withOpacity(0.18),
+                                    blurRadius: 12.r,
+                                    offset: Offset(0, 4.h),
+                                  )
+                                ]
+                              : [],
                         ),
-                        boxShadow: isSelected
-                            ? [
-                                BoxShadow(
-                                  color: theme.colorScheme.secondary.withOpacity(0.18),
-                                  blurRadius: 12,
-                                  offset: const Offset(0, 4),
-                                )
-                              ]
-                            : [],
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            emotion.split(' ').first,
-                            style: const TextStyle(fontSize: 32),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            emotion.substring(emotion.indexOf(' ') + 1),
-                            style: GoogleFonts.nunito(
-                              fontSize: 18,
-                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                              color: isSelected
-                                  ? theme.colorScheme.secondary
-                                  : theme.textTheme.bodyLarge?.color,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Semantics(
+                              label: 'Emoji for ${emotion.split(' ').last}',
+                              child: Text(
+                                emotion.split(' ').first,
+                                style: TextStyle(fontSize: 32.sp),
+                              ),
                             ),
-                          ),
-                        ],
+                            SizedBox(width: 8.w),
+                            Text(
+                              emotion.substring(emotion.indexOf(' ') + 1),
+                              style: GoogleFonts.nunito(
+                                fontSize: 18.sp,
+                                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                                color: isSelected
+                                    ? theme.colorScheme.secondary
+                                    : theme.textTheme.bodyLarge?.color,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 );
               }).toList(),
             ),
-            const SizedBox(height: 18),
+            SizedBox(height: 18.h),
             // Comment input
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: EdgeInsets.symmetric(vertical: 8.h),
               child: TextField(
                 controller: _commentController,
                 decoration: InputDecoration(
                   labelText: loc.addCommentOptional,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(14.r),
                   ),
                   filled: true,
                   fillColor: theme.cardColor.withOpacity(0.95),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'features/emotion_check_in/emotion_check_in_screen.dart';
 import 'features/reflection/reflection_screen.dart';
 import '../modules/remember_me/remember_me_screen.dart';
@@ -87,113 +88,117 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
       ),
     ];
 
-    return AnimatedTheme(
-      data: theme,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOutCubic,
-      child: Builder(
-        builder: (context) => AnimatedContainer(
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.easeInOutCubic,
-          color: bgColor,
-          child: MaterialApp(
-            title: 'CompAnIon',
-            theme: _lightTheme,
-            darkTheme: _darkTheme,
-            themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            locale: _locale,
-            supportedLocales: const [
-              Locale('en'),
-              Locale('el'),
-            ],
-            home: Builder(
-              builder: (context) {
-                final loc = AppLocalizations.of(context)!;
-                return Scaffold(
-                  appBar: AppBar(
-                    title: Text(
-                      _selectedIndex == 0
-                        ? loc.menuEmotionCheckIn
-                        : _selectedIndex == 1
-                          ? loc.menuRememberMe
-                          : _selectedIndex == 2
-                            ? 'Ανακουφιστική Φροντίδα'
-                            : loc.settings ?? 'Settings'
-                    ),
-                    actions: [
-                      IconButton(
-                        icon: Icon(_isDark ? Icons.dark_mode : Icons.light_mode),
-                        tooltip: _isDark ? loc.themeLight : loc.themeDark,
-                        onPressed: () => setState(() => _isDark = !_isDark),
+    // Wrap MaterialApp with ScreenUtilInit for responsive scaling
+    return ScreenUtilInit(
+      designSize: const Size(390, 844), // iPhone 12/13/14 base size, adjust as needed
+      minTextAdapt: true,
+      builder: (context, child) => AnimatedTheme(
+        data: theme,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOutCubic,
+        child: Builder(
+          builder: (context) => AnimatedContainer(
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeInOutCubic,
+            color: bgColor,
+            child: MaterialApp(
+              title: 'CompAnIon',
+              theme: _lightTheme,
+              darkTheme: _darkTheme,
+              themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              locale: _locale,
+              supportedLocales: const [
+                Locale('en'),
+                Locale('el'),
+              ],
+              home: Builder(
+                builder: (context) {
+                  final loc = AppLocalizations.of(context)!;
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: Text(
+                        _selectedIndex == 0
+                          ? loc.menuEmotionCheckIn
+                          : _selectedIndex == 1
+                            ? loc.menuRememberMe
+                            : _selectedIndex == 2
+                              ? 'Ανακουφιστική Φροντίδα'
+                              : loc.settings ?? 'Settings'
                       ),
-                    ],
-                  ),
-                  drawer: Drawer(
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: [
-                        DrawerHeader(
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primary,
-                          ),
-                          child: Text(
-                            loc.appTitle,
-                            style: const TextStyle(fontSize: 22, color: Colors.white),
-                          ),
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.emoji_emotions),
-                          title: Text(loc.menuEmotionCheckIn),
-                          selected: _selectedIndex == 0,
-                          onTap: () {
-                            setState(() => _selectedIndex = 0);
-                            Navigator.pop(context);
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.favorite),
-                          title: Text(loc.menuRememberMe),
-                          selected: _selectedIndex == 1,
-                          onTap: () {
-                            setState(() => _selectedIndex = 1);
-                            Navigator.pop(context);
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.local_hospital),
-                          title: const Text('Ανακουφιστική Φροντίδα'),
-                          selected: _selectedIndex == 2,
-                          onTap: () {
-                            setState(() => _selectedIndex = 2);
-                            Navigator.pop(context);
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.settings),
-                          title: Text(loc.settings ?? 'Settings'),
-                          selected: _selectedIndex == 3,
-                          onTap: () {
-                            setState(() => _selectedIndex = 3);
-                            Navigator.pop(context);
-                          },
+                      actions: [
+                        IconButton(
+                          icon: Icon(_isDark ? Icons.dark_mode : Icons.light_mode),
+                          tooltip: _isDark ? loc.themeLight : loc.themeDark,
+                          onPressed: () => setState(() => _isDark = !_isDark),
                         ),
                       ],
                     ),
-                  ),
-                  body: _screens[_selectedIndex],
-                );
-              },
+                    drawer: Drawer(
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        children: [
+                          DrawerHeader(
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary,
+                            ),
+                            child: Text(
+                              loc.appTitle,
+                              style: const TextStyle(fontSize: 22, color: Colors.white),
+                            ),
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.emoji_emotions),
+                            title: Text(loc.menuEmotionCheckIn),
+                            selected: _selectedIndex == 0,
+                            onTap: () {
+                              setState(() => _selectedIndex = 0);
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.favorite),
+                            title: Text(loc.menuRememberMe),
+                            selected: _selectedIndex == 1,
+                            onTap: () {
+                              setState(() => _selectedIndex = 1);
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.local_hospital),
+                            title: const Text('Ανακουφιστική Φροντίδα'),
+                            selected: _selectedIndex == 2,
+                            onTap: () {
+                              setState(() => _selectedIndex = 2);
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.settings),
+                            title: Text(loc.settings ?? 'Settings'),
+                            selected: _selectedIndex == 3,
+                            onTap: () {
+                              setState(() => _selectedIndex = 3);
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    body: _screens[_selectedIndex],
+                  );
+                },
+              ),
             ),
           ),
         ),
-      ),
-    );
+      ));
   }
 }
