@@ -50,7 +50,8 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   geolocator: ^14.0.2
   url_launcher: ^6.2.6
-  file_picker: ^6.1.1
+  # Downgrade file_picker to a stable version compatible with Flutter 3.x and Android embedding v2
+  file_picker: ^5.2.11
 
 dev_dependencies:
   flutter_test:
