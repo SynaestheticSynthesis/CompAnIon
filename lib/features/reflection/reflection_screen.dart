@@ -210,6 +210,8 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Αφαιρέστε το διπλό title/heading εδώ (μην εμφανίζετε ξανά το loc.reflection)
+            // Αν θέλετε να κρατήσετε πληροφορίες για το συναίσθημα/σχόλιο, κρατήστε μόνο αυτές:
             Text('${loc.emotion ?? "Emotion"}: ${widget.emotion}', style: const TextStyle(fontSize: 18)),
             Text('${loc.comment ?? "Comment"}: ${widget.comment}', style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic)),
             const SizedBox(height: 16),

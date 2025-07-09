@@ -11,20 +11,43 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:companion_core/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('App loads and navigation works', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const CompAnIonApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Check for onboarding or main screen
+    expect(find.byType(CompAnIonApp), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // If onboarding is shown, tap through it
+    if (find.text('Welcome to CompAnIon!').evaluate().isNotEmpty) {
+      // Go through onboarding steps
+      for (var i = 0; i < 5; i++) {
+        await tester.tap(find.text('Next').first);
+        await tester.pumpAndSettle();
+      }
+      await tester.tap(find.text('Start').first);
+      await tester.pumpAndSettle();
+    }
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Now, main screen should be visible
+    expect(find.byType(Scaffold), findsOneWidget);
+    expect(find.byType(Drawer), findsOneWidget);
+
+    // Check navigation drawer works
+    await tester.tap(find.byIcon(Icons.menu).first);
+    await tester.pumpAndSettle();
+    expect(find.byType(ListTile), findsWidgets);
+
+    // Tap Remember Me
+    await tester.tap(find.widgetWithText(ListTile, 'Remember Me'));
+    await tester.pumpAndSettle();
+    expect(find.text('Remember Me'), findsWidgets);
+
+    // Tap Settings
+    await tester.tap(find.byIcon(Icons.menu).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(ListTile, 'Settings'));
+    await tester.pumpAndSettle();
+    expect(find.text('Settings'), findsWidgets);
   });
 }

@@ -10,6 +10,7 @@ import '../../core/emotion_hierarchy.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../core/care_mode.dart';
 
 /// EmotionCheckInScreen
 /// A simple screen where the user can select and record their current emotion.
@@ -53,6 +54,9 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
 
   AnimationController? _emojiAnimController;
 
+  String? _loveMessage;
+  bool _careMode = false;
+
   @override
   void initState() {
     super.initState();
@@ -64,6 +68,18 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
       lowerBound: 0.9,
       upperBound: 1.15,
     );
+    _loadCareMode();
+  }
+
+  Future<void> _loadCareMode() async {
+    final enabled = await CareMode.isEnabled();
+    if (enabled) {
+      final messages = await CareMode.loadLoveMessages();
+      setState(() {
+        _careMode = true;
+        _loveMessage = (messages..shuffle()).first;
+      });
+    }
   }
 
   void _detectContextSignals() {
@@ -378,6 +394,31 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (_careMode && _loveMessage != null) ...[
+              Card(
+                color: Colors.pink[50],
+                margin: EdgeInsets.only(bottom: 18.h),
+                child: Padding(
+                  padding: EdgeInsets.all(16.w),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.favorite, color: Colors.pink),
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: Text(
+                          _loveMessage!,
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: Colors.pink[900],
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
             // Animated greeting
             TweenAnimationBuilder<double>(
               tween: Tween(begin: 0, end: 1),
@@ -399,7 +440,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                 ),
               ),
             ),
-            // Welcome message
+            // Welcome message (keep, as it's not a duplicate title)
             Text(
               _welcomeMessage,
               style: GoogleFonts.nunito(
@@ -409,85 +450,76 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 18),
-            // Context-aware prompt
-            Text(
-              _contextPrompt,
-              style: GoogleFonts.nunito(
-                fontSize: 16,
-                color: theme.hintColor,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 28),
-            // Animated emotion selection
+            SizedBox(height: 18.h),
+            // Emotion selection
             Wrap(
-              spacing: 16.w,
-              runSpacing: 16.h,
-              alignment: WrapAlignment.center,
+              spacing: 12.w,
+              runSpacing: 12.h,
               children: _emotions.map((emotion) {
                 final isSelected = _selectedEmotion == emotion;
-                return Semantics(
-                  label: 'Emotion: ${emotion.split(' ').last}',
-                  selected: isSelected,
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedEmotion = emotion;
-                      });
-                      _emojiAnimController?.forward(from: 0.9);
-                    },
-                    child: AnimatedScale(
-                      scale: isSelected ? (_emojiAnimController?.value ?? 1.1) : 1.0,
-                      duration: const Duration(milliseconds: 350),
-                      curve: Curves.elasticOut,
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
-                        decoration: BoxDecoration(
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedEmotion = isSelected ? null : emotion;
+                    });
+                    if (isSelected) {
+                      _emojiAnimController?.reverse();
+                    } else {
+                      _emojiAnimController?.forward();
+                    }
+                  },
+                  child: ScaleTransition(
+                    scale: Tween(begin: 0.9, end: 1.0).animate(
+                      CurvedAnimation(
+                        parent: _emojiAnimController!,
+                        curve: Curves.easeInOut,
+                      ),
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? theme.colorScheme.secondary.withOpacity(0.1)
+                            : theme.cardColor,
+                        borderRadius: BorderRadius.circular(22.r),
+                        border: Border.all(
                           color: isSelected
-                              ? theme.colorScheme.secondary.withOpacity(0.18)
-                              : theme.cardColor,
-                          borderRadius: BorderRadius.circular(22.r),
-                          border: Border.all(
-                            color: isSelected
-                                ? theme.colorScheme.secondary
-                                : Colors.grey.withOpacity(0.2),
-                            width: isSelected ? 2.2.w : 1.0.w,
+                              ? theme.colorScheme.secondary
+                              : Colors.grey.withOpacity(0.2),
+                          width: isSelected ? 2.2.w : 1.0.w,
+                        ),
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: theme.colorScheme.secondary.withOpacity(0.18),
+                                  blurRadius: 12.r,
+                                  offset: Offset(0, 4.h),
+                                )
+                              ]
+                            : [],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Semantics(
+                            label: 'Emoji for ${emotion.split(' ').last}',
+                            child: Text(
+                              emotion.split(' ').first,
+                              style: TextStyle(fontSize: 32.sp),
+                            ),
                           ),
-                          boxShadow: isSelected
-                              ? [
-                                  BoxShadow(
-                                    color: theme.colorScheme.secondary.withOpacity(0.18),
-                                    blurRadius: 12.r,
-                                    offset: Offset(0, 4.h),
-                                  )
-                                ]
-                              : [],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Semantics(
-                              label: 'Emoji for ${emotion.split(' ').last}',
-                              child: Text(
-                                emotion.split(' ').first,
-                                style: TextStyle(fontSize: 32.sp),
-                              ),
+                          SizedBox(width: 8.w),
+                          Text(
+                            emotion.substring(emotion.indexOf(' ') + 1),
+                            style: GoogleFonts.nunito(
+                              fontSize: 18.sp,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                              color: isSelected
+                                  ? theme.colorScheme.secondary
+                                  : theme.textTheme.bodyLarge?.color,
                             ),
-                            SizedBox(width: 8.w),
-                            Text(
-                              emotion.substring(emotion.indexOf(' ') + 1),
-                              style: GoogleFonts.nunito(
-                                fontSize: 18.sp,
-                                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                                color: isSelected
-                                    ? theme.colorScheme.secondary
-                                    : theme.textTheme.bodyLarge?.color,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

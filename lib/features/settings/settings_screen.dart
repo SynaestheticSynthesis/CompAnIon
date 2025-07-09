@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
+import '../../core/care_mode.dart';
 
 class SettingsScreen extends StatelessWidget {
   final Locale currentLocale;
   final void Function(Locale) onLocaleChanged;
+  final void Function()? onThemeChanged;
+  final void Function(String)? onFontChanged;
 
   const SettingsScreen({
     super.key,
     required this.currentLocale,
     required this.onLocaleChanged,
+    this.onThemeChanged,
+    this.onFontChanged,
   });
 
   @override
@@ -39,6 +44,35 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
           ),
+          // --- Theme selection ---
+          ListTile(
+            title: const Text('Theme'),
+            trailing: DropdownButton<String>(
+              value: Theme.of(context).brightness == Brightness.dark ? 'dark' : 'light',
+              items: const [
+                DropdownMenuItem(value: 'light', child: Text('Light')),
+                DropdownMenuItem(value: 'dark', child: Text('Dark')),
+              ],
+              onChanged: (val) {
+                if (onThemeChanged != null) onThemeChanged!();
+              },
+            ),
+          ),
+          // --- Font selection ---
+          ListTile(
+            title: const Text('Font'),
+            trailing: DropdownButton<String>(
+              value: 'Nunito',
+              items: const [
+                DropdownMenuItem(value: 'Nunito', child: Text('Nunito')),
+                DropdownMenuItem(value: 'Roboto', child: Text('Roboto')),
+                DropdownMenuItem(value: 'OpenSans', child: Text('Open Sans')),
+              ],
+              onChanged: (val) {
+                if (onFontChanged != null && val != null) onFontChanged!(val);
+              },
+            ),
+          ),
           const Divider(),
           ListTile(
             title: const Text('About / Manifesto'),
@@ -47,6 +81,25 @@ class SettingsScreen extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) => const _ManifestoDialog(),
+              );
+            },
+          ),
+          const Divider(),
+          FutureBuilder<bool>(
+            future: CareMode.isEnabled(),
+            builder: (context, snapshot) {
+              final enabled = snapshot.data ?? false;
+              return SwitchListTile(
+                title: const Text('Care Mode'),
+                subtitle: const Text('Show daily love messages & warmer UI'),
+                value: enabled,
+                onChanged: (v) async {
+                  await CareMode.setEnabled(v);
+                  // ignore: use_build_context_synchronously
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(v ? 'Care Mode enabled' : 'Care Mode disabled')),
+                  );
+                },
               );
             },
           ),
