@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import '../../modules/remember_me/reminder_model.dart';
@@ -74,23 +73,6 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
     );
   }
 
-  // Restore/Import
-  Future<void> _importReminders() async {
-    final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['json']);
-    if (result != null && result.files.single.path != null) {
-      final file = File(result.files.single.path!);
-      final content = await file.readAsString();
-      final List<dynamic> data = jsonDecode(content);
-      setState(() {
-        _reminders = data.map((e) => ReminderModel.fromJson(e)).toList();
-      });
-      await _saveReminders();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Reminders imported!')),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final today = DateTime.now();
@@ -111,11 +93,6 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
             icon: const Icon(Icons.download),
             tooltip: 'Export Reminders',
             onPressed: _exportReminders,
-          ),
-          IconButton(
-            icon: const Icon(Icons.upload),
-            tooltip: 'Import Reminders',
-            onPressed: _importReminders,
           ),
         ],
       ),
@@ -332,6 +309,29 @@ class _RememberMeReminderCard extends StatelessWidget {
                   ...[
                     ElevatedButton.icon(
                       icon: const Icon(Icons.phone),
+                      label: const Text('Call'),
+                      onPressed: () => _call(context, entry.name),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.edit_note),
+                      label: const Text('Write'),
+                      onPressed: () => _sms(context, entry.name),
+                    ),
+                  ],
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.favorite),
+                  label: Text(entry.isLoss ? 'Light a candle' : 'Remember silently'),
+                  onPressed: () => _rememberSilently(context),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
                       label: const Text('Call'),
                       onPressed: () => _call(context, entry.name),
                     ),
