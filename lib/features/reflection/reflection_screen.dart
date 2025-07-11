@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/emotion_hierarchy.dart';
+import '../../core/logic/flow_feedback.dart';
 import '../../l10n/app_localizations.dart';
 
 /// ReflectionScreen
@@ -44,6 +45,8 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
   String? _followUp;
 
   List<Map<String, dynamic>> _expandedPrompts = [];
+
+  List<String> _flowFeedbacks = [];
 
   @override
   void initState() {
@@ -181,6 +184,10 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
       answers.add(_followUpAnswer.text.trim());
     }
     _clearDraft();
+    // FlowFeedback: synthesize feedbacks
+    setState(() {
+      _flowFeedbacks = FlowFeedback.reflectionFeedback(widget.emotion, answers);
+    });
     widget.onComplete(answers);
   }
 
@@ -268,6 +275,21 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
                       ),
               ),
             ),
+            if (_flowFeedbacks.isNotEmpty)
+              ..._flowFeedbacks.map((msg) => Card(
+                color: Colors.purple[50],
+                margin: const EdgeInsets.only(bottom: 8),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.auto_awesome, color: Colors.purple),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(msg, style: const TextStyle(fontSize: 15))),
+                    ],
+                  ),
+                ),
+              )),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

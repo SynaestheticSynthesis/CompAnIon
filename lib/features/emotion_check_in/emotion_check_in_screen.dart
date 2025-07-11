@@ -11,6 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/care_mode.dart';
+import '../../core/logic/cpl_engine.dart';
+import '../../core/logic/flow_feedback.dart';
 
 /// EmotionCheckInScreen
 /// A simple screen where the user can select and record their current emotion.
@@ -56,6 +58,10 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
 
   String? _loveMessage;
   bool _careMode = false;
+
+  CPLFeedback? _cplFeedback;
+
+  List<String> _flowFeedbacks = [];
 
   @override
   void initState() {
@@ -111,6 +117,16 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
             'reflection': parts.length > 3 ? parts[3] : '',
           };
         }).toList();
+      });
+      // CPL: Check for inertia feedback
+      final feedback = await CPL_Engine.checkInertia(_history);
+      setState(() {
+        _cplFeedback = feedback;
+      });
+      // FlowFeedback: synthesize feedbacks
+      final flowFeedbacks = await FlowFeedback.emotionCheckInFeedback(_history);
+      setState(() {
+        _flowFeedbacks = flowFeedbacks;
       });
     }
   }
@@ -677,6 +693,43 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                   ),
                 ),
             ],
+            // CPL Feedback
+            if (_cplFeedback != null)
+              Card(
+                color: Colors.blue[50],
+                margin: const EdgeInsets.only(bottom: 12),
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.science, color: Colors.blueAccent),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          '${_cplFeedback!.law}: ${_cplFeedback!.message}',
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            // Flow Feedback
+            if (_flowFeedbacks.isNotEmpty)
+              ..._flowFeedbacks.map((msg) => Card(
+                color: Colors.green[50],
+                margin: const EdgeInsets.only(bottom: 8),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.energy_savings_leaf, color: Colors.green),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(msg, style: const TextStyle(fontSize: 15))),
+                    ],
+                  ),
+                ),
+              )),
           ],
         ),
       ),

@@ -5,9 +5,11 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import '../../modules/remember_me/reminder_model.dart';
 import '../../modules/remember_me/reminder_service.dart';
 import '../../modules/remember_me/reminder_utils.dart';
+import '../../core/logic/flow_feedback.dart';
 
 class RememberMeScreen extends StatefulWidget {
   const RememberMeScreen({super.key});
@@ -19,6 +21,7 @@ class RememberMeScreen extends StatefulWidget {
 class _RememberMeScreenState extends State<RememberMeScreen> {
   List<ReminderModel> _reminders = [];
   final _service = ReminderService();
+  String _reminderFeedback = '';
 
   @override
   void initState() {
@@ -29,6 +32,7 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
   Future<void> _loadReminders() async {
     final loaded = await _service.loadReminders();
     setState(() => _reminders = loaded);
+    setState(() => _reminderFeedback = FlowFeedback.reminderFeedback(_reminders.length));
   }
 
   Future<void> _saveReminders() async {
@@ -73,6 +77,23 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
     );
   }
 
+  // Restore/Import
+  Future<void> _importReminders() async {
+    final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['json']);
+    if (result != null && result.files.single.path != null) {
+      final file = File(result.files.single.path!);
+      final content = await file.readAsString();
+      final List<dynamic> data = jsonDecode(content);
+      setState(() {
+        _reminders = data.map((e) => ReminderModel.fromJson(e)).toList();
+      });
+      await _saveReminders();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Reminders imported!')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final today = DateTime.now();
@@ -94,11 +115,31 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
             tooltip: 'Export Reminders',
             onPressed: _exportReminders,
           ),
+          IconButton(
+            icon: const Icon(Icons.upload),
+            tooltip: 'Import Reminders',
+            onPressed: _importReminders,
+          ),
         ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(18),
         children: [
+          if (_reminderFeedback.isNotEmpty)
+            Card(
+              color: Colors.orange[50],
+              margin: const EdgeInsets.only(bottom: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    const Icon(Icons.bolt, color: Colors.orange),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(_reminderFeedback, style: const TextStyle(fontSize: 15))),
+                  ],
+                ),
+              ),
+            ),
           if (upcoming.isNotEmpty)
             ...upcoming.map((e) => _RememberMeReminderCard(entry: e)),
           if (upcoming.isEmpty)
@@ -309,29 +350,6 @@ class _RememberMeReminderCard extends StatelessWidget {
                   ...[
                     ElevatedButton.icon(
                       icon: const Icon(Icons.phone),
-                      label: const Text('Call'),
-                      onPressed: () => _call(context, entry.name),
-                    ),
-                    const SizedBox(width: 8),
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.edit_note),
-                      label: const Text('Write'),
-                      onPressed: () => _sms(context, entry.name),
-                    ),
-                  ],
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.favorite),
-                  label: Text(entry.isLoss ? 'Light a candle' : 'Remember silently'),
-                  onPressed: () => _rememberSilently(context),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
                       label: const Text('Call'),
                       onPressed: () => _call(context, entry.name),
                     ),
