@@ -76,3 +76,4 @@ flutter:
   # No need to list ARB files individually
 
   generate: true
+  # No need to list ARB files individually
