@@ -94,6 +94,7 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
 
   @override
   Widget build(BuildContext context) {
+    print('CompAnIonApp is building'); // Diagnostic print
     final theme = _isDark ? _darkTheme : _lightTheme;
     final bgColor = theme.scaffoldBackgroundColor;
 
@@ -120,106 +121,99 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
         data: theme,
         duration: const Duration(milliseconds: 400),
         curve: Curves.easeInOutCubic,
-        child: Builder(
-          builder: (context) {
-            if (_showOnboarding) {
-              return _OnboardingScreen(onFinish: _completeOnboarding);
-            }
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeInOutCubic,
-              color: bgColor,
-              child: MaterialApp(
-                title: 'CompAnIon',
-                theme: _lightTheme,
-                darkTheme: _darkTheme,
-                themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
-                debugShowCheckedModeBanner: false,
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                locale: _locale,
-                supportedLocales: const [
-                  Locale('en'),
-                  Locale('el'),
-                ],
-                home: Builder(
-                  builder: (context) {
-                    final loc = AppLocalizations.of(context)!;
-                    return Scaffold(
-                      appBar: AppBar(
-                        title: Text(
-                          _selectedIndex == 0
-                            ? loc.menuEmotionCheckIn
-                            : _selectedIndex == 1
-                              ? loc.menuRememberMe
-                              : _selectedIndex == 2
-                                ? 'Ανακουφιστική Φροντίδα'
-                                : loc.settings ?? 'Settings'
-                        ),
-                      ),
-                      drawer: Drawer(
-                        child: ListView(
-                          padding: EdgeInsets.zero,
-                          children: [
-                            DrawerHeader(
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.primary,
-                              ),
-                              child: Text(
-                                loc.appTitle,
-                                style: const TextStyle(fontSize: 22, color: Colors.white),
-                              ),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.emoji_emotions),
-                              title: Text(loc.menuEmotionCheckIn),
-                              selected: _selectedIndex == 0,
-                              onTap: () {
-                                setState(() => _selectedIndex = 0);
-                                Navigator.pop(context);
-                              },
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.favorite),
-                              title: Text(loc.menuRememberMe),
-                              selected: _selectedIndex == 1,
-                              onTap: () {
-                                setState(() => _selectedIndex = 1);
-                                Navigator.pop(context);
-                              },
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.local_hospital),
-                              title: const Text('Ανακουφιστική Φροντίδα'),
-                              selected: _selectedIndex == 2,
-                              onTap: () {
-                                setState(() => _selectedIndex = 2);
-                                Navigator.pop(context);
-                              },
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.settings),
-                              title: Text(loc.settings ?? 'Settings'),
-                              selected: _selectedIndex == 3,
-                              onTap: () {
-                                setState(() => _selectedIndex = 3);
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      body: screens[_selectedIndex],
-                    );
-                  },
+        child: MaterialApp(
+          title: 'CompAnIon',
+          theme: _lightTheme,
+          darkTheme: _darkTheme,
+          themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          locale: _locale,
+          supportedLocales: const [
+            Locale('en'),
+            Locale('el'),
+          ],
+          home: Builder(
+            builder: (context) {
+              if (_showOnboarding) {
+                print('Showing onboarding screen'); // Diagnostic print
+                return _OnboardingScreen(onFinish: _completeOnboarding);
+              }
+              print('Showing main app scaffold'); // Diagnostic print
+              final loc = AppLocalizations.of(context)!;
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(
+                    _selectedIndex == 0
+                      ? loc.menuEmotionCheckIn
+                      : _selectedIndex == 1
+                        ? loc.menuRememberMe
+                        : _selectedIndex == 2
+                          ? 'Ανακουφιστική Φροντίδα'
+                          : loc.settings ?? 'Settings'
+                  ),
                 ),
-              ),
-            );
-          },
+                drawer: Drawer(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      DrawerHeader(
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary,
+                        ),
+                        child: Text(
+                          loc.appTitle,
+                          style: const TextStyle(fontSize: 22, color: Colors.white),
+                        ),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.emoji_emotions),
+                        title: Text(loc.menuEmotionCheckIn),
+                        selected: _selectedIndex == 0,
+                        onTap: () {
+                          setState(() => _selectedIndex = 0);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.favorite),
+                        title: Text(loc.menuRememberMe),
+                        selected: _selectedIndex == 1,
+                        onTap: () {
+                          setState(() => _selectedIndex = 1);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.local_hospital),
+                        title: const Text('Ανακουφιστική Φροντίδα'),
+                        selected: _selectedIndex == 2,
+                        onTap: () {
+                          setState(() => _selectedIndex = 2);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.settings),
+                        title: Text(loc.settings ?? 'Settings'),
+                        selected: _selectedIndex == 3,
+                        onTap: () {
+                          setState(() => _selectedIndex = 3);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                body: screens[_selectedIndex],
+              );
+            },
+          ),
         ),
       ),
     );

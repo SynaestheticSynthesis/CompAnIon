@@ -59,6 +59,7 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
     _fadeController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
+      // No lowerBound/upperBound needed for fade (default is 0.0–1.0)
     );
     _fadeAnimation = CurvedAnimation(parent: _fadeController, curve: Curves.easeIn);
     _fadeController.forward();

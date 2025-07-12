@@ -78,8 +78,8 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
     _emojiAnimController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 350),
-      lowerBound: 0.9,
-      upperBound: 1.15,
+      lowerBound: 0.0, // <-- fix: use 0.0
+      upperBound: 1.0, // <-- fix: use 1.0
     );
     _loadCareMode();
   }
@@ -496,7 +496,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                     }
                   },
                   child: ScaleTransition(
-                    scale: Tween(begin: 0.9, end: 1.0).animate(
+                    scale: Tween(begin: 0.9, end: 1.15).animate(
                       CurvedAnimation(
                         parent: _emojiAnimController!,
                         curve: Curves.easeInOut,
