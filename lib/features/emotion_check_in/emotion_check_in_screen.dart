@@ -13,6 +13,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/care_mode.dart';
 import '../../core/logic/cpl_engine.dart';
 import '../../core/logic/flow_feedback.dart';
+import '../../core/logic/action_reaction_module.dart';
+import '../../core/ui/action_reaction_law_card.dart';
 
 /// EmotionCheckInScreen
 /// A simple screen where the user can select and record their current emotion.
@@ -62,6 +64,11 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
   CPLFeedback? _cplFeedback;
 
   List<String> _flowFeedbacks = [];
+
+  final ActionReactionModule _actionReaction = ActionReactionModule();
+
+  double _cardOpacity = 0.0;
+  String _userReactionText = '';
 
   @override
   void initState() {
@@ -143,7 +150,11 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
     if (_selectedEmotion != null) {
       final now = DateTime.now().toIso8601String();
       final comment = _commentController.text.trim();
+      // Log the action in the Action–Reaction module
+      _actionReaction.logAction('emotion_check_in', _selectedEmotion!);
+      _actionReaction.detectReactionFromHistory(_history);
       setState(() {
+        _cardOpacity = 1.0;
         _pendingReflection = {
           'emotion': _selectedEmotion!,
           'timestamp': now,
@@ -730,6 +741,60 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                   ),
                 ),
               )),
+            // Show Action–Reaction Law Card after check-in, with fade-in animation
+            if (_history.isNotEmpty)
+              AnimatedOpacity(
+                opacity: _cardOpacity,
+                duration: const Duration(milliseconds: 700),
+                curve: Curves.easeInOut,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Column(
+                    children: [
+                      ActionReactionLawCard(
+                        action: _history.first['emotion'] ?? '',
+                        reaction: _actionReaction.getLatestActionReaction()['reactions']?.isNotEmpty == true
+                            ? (_actionReaction.getLatestActionReaction()['reactions'] as List).first.description
+                            : 'No reaction detected yet',
+                        intensity: _actionReaction.getLatestActionReaction()['reactions']?.isNotEmpty == true
+                            ? (_actionReaction.getLatestActionReaction()['reactions'] as List).first.intensity
+                            : 0,
+                        message: _actionReaction.getFeedbackMessage(),
+                      ),
+                      // User can log a reaction
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                decoration: const InputDecoration(
+                                  hintText: 'Log a reaction (e.g. pressure, doubt, support)...',
+                                  border: OutlineInputBorder(),
+                                ),
+                                onChanged: (val) => _userReactionText = val,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            ElevatedButton.icon(
+                              icon: const Icon(Icons.sync_alt),
+                              label: const Text('Log Reaction'),
+                              onPressed: () {
+                                if (_userReactionText.trim().isNotEmpty) {
+                                  setState(() {
+                                    _actionReaction.logUserReaction(_userReactionText.trim(), intensity: 5);
+                                    _userReactionText = '';
+                                  });
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
           ],
         ),
       ),

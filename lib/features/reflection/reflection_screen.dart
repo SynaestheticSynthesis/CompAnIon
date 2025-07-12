@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/emotion_hierarchy.dart';
 import '../../core/logic/flow_feedback.dart';
+import '../../core/logic/action_reaction_module.dart';
+import '../../core/ui/action_reaction_law_card.dart';
 import '../../l10n/app_localizations.dart';
 
 /// ReflectionScreen
@@ -47,6 +49,8 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
   List<Map<String, dynamic>> _expandedPrompts = [];
 
   List<String> _flowFeedbacks = [];
+
+  final ActionReactionModule _actionReaction = ActionReactionModule();
 
   @override
   void initState() {
@@ -184,6 +188,8 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
       answers.add(_followUpAnswer.text.trim());
     }
     _clearDraft();
+    // Log reflection as an action
+    _actionReaction.logAction('reflection', answers.join(' | '));
     // FlowFeedback: synthesize feedbacks
     setState(() {
       _flowFeedbacks = FlowFeedback.reflectionFeedback(widget.emotion, answers);
@@ -275,6 +281,21 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
                       ),
               ),
             ),
+            // Show Action–Reaction Law Card after reflection
+            if (_flowFeedbacks.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: ActionReactionLawCard(
+                  action: widget.emotion,
+                  reaction: _actionReaction.getLatestActionReaction()['reactions']?.isNotEmpty == true
+                      ? (_actionReaction.getLatestActionReaction()['reactions'] as List).first.description
+                      : 'No reaction detected yet',
+                  intensity: _actionReaction.getLatestActionReaction()['reactions']?.isNotEmpty == true
+                      ? (_actionReaction.getLatestActionReaction()['reactions'] as List).first.intensity
+                      : 0,
+                  message: _actionReaction.getFeedbackMessage(),
+                ),
+              ),
             if (_flowFeedbacks.isNotEmpty)
               ..._flowFeedbacks.map((msg) => Card(
                 color: Colors.purple[50],
