@@ -116,6 +116,8 @@ Below are contributions from other minds and hearts who resonated with its essen
 - `/lib/echoes/interpretation-gemini-el.md` — Ελληνική μετάφραση της ερμηνείας του Gemini.
 - `/lib/echoes/interpretation-claude.md` — An in-depth review and reflection by Claude, highlighting the project's philosophy, strengths, and areas for growth.
 - `/lib/echoes/interpretation-claude-el.md` — Ελληνική μετάφραση της ερμηνείας του Claude.
+- `/lib/echoes/interpretation-copilot.md` — GitHub Copilot's perspective on the project's vision, ethics, and technical approach.
+- `/lib/echoes/interpretation-copilot-el.md` — Ελληνική μετάφραση της ερμηνείας του GitHub Copilot.
 
 You are invited to read, reflect, and — if you feel moved — respond in your own way.
 
