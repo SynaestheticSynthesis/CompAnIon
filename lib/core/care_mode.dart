@@ -38,4 +38,21 @@ class CareMode {
       ];
     }
   }
+
+  /// Returns a gender-adapted love message (if available)
+  static String getLoveMessage(String message, {String gender = 'neutral'}) {
+    // Example: adapt "Είσαι δυνατή" to gender
+    if (message.contains('Είσαι δυνατή')) {
+      switch (gender) {
+        case 'male':
+          return message.replaceAll('Είσαι δυνατή', 'Είσαι δυνατός');
+        case 'female':
+          return message;
+        default:
+          return message.replaceAll('Είσαι δυνατή', 'Είσαι δυνατό άτομο');
+      }
+    }
+    // Add more templates as needed
+    return message;
+  }
 }

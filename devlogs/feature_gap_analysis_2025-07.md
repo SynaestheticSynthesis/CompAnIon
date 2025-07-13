@@ -1,51 +1,72 @@
 # CompAnIon – Feature Gap Analysis (Ιούλιος 2025)
 
-## Τι λείπει ή μπορεί να βελτιωθεί;
+## Summary of Feature Gaps
 
-### 1. **Δράσεις στα Reminders (Call/SMS/Remember silently)**
-- Τα κουμπιά υπάρχουν αλλά δεν έχουν λειτουργικότητα (intent για κλήση, SMS, σημείωση, κ.λπ.).
+1. **Reminders Actions:**  
+   - Call/SMS/Remember silently buttons exist but lack full intent integration and accessibility labels.
 
-### 2. **Onboarding / Tutorial**
-- Δεν υπάρχει guided onboarding για νέο χρήστη (π.χ. τι κάνει κάθε ενότητα, πώς να ξεκινήσει).
-- Προτείνεται ένα απλό walkthrough ή tooltip/coach marks στα πρώτα βήματα.
+2. **Onboarding / Tutorial:**  
+   - No guided onboarding or walkthrough for new users (current onboarding is basic, not contextual).
 
-### 3. **Επεξήγηση/Βοήθεια σε κάθε οθόνη**
-- Δεν υπάρχει εύκολη πρόσβαση σε βοήθεια ή επεξήγηση (π.χ. εικονίδιο info ή "Τι είναι αυτό;").
-- Προσθήκη μικρών info buttons ή tooltips.
+3. **Help/Info on Screens:**  
+   - Info/help dialogs exist, but could be more context-aware and localized.
 
-### 4. **Επεξεργασία/Διαγραφή Reminders**
-- Μπορείς να διαγράψεις, αλλά όχι να επεξεργαστείς υπάρχον reminder (edit flow).
+4. **Edit/Delete Reminders:**  
+   - Edit flow for reminders is present, but could be improved for UX and accessibility.
 
-### 5. **Διαχείριση δεδομένων/backup**
-- Δεν υπάρχει επιλογή για backup/restore ή export/import reminders και ιστορικού (εκτός από CSV για τα συναισθήματα).
+5. **Data Management/Backup:**  
+   - Backup/restore and import/export for reminders and history is present, but could be more robust (cloud sync, versioning).
 
-### 6. **Προσωποποίηση/Ρυθμίσεις εμφάνισης**
-- Περιορισμένες επιλογές για themes, γραμματοσειρές, ήχους, ή άλλα στοιχεία προσωποποίησης.
+6. **Personalization/Appearance Settings:**  
+   - Theme, font, and gender options exist; more options (sounds, widgets, custom prompts) could be added.
 
-### 7. **Ειδοποιήσεις/Υπενθυμίσεις**
-- Δεν υπάρχουν push notifications ή scheduled reminders για σημαντικές ημερομηνίες ή για να κάνει ο χρήστης check-in.
+7. **Notifications/Reminders:**  
+   - No push notifications or scheduled reminders for special dates or check-ins.
 
-### 8. **Accessibility Audit**
-- Έχουν γίνει βήματα (semantics, responsive), αλλά χρειάζεται πλήρης έλεγχος για screen readers, contrast, κ.λπ.
+8. **Accessibility Audit:**  
+   - Semantics and responsive UI are present, but a full accessibility audit and user testing are needed.
 
-### 9. **Αναζήτηση/Φίλτρα στα Reminders**
-- Δεν υπάρχει αναζήτηση ή φιλτράρισμα στα reminders (π.χ. ανά όνομα, ημερομηνία, τύπο).
+9. **Search/Filter Reminders:**  
+   - Search/filter for reminders is present, but could be expanded (tags, advanced filters).
 
-### 10. **Περισσότερες γλώσσες**
-- Υποστήριξη μόνο για EN/EL. Θα μπορούσε να επεκταθεί σε άλλες γλώσσες.
+10. **More Languages:**  
+    - Only English and Greek supported; could expand to more languages and dialects.
+
+11. **Palliative Care Support:**  
+    - Region-based resources exist, but could be expanded with real geolocation, more clinics, and emotional support prompts.
+
+12. **Community Feedback:**  
+    - No in-app feedback or reporting mechanism; community feedback is only via GitHub.
+
+13. **Ethics & Transparency:**  
+    - Ethics and manifesto are documented, but not surfaced in-app (e.g. ethics screen, user reminders).
+
+14. **Offline Mode:**  
+    - App is local-first, but explicit offline mode and sync status could be clarified.
+
+15. **Emotional Intelligence:**  
+    - Feedback is dynamic, but could be more adaptive to user patterns and context.
 
 ---
 
-## Συμπέρασμα
+## Recommendations
 
-Το CompAnIon είναι λειτουργικό και φιλικό, αλλά μπορεί να ωφεληθεί από:
-- Περισσότερη καθοδήγηση για νέους χρήστες,
-- Πλήρη υλοποίηση των actions στα reminders,
-- Επεξεργασία/backup/reminders,
-- Ειδοποιήσεις,
-- Και περαιτέρω βελτιώσεις στην προσβασιμότητα και προσωποποίηση.
+- Expand onboarding with contextual, localized guidance.
+- Complete intent integration for reminder actions and accessibility.
+- Add more personalization options (sounds, widgets, custom prompts).
+- Implement notifications for reminders and emotional check-ins.
+- Perform a full accessibility audit and invite real user feedback.
+- Expand search/filter and tagging for reminders.
+- Add more languages and dialects.
+- Enhance palliative care support with real geolocation and more resources.
+- Surface ethics and manifesto in-app for transparency.
+- Clarify offline mode and sync status.
+- Make emotional feedback even more adaptive and human.
 
 ---
 
-**Πρόταση:**  
-Εστίασε στα παραπάνω για να γίνει η εμπειρία ακόμα πιο ολοκληρωμένη και ανθρώπινη!
+**Conclusion:**  
+CompAnIon is evolving with care and presence.  
+Focus on these gaps to deepen the experience, honor the spirit, and keep the project radically human.
+
+---

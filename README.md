@@ -47,21 +47,31 @@ We are nurturing a seed — for anyone who has felt pressure, loneliness, or con
 
 ```
 lib/
-├── core/                # Foundational logic (state, utils, constants)
+├── core/                # Foundational logic, context signals, physics layer, feedback
 │   ├── emotion_hierarchy.dart
 │   ├── logic/
-│   └── prompts/
-├── features/            # Main features & screens
+│   ├── prompts/
+│   ├── care_mode.dart
+│   ├── contextual_reminder.dart
+│   └── ui/
+├── features/            # Main app screens & flows
 │   ├── emotion_check_in/
 │   ├── reflection/
 │   ├── remember_me/
 │   ├── palliative_care/
 │   └── settings/
-├── modules/             # Modular, reusable components
+├── modules/             # Reusable components, models, services
+│   ├── remember_me/
+│   └── ...
 ├── l10n/                # Localization (ARB files)
-├── ui/                  # Widgets, theming
+│   ├── app_en.arb
+│   ├── app_el.arb
+│   └── app_localizations.dart
 ├── data/                # Storage, preferences, mock sensors
-└── ...
+├── test/                # Widget and unit tests
+├── android/             # Android native code
+├── ios/                 # iOS native code
+└── main.dart            # App entry point
 ```
 
 ---

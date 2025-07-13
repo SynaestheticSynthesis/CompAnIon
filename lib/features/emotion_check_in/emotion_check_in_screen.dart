@@ -21,24 +21,14 @@ import '../../core/ui/action_reaction_law_card.dart';
 class EmotionCheckInScreen extends StatefulWidget {
   final VoidCallback? onToggleTheme;
   final bool? isDark;
-  const EmotionCheckInScreen({Key? key, this.onToggleTheme, this.isDark}) : super(key: key);
+  final String gender; // Add gender field
+  const EmotionCheckInScreen({Key? key, this.onToggleTheme, this.isDark, this.gender = 'neutral'}) : super(key: key);
 
   @override
   State<EmotionCheckInScreen> createState() => _EmotionCheckInScreenState();
 }
 
 class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with SingleTickerProviderStateMixin {
-  // List of available emotions
-  final List<String> _emotions = [
-    '😊 Happy',
-    '😢 Sad',
-    '😡 Angry',
-    '😱 Anxious',
-    '😐 Neutral',
-    '🥳 Excited',
-    '😔 Disappointed',
-  ];
-
   // Currently selected emotion
   String? _selectedEmotion;
 
@@ -90,7 +80,8 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
       final messages = await CareMode.loadLoveMessages();
       setState(() {
         _careMode = true;
-        _loveMessage = (messages..shuffle()).first;
+        // Use gender-adapted message
+        _loveMessage = CareMode.getLoveMessage((messages..shuffle()).first, gender: widget.gender);
       });
     }
   }
@@ -131,7 +122,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
         _cplFeedback = feedback;
       });
       // FlowFeedback: synthesize feedbacks
-      final flowFeedbacks = await FlowFeedback.emotionCheckInFeedback(_history);
+      final flowFeedbacks = await FlowFeedback.emotionCheckInFeedback(_history, context); // <-- pass context
       setState(() {
         _flowFeedbacks = flowFeedbacks;
       });
@@ -320,19 +311,20 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
 
   // Context-aware prompt
   String get _contextPrompt {
-    String prompt = "How are you feeling right now?";
+    final loc = AppLocalizations.of(context)!;
+    String prompt = loc.contextPrompt ?? "How are you feeling right now?";
     if (_timeOfDay == 'morning') {
-      prompt = "Good morning! How do you feel as you start your day?";
+      prompt = loc.contextPromptMorning ?? "Good morning! How do you feel as you start your day?";
     } else if (_timeOfDay == 'evening') {
-      prompt = "Evenings are for reflection. How are you feeling tonight?";
+      prompt = loc.contextPromptEvening ?? "Evenings are for reflection. How are you feeling tonight?";
     }
     if (_location == 'work') {
-      prompt += "\n(At work)";
+      prompt += "\n(${loc.atWork ?? "At work"})";
     } else if (_location == 'home') {
-      prompt += "\n(At home)";
+      prompt += "\n(${loc.atHome ?? "At home"})";
     }
     if (_weather == 'rainy') {
-      prompt += "\nIt's rainy outside. Does the weather affect your mood?";
+      prompt += "\n${loc.weatherRainy ?? "It's rainy outside. Does the weather affect your mood?"}";
     }
     return prompt;
   }
@@ -384,24 +376,39 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
 
   // Animated greeting based on time of day
   String get _animatedGreeting {
+    final loc = AppLocalizations.of(context)!;
     switch (_timeOfDay) {
       case 'morning':
-        return "🌅 Good morning, friend!";
+        return loc.greetingMorning ?? "🌅 Good morning, friend!";
       case 'afternoon':
-        return "🌞 Good afternoon, friend!";
+        return loc.greetingAfternoon ?? "🌞 Good afternoon, friend!";
       case 'evening':
-        return "🌙 Good evening, friend!";
+        return loc.greetingEvening ?? "🌙 Good evening, friend!";
       case 'night':
-        return "🌌 Night is here. How are you?";
+        return loc.greetingNight ?? "🌌 Night is here. How are you?";
       default:
-        return "Hello, friend!";
+        return loc.greetingDefault ?? "Hello, friend!";
     }
   }
+
+  // Localized emotions list
+  late final List<String> _emotions;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final loc = AppLocalizations.of(context)!;
+
+    _emotions = [
+      '😊 ${loc.happy ?? "Happy"}',
+      '😢 ${loc.sad ?? "Sad"}',
+      '😡 ${loc.angry ?? "Angry"}',
+      '😱 ${loc.anxious ?? "Anxious"}',
+      '😐 ${loc.neutral ?? "Neutral"}',
+      '🥳 ${loc.excited ?? "Excited"}',
+      '😔 ${loc.disappointed ?? "Disappointed"}',
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(loc.menuEmotionCheckIn),
@@ -484,69 +491,74 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
               runSpacing: 12.h,
               children: _emotions.map((emotion) {
                 final isSelected = _selectedEmotion == emotion;
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedEmotion = isSelected ? null : emotion;
-                    });
-                    if (isSelected) {
-                      _emojiAnimController?.reverse();
-                    } else {
-                      _emojiAnimController?.forward();
-                    }
-                  },
-                  child: ScaleTransition(
-                    scale: Tween(begin: 0.9, end: 1.15).animate(
-                      CurvedAnimation(
-                        parent: _emojiAnimController!,
-                        curve: Curves.easeInOut,
-                      ),
-                    ),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? theme.colorScheme.secondary.withOpacity(0.1)
-                            : theme.cardColor,
-                        borderRadius: BorderRadius.circular(22.r),
-                        border: Border.all(
-                          color: isSelected
-                              ? theme.colorScheme.secondary
-                              : Colors.grey.withOpacity(0.2),
-                          width: isSelected ? 2.2.w : 1.0.w,
+                return Semantics(
+                  button: true,
+                  label: '${loc.selectEmotion ?? "Select emotion"}: ${emotion.substring(emotion.indexOf(' ') + 1)}',
+                  selected: isSelected,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedEmotion = isSelected ? null : emotion;
+                      });
+                      if (isSelected) {
+                        _emojiAnimController?.reverse();
+                      } else {
+                        _emojiAnimController?.forward();
+                      }
+                    },
+                    child: ScaleTransition(
+                      scale: Tween(begin: 0.9, end: 1.15).animate(
+                        CurvedAnimation(
+                          parent: _emojiAnimController!,
+                          curve: Curves.easeInOut,
                         ),
-                        boxShadow: isSelected
-                            ? [
-                                BoxShadow(
-                                  color: theme.colorScheme.secondary.withOpacity(0.18),
-                                  blurRadius: 12.r,
-                                  offset: Offset(0, 4.h),
-                                )
-                              ]
-                            : [],
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Semantics(
-                            label: 'Emoji for ${emotion.split(' ').last}',
-                            child: Text(
-                              emotion.split(' ').first,
-                              style: TextStyle(fontSize: 32.sp),
-                            ),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? theme.colorScheme.secondary.withOpacity(0.1)
+                              : theme.cardColor,
+                          borderRadius: BorderRadius.circular(22.r),
+                          border: Border.all(
+                            color: isSelected
+                                ? theme.colorScheme.secondary
+                                : Colors.grey.withOpacity(0.2),
+                            width: isSelected ? 2.2.w : 1.0.w,
                           ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            emotion.substring(emotion.indexOf(' ') + 1),
-                            style: GoogleFonts.nunito(
-                              fontSize: 18.sp,
-                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                              color: isSelected
-                                  ? theme.colorScheme.secondary
-                                  : theme.textTheme.bodyLarge?.color,
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    color: theme.colorScheme.secondary.withOpacity(0.18),
+                                    blurRadius: 12.r,
+                                    offset: Offset(0, 4.h),
+                                  )
+                                ]
+                              : [],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Semantics(
+                              label: 'Emoji for ${emotion.split(' ').last}',
+                              child: Text(
+                                emotion.split(' ').first,
+                                style: TextStyle(fontSize: 32.sp),
+                              ),
                             ),
-                          ),
-                        ],
+                            SizedBox(width: 8.w),
+                            Text(
+                              emotion.substring(emotion.indexOf(' ') + 1),
+                              style: GoogleFonts.nunito(
+                                fontSize: 18.sp,
+                                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                                color: isSelected
+                                    ? theme.colorScheme.secondary
+                                    : theme.textTheme.bodyLarge?.color,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -573,7 +585,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
             ),
             ElevatedButton.icon(
               onPressed: _selectedEmotion == null ? null : _recordEmotion,
-              icon: const Icon(Icons.check_circle_outline),
+              icon: const Icon(Icons.check_circle_outline, semanticLabel: 'Record emotion'),
               label: Text(loc.recordEmotion),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 14),
@@ -595,17 +607,17 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                     child: Text(loc.clearAll),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.download),
+                    icon: const Icon(Icons.download, semanticLabel: 'Export history as CSV'),
                     tooltip: loc.exportHistoryCSV,
                     onPressed: _exportHistoryAsCSV,
                   ),
                   IconButton(
-                    icon: const Icon(Icons.share),
+                    icon: const Icon(Icons.share, semanticLabel: 'Share history as CSV'),
                     tooltip: loc.shareHistoryCSV,
                     onPressed: () => _exportHistoryAsCSV(share: true),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.preview),
+                    icon: const Icon(Icons.preview, semanticLabel: 'Preview CSV'),
                     tooltip: loc.previewCSV,
                     onPressed: _previewCSV,
                   ),
@@ -658,7 +670,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
               ),
               // Στατιστικά συναισθημάτων
               const SizedBox(height: 16),
-              const Text('Στατιστικά:', style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(loc.stats ?? 'Stats:', style: const TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 80,
                 child: Row(

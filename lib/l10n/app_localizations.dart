@@ -364,6 +364,282 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reflection'**
   String get reflection;
+
+  /// No description provided for @happy.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy'**
+  String get happy;
+
+  /// No description provided for @sad.
+  ///
+  /// In en, this message translates to:
+  /// **'Sad'**
+  String get sad;
+
+  /// No description provided for @angry.
+  ///
+  /// In en, this message translates to:
+  /// **'Angry'**
+  String get angry;
+
+  /// No description provided for @anxious.
+  ///
+  /// In en, this message translates to:
+  /// **'Anxious'**
+  String get anxious;
+
+  /// No description provided for @neutral.
+  ///
+  /// In en, this message translates to:
+  /// **'Neutral'**
+  String get neutral;
+
+  /// No description provided for @excited.
+  ///
+  /// In en, this message translates to:
+  /// **'Excited'**
+  String get excited;
+
+  /// No description provided for @disappointed.
+  ///
+  /// In en, this message translates to:
+  /// **'Disappointed'**
+  String get disappointed;
+
+  /// No description provided for @contextPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'How are you feeling right now?'**
+  String get contextPrompt;
+
+  /// No description provided for @contextPromptMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning! How do you feel as you start your day?'**
+  String get contextPromptMorning;
+
+  /// No description provided for @contextPromptEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Evenings are for reflection. How are you feeling tonight?'**
+  String get contextPromptEvening;
+
+  /// No description provided for @atWork.
+  ///
+  /// In en, this message translates to:
+  /// **'At work'**
+  String get atWork;
+
+  /// No description provided for @atHome.
+  ///
+  /// In en, this message translates to:
+  /// **'At home'**
+  String get atHome;
+
+  /// No description provided for @weatherRainy.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s rainy outside. Does the weather affect your mood?'**
+  String get weatherRainy;
+
+  /// No description provided for @greetingMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'🌅 Good morning, friend!'**
+  String get greetingMorning;
+
+  /// No description provided for @greetingAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'🌞 Good afternoon, friend!'**
+  String get greetingAfternoon;
+
+  /// No description provided for @greetingEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'🌙 Good evening, friend!'**
+  String get greetingEvening;
+
+  /// No description provided for @greetingNight.
+  ///
+  /// In en, this message translates to:
+  /// **'🌌 Night is here. How are you?'**
+  String get greetingNight;
+
+  /// No description provided for @greetingDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, friend!'**
+  String get greetingDefault;
+
+  /// No description provided for @selectEmotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Select emotion'**
+  String get selectEmotion;
+
+  /// No description provided for @searchReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Search reminders'**
+  String get searchReminders;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @inMemoryEmoji.
+  ///
+  /// In en, this message translates to:
+  /// **'🙏'**
+  String get inMemoryEmoji;
+
+  /// No description provided for @font.
+  ///
+  /// In en, this message translates to:
+  /// **'Font'**
+  String get font;
+
+  /// No description provided for @fontNunito.
+  ///
+  /// In en, this message translates to:
+  /// **'Nunito'**
+  String get fontNunito;
+
+  /// No description provided for @fontRoboto.
+  ///
+  /// In en, this message translates to:
+  /// **'Roboto'**
+  String get fontRoboto;
+
+  /// No description provided for @fontOpenSans.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Sans'**
+  String get fontOpenSans;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// No description provided for @genderNeutral.
+  ///
+  /// In en, this message translates to:
+  /// **'Neutral'**
+  String get genderNeutral;
+
+  /// No description provided for @genderFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get genderFemale;
+
+  /// No description provided for @genderMale.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get genderMale;
+
+  /// No description provided for @languageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// No description provided for @languageGreek.
+  ///
+  /// In en, this message translates to:
+  /// **'Greek'**
+  String get languageGreek;
+
+  /// No description provided for @importReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Reminders'**
+  String get importReminders;
+
+  /// No description provided for @feedbackMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'The start of the day is a chance for new energy.'**
+  String get feedbackMorning;
+
+  /// No description provided for @feedbackRainy.
+  ///
+  /// In en, this message translates to:
+  /// **'Rain brings renewal. How do you feel about the weather today?'**
+  String get feedbackRainy;
+
+  /// No description provided for @feedbackStreakPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'I see you often feel happy. What helps you keep this mood?'**
+  String get feedbackStreakPositive;
+
+  /// No description provided for @feedbackStreakNegative.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve felt sad several times. Would you like to share what\'s on your mind or try something new?'**
+  String get feedbackStreakNegative;
+
+  /// No description provided for @feedbackStreakAngry.
+  ///
+  /// In en, this message translates to:
+  /// **'Anger is normal. Maybe a walk or a deep breath could help?'**
+  String get feedbackStreakAngry;
+
+  /// No description provided for @feedbackStreakAnxious.
+  ///
+  /// In en, this message translates to:
+  /// **'Anxiety appears often. Would you like to try a relaxation technique?'**
+  String get feedbackStreakAnxious;
+
+  /// No description provided for @feedbackRecentChange.
+  ///
+  /// In en, this message translates to:
+  /// **'I notice a change in your feelings. Would you like to share what happened?'**
+  String get feedbackRecentChange;
+
+  /// No description provided for @feedbackEveningSad.
+  ///
+  /// In en, this message translates to:
+  /// **'Evenings are hard for many. Maybe writing a few words or talking to someone could help?'**
+  String get feedbackEveningSad;
+
+  /// No description provided for @feedbackSunnyNeutral.
+  ///
+  /// In en, this message translates to:
+  /// **'The sun outside might bring a small change in mood. Want to go out for a bit?'**
+  String get feedbackSunnyNeutral;
+
+  /// No description provided for @feedbackPattern.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s a pattern in your feelings. Maybe it\'s time for a small change?'**
+  String get feedbackPattern;
+
+  /// No description provided for @feedbackHumanTouch.
+  ///
+  /// In en, this message translates to:
+  /// **'Whatever you feel, I\'m here for you. Every emotion matters.'**
+  String get feedbackHumanTouch;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

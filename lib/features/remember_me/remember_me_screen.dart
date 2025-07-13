@@ -10,6 +10,7 @@ import '../../modules/remember_me/reminder_model.dart';
 import '../../modules/remember_me/reminder_service.dart';
 import '../../modules/remember_me/reminder_utils.dart';
 import '../../core/logic/flow_feedback.dart';
+import '../../l10n/app_localizations.dart';
 
 class RememberMeScreen extends StatefulWidget {
   const RememberMeScreen({super.key});
@@ -22,6 +23,7 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
   List<ReminderModel> _reminders = [];
   final _service = ReminderService();
   String _reminderFeedback = '';
+  String _searchText = ''; // Add search state
 
   @override
   void initState() {
@@ -72,6 +74,7 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
     final file = File('${dir.path}/reminders_backup.json');
     final jsonStr = jsonEncode(_reminders.map((e) => e.toJson()).toList());
     await file.writeAsString(jsonStr);
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Reminders exported to: ${file.path}')),
     );
@@ -88,6 +91,7 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
         _reminders = data.map((e) => ReminderModel.fromJson(e)).toList();
       });
       await _saveReminders();
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Reminders imported!')),
       );
@@ -96,28 +100,37 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final today = DateTime.now();
     final upcoming = _reminders.where((e) =>
       e.date.month == today.month && e.date.day == today.day
     ).toList();
 
+    // Filter reminders by search text
+    final filteredReminders = _reminders.where((r) {
+      final query = _searchText.toLowerCase();
+      return r.name.toLowerCase().contains(query) ||
+             r.relation.toLowerCase().contains(query) ||
+             r.memory.toLowerCase().contains(query);
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Remember Me'),
+        title: Text(loc.menuRememberMe),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            tooltip: 'Add Reminder',
+            tooltip: loc.addReminder,
             onPressed: _addReminder,
           ),
           IconButton(
             icon: const Icon(Icons.download),
-            tooltip: 'Export Reminders',
+            tooltip: loc.exportHistoryCSV,
             onPressed: _exportReminders,
           ),
           IconButton(
             icon: const Icon(Icons.upload),
-            tooltip: 'Import Reminders',
+            tooltip: loc.importReminders ?? 'Import Reminders',
             onPressed: _importReminders,
           ),
         ],
@@ -141,42 +154,60 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
               ),
             ),
           if (upcoming.isNotEmpty)
-            ...upcoming.map((e) => _RememberMeReminderCard(entry: e)),
+            ...upcoming.map((e) => _RememberMeReminderCard(entry: e, parentMounted: mounted)),
           if (upcoming.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 32),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32),
               child: Text(
-                'No special dates today.\nAdd a loved one to remember.',
+                loc.noSpecialDatesToday,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, color: Colors.grey),
+                style: const TextStyle(fontSize: 18, color: Colors.grey),
               ),
             ),
           const Divider(height: 32),
-          const Text('All Reminders:', style: TextStyle(fontWeight: FontWeight.bold)),
-          ..._reminders.asMap().entries.map((entry) => ListTile(
-            leading: entry.value.isLoss
-                ? const Text('🙏', style: TextStyle(fontSize: 24))
-                : const Icon(Icons.cake),
-            title: Text('${entry.value.name} (${entry.value.relation})'),
-            subtitle: Text(
-              '${DateFormat('d MMM').format(entry.value.date)}'
-              '${entry.value.isLoss ? ' (In memory)' : ''}\n'
-              '${entry.value.memory}',
+          Text(loc.allReminders, style: const TextStyle(fontWeight: FontWeight.bold)),
+          // Add search bar
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: loc.searchReminders ?? 'Search reminders',
+                prefixIcon: const Icon(Icons.search),
+                border: const OutlineInputBorder(),
+              ),
+              onChanged: (val) => setState(() => _searchText = val),
             ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.blue),
-                  onPressed: () => _editReminder(entry.key),
-                  tooltip: 'Edit',
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  onPressed: () => _removeReminder(entry.key),
-                  tooltip: 'Delete',
-                ),
-              ],
+          ),
+          ...filteredReminders.asMap().entries.map((entry) => Semantics(
+            container: true,
+            label: entry.value.isLoss
+              ? '${loc.inMemory}: ${entry.value.name}, ${entry.value.relation}'
+              : '${loc.specialDay}: ${entry.value.name}, ${entry.value.relation}',
+            child: ListTile(
+              leading: entry.value.isLoss
+                  ? Text(loc.inMemoryEmoji, style: const TextStyle(fontSize: 24))
+                  : const Icon(Icons.cake, semanticLabel: 'Birthday or special day'),
+              title: Text('${entry.value.name} (${entry.value.relation})'),
+              subtitle: Text(
+                '${DateFormat('d MMM').format(entry.value.date)}'
+                '${entry.value.isLoss ? ' (${loc.inMemory})' : ''}\n'
+                '${entry.value.memory}',
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.blue, semanticLabel: 'Edit reminder'),
+                    onPressed: () => _editReminder(entry.key),
+                    tooltip: loc.edit ?? 'Edit',
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red, semanticLabel: 'Delete reminder'),
+                    onPressed: () => _removeReminder(entry.key),
+                    tooltip: loc.delete ?? 'Delete',
+                  ),
+                ],
+              ),
             ),
           )),
         ],
@@ -278,28 +309,73 @@ class _EditReminderDialogState extends State<_EditReminderDialog> {
 
 class _RememberMeReminderCard extends StatelessWidget {
   final ReminderModel entry;
-  const _RememberMeReminderCard({required this.entry});
+  final bool parentMounted;
+  const _RememberMeReminderCard({required this.entry, required this.parentMounted});
 
-  Future<void> _call(BuildContext context, String name) async {
-    final uri = Uri(scheme: 'tel');
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+  Future<void> _call(BuildContext context, String name, String? phone) async {
+    if (phone != null && phone.isNotEmpty) {
+      final uri = Uri(scheme: 'tel', path: phone);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No phone app found.')),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No phone app found.')),
+        SnackBar(content: Text('No phone number available for $name.')),
       );
     }
   }
 
-  Future<void> _sms(BuildContext context, String name) async {
-    final uri = Uri(scheme: 'sms');
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+  Future<void> _sms(BuildContext context, String name, String? phone) async {
+    if (phone != null && phone.isNotEmpty) {
+      final uri = Uri(scheme: 'sms', path: phone);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No SMS app found.')),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No SMS app found.')),
+        SnackBar(content: Text('No phone number available for $name.')),
       );
     }
+  }
+
+  void _writeTribute(BuildContext context, String name) {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Write a tribute to $name'),
+        content: TextField(
+          controller: controller,
+          minLines: 2,
+          maxLines: 5,
+          decoration: const InputDecoration(hintText: 'Type your message...'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              if (!parentMounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Tribute sent to $name!')),
+              );
+            },
+            child: const Text('Send'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _rememberSilently(BuildContext context) {
@@ -323,6 +399,8 @@ class _RememberMeReminderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tribute = buildHumanReminder(entry);
+    // Optionally, add a phone field to ReminderModel and pass it here
+    final phone = null; // Replace with entry.phone if available
     return Card(
       color: entry.isLoss ? Colors.orange[50] : Colors.lightBlue[50],
       margin: const EdgeInsets.only(bottom: 18),
@@ -351,13 +429,19 @@ class _RememberMeReminderCard extends StatelessWidget {
                     ElevatedButton.icon(
                       icon: const Icon(Icons.phone),
                       label: const Text('Call'),
-                      onPressed: () => _call(context, entry.name),
+                      onPressed: () => _call(context, entry.name, phone),
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton.icon(
                       icon: const Icon(Icons.edit_note),
                       label: const Text('Write'),
-                      onPressed: () => _sms(context, entry.name),
+                      onPressed: () => _writeTribute(context, entry.name),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.sms),
+                      label: const Text('SMS'),
+                      onPressed: () => _sms(context, entry.name, phone),
                     ),
                   ],
                 ElevatedButton.icon(

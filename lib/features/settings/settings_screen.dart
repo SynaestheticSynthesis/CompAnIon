@@ -7,6 +7,9 @@ class SettingsScreen extends StatelessWidget {
   final void Function(Locale) onLocaleChanged;
   final void Function()? onThemeChanged;
   final void Function(String)? onFontChanged;
+  final String gender;
+  final void Function(String)? onGenderChanged;
+  final String fontFamily; // <-- Add this
 
   const SettingsScreen({
     super.key,
@@ -14,6 +17,9 @@ class SettingsScreen extends StatelessWidget {
     required this.onLocaleChanged,
     this.onThemeChanged,
     this.onFontChanged,
+    this.gender = 'neutral',
+    this.onGenderChanged,
+    this.fontFamily = 'Nunito', // <-- Add this
   });
 
   @override
@@ -27,50 +33,77 @@ class SettingsScreen extends StatelessWidget {
         children: [
           ListTile(
             title: Text(loc.language ?? 'Language'),
-            trailing: DropdownButton<Locale>(
-              value: currentLocale,
-              items: const [
-                DropdownMenuItem(
-                  value: Locale('en'),
-                  child: Text('English'),
-                ),
-                DropdownMenuItem(
-                  value: Locale('el'),
-                  child: Text('Ελληνικά'),
-                ),
-              ],
-              onChanged: (locale) {
-                if (locale != null) onLocaleChanged(locale);
-              },
+            trailing: Semantics(
+              label: loc.language ?? 'Language selection',
+              child: DropdownButton<Locale>(
+                value: currentLocale,
+                items: [
+                  DropdownMenuItem(
+                    value: const Locale('en'),
+                    child: Text(loc.languageEnglish ?? 'English'),
+                  ),
+                  DropdownMenuItem(
+                    value: const Locale('el'),
+                    child: Text(loc.languageGreek ?? 'Ελληνικά'),
+                  ),
+                ],
+                onChanged: (locale) {
+                  if (locale != null) onLocaleChanged(locale);
+                },
+              ),
             ),
           ),
           // --- Theme selection ---
           ListTile(
-            title: const Text('Theme'),
-            trailing: DropdownButton<String>(
-              value: Theme.of(context).brightness == Brightness.dark ? 'dark' : 'light',
-              items: const [
-                DropdownMenuItem(value: 'light', child: Text('Light')),
-                DropdownMenuItem(value: 'dark', child: Text('Dark')),
-              ],
-              onChanged: (val) {
-                if (onThemeChanged != null) onThemeChanged!();
-              },
+            title: Text(loc.theme ?? 'Theme'),
+            trailing: Semantics(
+              label: loc.theme ?? 'Theme selection',
+              child: DropdownButton<String>(
+                value: Theme.of(context).brightness == Brightness.dark ? 'dark' : 'light',
+                items: [
+                  DropdownMenuItem(value: 'light', child: Text(loc.themeLight ?? 'Light')),
+                  DropdownMenuItem(value: 'dark', child: Text(loc.themeDark ?? 'Dark')),
+                ],
+                onChanged: (val) {
+                  if (onThemeChanged != null && val != null) onThemeChanged!();
+                },
+              ),
             ),
           ),
           // --- Font selection ---
           ListTile(
-            title: const Text('Font'),
-            trailing: DropdownButton<String>(
-              value: 'Nunito',
-              items: const [
-                DropdownMenuItem(value: 'Nunito', child: Text('Nunito')),
-                DropdownMenuItem(value: 'Roboto', child: Text('Roboto')),
-                DropdownMenuItem(value: 'OpenSans', child: Text('Open Sans')),
-              ],
-              onChanged: (val) {
-                if (onFontChanged != null && val != null) onFontChanged!(val);
-              },
+            title: Text(loc.font ?? 'Font'),
+            trailing: Semantics(
+              label: loc.font ?? 'Font selection',
+              child: DropdownButton<String>(
+                value: fontFamily,
+                items: [
+                  DropdownMenuItem(value: 'Nunito', child: Text(loc.fontNunito ?? 'Nunito')),
+                  DropdownMenuItem(value: 'Roboto', child: Text(loc.fontRoboto ?? 'Roboto')),
+                  DropdownMenuItem(value: 'OpenSans', child: Text(loc.fontOpenSans ?? 'Open Sans')),
+                ],
+                onChanged: (val) {
+                  if (onFontChanged != null && val != null) onFontChanged!(val);
+                },
+              ),
+            ),
+          ),
+          // --- Gender selection ---
+          ListTile(
+            title: Text(loc.gender ?? 'Gender'),
+            trailing: Semantics(
+              label: loc.gender ?? 'Gender selection',
+              child: DropdownButton<String>(
+                value: gender,
+                items: [
+                  DropdownMenuItem(value: 'neutral', child: Text(loc.genderNeutral ?? 'Neutral')),
+                  DropdownMenuItem(value: 'female', child: Text(loc.genderFemale ?? 'Female')),
+                  DropdownMenuItem(value: 'male', child: Text(loc.genderMale ?? 'Male')),
+                ],
+                onChanged: (val) {
+                  if (onGenderChanged != null && val != null) onGenderChanged!(val);
+                },
+              ),
             ),
           ),
           const Divider(),
@@ -89,17 +122,20 @@ class SettingsScreen extends StatelessWidget {
             future: CareMode.isEnabled(),
             builder: (context, snapshot) {
               final enabled = snapshot.data ?? false;
-              return SwitchListTile(
-                title: const Text('Care Mode'),
-                subtitle: const Text('Show daily love messages & warmer UI'),
-                value: enabled,
-                onChanged: (v) async {
-                  await CareMode.setEnabled(v);
-                  // ignore: use_build_context_synchronously
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(v ? 'Care Mode enabled' : 'Care Mode disabled')),
-                  );
-                },
+              return Semantics(
+                label: 'Care Mode toggle',
+                child: SwitchListTile(
+                  title: const Text('Care Mode'),
+                  subtitle: const Text('Show daily love messages & warmer UI'),
+                  value: enabled,
+                  onChanged: (v) async {
+                    await CareMode.setEnabled(v);
+                    // ignore: use_build_context_synchronously
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(v ? 'Care Mode enabled' : 'Care Mode disabled')),
+                    );
+                  },
+                ),
               );
             },
           ),
@@ -155,4 +191,11 @@ For the synthesis that continues.
       ],
     );
   }
+}
+
+// Helper to get current font family or default
+String fontFamilyOrDefault() {
+  // If you want to pass the current font from main.dart, add a prop for it
+  // For now, always return 'Nunito'
+  return 'Nunito';
 }

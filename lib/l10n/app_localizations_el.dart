@@ -146,4 +146,142 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get reflection => 'Στοχασμός';
+
+  @override
+  String get happy => 'Χαρούμενος';
+
+  @override
+  String get sad => 'Λυπημένος';
+
+  @override
+  String get angry => 'Θυμωμένος';
+
+  @override
+  String get anxious => 'Αγχωμένος';
+
+  @override
+  String get neutral => 'Ουδέτερος';
+
+  @override
+  String get excited => 'Ενθουσιασμένος';
+
+  @override
+  String get disappointed => 'Απογοητευμένος';
+
+  @override
+  String get contextPrompt => 'Πώς νιώθεις αυτή τη στιγμή;';
+
+  @override
+  String get contextPromptMorning => 'Καλημέρα! Πώς νιώθεις ξεκινώντας τη μέρα;';
+
+  @override
+  String get contextPromptEvening => 'Τα βράδια είναι για στοχασμό. Πώς νιώθεις απόψε;';
+
+  @override
+  String get atWork => 'Στη δουλειά';
+
+  @override
+  String get atHome => 'Στο σπίτι';
+
+  @override
+  String get weatherRainy => 'Βρέχει έξω. Σε επηρεάζει ο καιρός;';
+
+  @override
+  String get greetingMorning => '🌅 Καλημέρα, φίλε!';
+
+  @override
+  String get greetingAfternoon => '🌞 Καλό απόγευμα, φίλε!';
+
+  @override
+  String get greetingEvening => '🌙 Καλό βράδυ, φίλε!';
+
+  @override
+  String get greetingNight => '🌌 Η νύχτα ήρθε. Πώς είσαι;';
+
+  @override
+  String get greetingDefault => 'Γεια σου, φίλε!';
+
+  @override
+  String get selectEmotion => 'Επιλογή συναισθήματος';
+
+  @override
+  String get searchReminders => 'Αναζήτηση υπενθυμίσεων';
+
+  @override
+  String get edit => 'Επεξεργασία';
+
+  @override
+  String get delete => 'Διαγραφή';
+
+  @override
+  String get inMemoryEmoji => '🙏';
+
+  @override
+  String get font => 'Γραμματοσειρά';
+
+  @override
+  String get fontNunito => 'Nunito';
+
+  @override
+  String get fontRoboto => 'Roboto';
+
+  @override
+  String get fontOpenSans => 'Open Sans';
+
+  @override
+  String get theme => 'Θέμα';
+
+  @override
+  String get gender => 'Φύλο';
+
+  @override
+  String get genderNeutral => 'Ουδέτερο';
+
+  @override
+  String get genderFemale => 'Θηλυκό';
+
+  @override
+  String get genderMale => 'Αρσενικό';
+
+  @override
+  String get languageEnglish => 'Αγγλικά';
+
+  @override
+  String get languageGreek => 'Ελληνικά';
+
+  @override
+  String get importReminders => 'Εισαγωγή υπενθυμίσεων';
+
+  @override
+  String get feedbackMorning => 'Η αρχή της μέρας είναι ευκαιρία για νέα ενέργεια.';
+
+  @override
+  String get feedbackRainy => 'Η βροχή φέρνει ανανέωση. Πώς νιώθεις με τον καιρό σήμερα;';
+
+  @override
+  String get feedbackStreakPositive => 'Βλέπω ότι νιώθεις συχνά χαρούμενος/η. Τι σε βοηθά να διατηρείς αυτή τη διάθεση;';
+
+  @override
+  String get feedbackStreakNegative => 'Έχεις νιώσει λυπημένος/η αρκετές φορές. Θέλεις να μοιραστείς τι σε απασχολεί ή να δοκιμάσεις κάτι νέο;';
+
+  @override
+  String get feedbackStreakAngry => 'Ο θυμός είναι φυσιολογικός. Μήπως μια μικρή βόλτα ή βαθιά ανάσα βοηθήσει;';
+
+  @override
+  String get feedbackStreakAnxious => 'Το άγχος εμφανίζεται συχνά. Θέλεις να δοκιμάσεις μια τεχνική χαλάρωσης;';
+
+  @override
+  String get feedbackRecentChange => 'Παρατηρώ μια αλλαγή στα συναισθήματά σου. Θέλεις να μοιραστείς τι συνέβη;';
+
+  @override
+  String get feedbackEveningSad => 'Τα βράδια είναι δύσκολα για πολλούς. Μήπως βοηθά να γράψεις λίγα λόγια ή να μιλήσεις σε κάποιον;';
+
+  @override
+  String get feedbackSunnyNeutral => 'Ο ήλιος έξω μπορεί να φέρει μια μικρή αλλαγή στη διάθεση. Θέλεις να βγεις για λίγο;';
+
+  @override
+  String get feedbackPattern => 'Παρατηρείται μοτίβο στα συναισθήματά σου. Μήπως ήρθε η ώρα για μια μικρή αλλαγή;';
+
+  @override
+  String get feedbackHumanTouch => 'Ό,τι κι αν νιώθεις, είμαι εδώ για σένα. Κάθε συναίσθημα είναι σημαντικό.';
 }

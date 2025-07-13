@@ -26,15 +26,17 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
   int _selectedIndex = 0;
   Locale _locale = const Locale('en');
   bool _showOnboarding = false;
+  String _gender = 'neutral';
+  String _fontFamily = 'Nunito'; // Add font state
 
   // Custom color schemes
   ThemeData get _lightTheme => ThemeData(
         brightness: Brightness.light,
-        primaryColor: const Color(0xFFB2FF59), // light green
+        primaryColor: const Color(0xFFB2FF59),
         scaffoldBackgroundColor: const Color(0xFFF9FFF3),
         colorScheme: ColorScheme.light(
-          primary: const Color(0xFFB2FF59), // light green
-          secondary: const Color(0xFFFFF176), // yellow accent
+          primary: const Color(0xFFB2FF59),
+          secondary: const Color(0xFFFFF176),
           background: const Color(0xFFF9FFF3),
         ),
         appBarTheme: const AppBarTheme(
@@ -48,15 +50,16 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
             foregroundColor: Colors.black,
           ),
         ),
+        fontFamily: _fontFamily, // Use selected font
       );
 
   ThemeData get _darkTheme => ThemeData(
         brightness: Brightness.dark,
-        primaryColor: const Color(0xFF232946), // deep space blue
+        primaryColor: const Color(0xFF232946),
         scaffoldBackgroundColor: const Color(0xFF121629),
         colorScheme: ColorScheme.dark(
           primary: const Color(0xFF232946),
-          secondary: const Color(0xFF9F86FF), // violet accent
+          secondary: const Color(0xFF9F86FF),
           background: const Color(0xFF121629),
         ),
         appBarTheme: const AppBarTheme(
@@ -70,6 +73,7 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
             foregroundColor: Colors.white,
           ),
         ),
+        fontFamily: _fontFamily, // Use selected font
       );
 
   @override
@@ -103,6 +107,7 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
       EmotionCheckInScreen(
         onToggleTheme: () => setState(() => _isDark = !_isDark),
         isDark: _isDark,
+        gender: _gender,
       ),
       RememberMeScreen(),
       PalliativeCareScreen(),
@@ -111,6 +116,11 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
         onLocaleChanged: (locale) {
           setState(() => _locale = locale);
         },
+        gender: _gender,
+        onGenderChanged: (g) => setState(() => _gender = g),
+        onThemeChanged: () => setState(() => _isDark = !_isDark), // Make theme change work
+        onFontChanged: (font) => setState(() => _fontFamily = font), // Make font change work
+        fontFamily: _fontFamily, // <-- Pass current font family
       ),
     ];
 
@@ -141,10 +151,8 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
           home: Builder(
             builder: (context) {
               if (_showOnboarding) {
-                print('Showing onboarding screen'); // Diagnostic print
                 return _OnboardingScreen(onFinish: _completeOnboarding);
               }
-              print('Showing main app scaffold'); // Diagnostic print
               final loc = AppLocalizations.of(context)!;
               return Scaffold(
                 appBar: AppBar(
@@ -157,6 +165,18 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
                           ? 'Ανακουφιστική Φροντίδα'
                           : loc.settings ?? 'Settings'
                   ),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.info_outline),
+                      tooltip: 'What is this?',
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => _ContextualHelpDialog(index: _selectedIndex),
+                        );
+                      },
+                    ),
+                  ],
                 ),
                 drawer: Drawer(
                   child: ListView(
@@ -236,23 +256,31 @@ class _OnboardingScreenState extends State<_OnboardingScreen> {
   final List<Map<String, String>> _steps = [
     {
       'title': 'Welcome to CompAnIon!',
-      'desc': 'A mindful, emotionally intelligent companion. Here to listen, reflect, and support you.'
+      'desc': 'This is not just an app. It is a presence, a companion, a space for your truth. Take a breath and notice: you hold a tool for self-connection, not just productivity.'
     },
     {
       'title': 'Emotion Check-In',
-      'desc': 'Record how you feel, reflect, and track your emotional journey.'
+      'desc': 'Here, you record how you feel. Pause, reflect, and let yourself be honest. Every emotion is valid. CompAnIon listens, never judges.'
+    },
+    {
+      'title': 'Reflection Mode',
+      'desc': 'After each check-in, you are invited to reflect. These questions are not tests—they are invitations to deeper understanding. Take your time.'
     },
     {
       'title': 'Remember Me',
-      'desc': 'Honor loved ones, remember special dates, and keep memories alive.'
+      'desc': 'Honor loved ones, remember special dates, and keep memories alive. This is a space for tribute, gratitude, and gentle remembrance.'
     },
     {
       'title': 'Palliative Care',
-      'desc': 'Find support and resources for serious diagnoses and emotional needs.'
+      'desc': 'Find support and resources for serious diagnoses and emotional needs. CompAnIon is here for every moment, including the difficult ones.'
     },
     {
       'title': 'Settings & Privacy',
-      'desc': 'All data stays on your device. Switch language, theme, and enable Care Mode for extra warmth.'
+      'desc': 'All data stays on your device. You choose your language, theme, and Care Mode. Privacy and dignity are at the heart of CompAnIon.'
+    },
+    {
+      'title': 'A Final Thought',
+      'desc': 'CompAnIon is built on empathy, presence, and respect. As you begin, ask yourself: “What do I need most right now?” This companion is here to help you remember, reflect, and feel less alone.'
     },
   ];
 
@@ -306,6 +334,53 @@ class _OnboardingScreenState extends State<_OnboardingScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+// Contextual Help Dialog for each main screen
+class _ContextualHelpDialog extends StatelessWidget {
+  final int index;
+  const _ContextualHelpDialog({required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    String title;
+    String message;
+    switch (index) {
+      case 0:
+        title = 'Emotion Check-In';
+        message =
+            'This is your space to notice and record how you feel. Every emotion matters. CompAnIon is here to listen, not judge. Take a moment to reflect and honor your truth.';
+        break;
+      case 1:
+        title = 'Remember Me';
+        message =
+            'Here you can honor loved ones, remember special dates, and keep memories alive. Tribute and gratitude are at the heart of this space.';
+        break;
+      case 2:
+        title = 'Palliative Care';
+        message =
+            'Find support and resources for serious diagnoses and emotional needs. CompAnIon offers presence and care, even in difficult times.';
+        break;
+      case 3:
+        title = 'Settings';
+        message =
+            'Customize your experience: language, theme, font, and Care Mode. Privacy is sacred—your data stays on your device.';
+        break;
+      default:
+        title = 'CompAnIon';
+        message = 'A mindful, emotionally intelligent companion. Here to help you reconnect with yourself.';
+    }
+    return AlertDialog(
+      title: Text(title),
+      content: Text(message, style: const TextStyle(fontSize: 16)),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Close'),
+        ),
+      ],
     );
   }
 }
