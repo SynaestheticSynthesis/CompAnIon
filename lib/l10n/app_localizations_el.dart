@@ -18,6 +18,9 @@ class AppLocalizationsEl extends AppLocalizations {
   String get menuRememberMe => 'Remember Me';
 
   @override
+  String get menuPalliativeCare => 'Ανακουφιστική Φροντίδα';
+
+  @override
   String get welcomeMessageEmpty => 'Καλώς ήρθες! Πώς νιώθεις αυτή τη στιγμή;';
 
   @override
@@ -284,4 +287,67 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get feedbackHumanTouch => 'Ό,τι κι αν νιώθεις, είμαι εδώ για σένα. Κάθε συναίσθημα είναι σημαντικό.';
+
+  @override
+  String get infoTooltip => 'Τι είναι αυτό;';
+
+  @override
+  String get onboardingWelcomeTitle => 'Καλώς ήρθες στο CompAnIon!';
+
+  @override
+  String get onboardingWelcomeDesc => 'Αυτή δεν είναι απλώς μια εφαρμογή. Είναι μια παρουσία, ένας σύντροφος, ένας χώρος για την αλήθεια σου. Πάρε μια ανάσα και παρατήρησε: κρατάς ένα εργαλείο για σύνδεση με τον εαυτό σου, όχι απλώς για παραγωγικότητα.';
+
+  @override
+  String get onboardingEmotionTitle => 'Καταγραφή Συναισθήματος';
+
+  @override
+  String get onboardingEmotionDesc => 'Εδώ καταγράφεις πώς νιώθεις. Σταμάτα, σκέψου, και άφησε τον εαυτό σου να είναι ειλικρινής. Κάθε συναίσθημα είναι έγκυρο. Το CompAnIon ακούει, δεν κρίνει.';
+
+  @override
+  String get onboardingReflectionTitle => 'Λειτουργία Στοχασμού';
+
+  @override
+  String get onboardingReflectionDesc => 'Μετά από κάθε καταγραφή, προσκαλείσαι να στοχαστείς. Οι ερωτήσεις δεν είναι τεστ — είναι προσκλήσεις για βαθύτερη κατανόηση. Πάρε τον χρόνο σου.';
+
+  @override
+  String get onboardingRememberTitle => 'Remember Me';
+
+  @override
+  String get onboardingRememberDesc => 'Τίμησε αγαπημένους, θυμήσου ιδιαίτερες ημερομηνίες, κράτησε ζωντανές τις μνήμες. Αυτός είναι χώρος για φόρο τιμής, ευγνωμοσύνη και ήπια ανάμνηση.';
+
+  @override
+  String get onboardingPalliativeTitle => 'Ανακουφιστική Φροντίδα';
+
+  @override
+  String get onboardingPalliativeDesc => 'Βρες υποστήριξη και πόρους για σοβαρές διαγνώσεις και συναισθηματικές ανάγκες. Το CompAnIon είναι εδώ για κάθε στιγμή, ακόμα και τις δύσκολες.';
+
+  @override
+  String get onboardingSettingsTitle => 'Ρυθμίσεις & Απόρρητο';
+
+  @override
+  String get onboardingSettingsDesc => 'Όλα τα δεδομένα μένουν στη συσκευή σου. Εσύ επιλέγεις γλώσσα, θέμα και Care Mode. Το απόρρητο και η αξιοπρέπεια είναι στην καρδιά του CompAnIon.';
+
+  @override
+  String get onboardingFinalTitle => 'Τελική Σκέψη';
+
+  @override
+  String get onboardingFinalDesc => 'Το CompAnIon χτίστηκε με ενσυναίσθηση, παρουσία και σεβασμό. Καθώς ξεκινάς, ρώτα τον εαυτό σου: «Τι χρειάζομαι περισσότερο αυτή τη στιγμή;» Αυτός ο σύντροφος είναι εδώ για να σε βοηθήσει να θυμηθείς, να στοχαστείς και να νιώσεις λιγότερο μόνος.';
+
+  @override
+  String get start => 'Έναρξη';
+
+  @override
+  String get helpEmotionCheckIn => 'Αυτός είναι ο χώρος σου για να παρατηρήσεις και να καταγράψεις πώς νιώθεις. Κάθε συναίσθημα μετράει. Το CompAnIon είναι εδώ για να ακούσει, όχι να κρίνει. Πάρε μια στιγμή να στοχαστείς και να τιμήσεις την αλήθεια σου.';
+
+  @override
+  String get helpRememberMe => 'Εδώ μπορείς να τιμήσεις αγαπημένους, να θυμηθείς ιδιαίτερες ημερομηνίες και να κρατήσεις ζωντανές τις μνήμες. Η φόρος τιμής και η ευγνωμοσύνη είναι στην καρδιά αυτού του χώρου.';
+
+  @override
+  String get helpPalliativeCare => 'Βρες υποστήριξη και πόρους για σοβαρές διαγνώσεις και συναισθηματικές ανάγκες. Το CompAnIon προσφέρει παρουσία και φροντίδα, ακόμα και στις δύσκολες στιγμές.';
+
+  @override
+  String get helpSettings => 'Εξατομίκευσε την εμπειρία σου: γλώσσα, θέμα, γραμματοσειρά και Care Mode. Το απόρρητο είναι ιερό — τα δεδομένα σου μένουν στη συσκευή σου.';
+
+  @override
+  String get helpDefault => 'Ένας mindful, συναισθηματικά ευφυής σύντροφος. Εδώ για να σε βοηθήσει να επανασυνδεθείς με τον εαυτό σου.';
 }

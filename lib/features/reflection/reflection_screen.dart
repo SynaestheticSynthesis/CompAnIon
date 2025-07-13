@@ -224,10 +224,10 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Αφαιρέστε το διπλό title/heading εδώ (μην εμφανίζετε ξανά το loc.reflection)
-            // Αν θέλετε να κρατήσετε πληροφορίες για το συναίσθημα/σχόλιο, κρατήστε μόνο αυτές:
-            Text('${loc.emotion ?? "Emotion"}: ${widget.emotion}', style: const TextStyle(fontSize: 18)),
-            Text('${loc.comment ?? "Comment"}: ${widget.comment}', style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic)),
+            // Remove duplicate screen name from body (do not show loc.reflection in body)
+            // Keep only emotion/comment info if needed
+            Text('${loc.emotion}: ${widget.emotion}', style: const TextStyle(fontSize: 18)),
+            Text('${loc.comment}: ${widget.comment}', style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic)),
             const SizedBox(height: 16),
             // Animated progress bar
             TweenAnimationBuilder<double>(

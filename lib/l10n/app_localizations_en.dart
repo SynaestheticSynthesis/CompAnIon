@@ -18,6 +18,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get menuRememberMe => 'Remember Me';
 
   @override
+  String get menuPalliativeCare => 'Palliative Care';
+
+  @override
   String get welcomeMessageEmpty => 'Welcome! How are you feeling right now?';
 
   @override
@@ -284,4 +287,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedbackHumanTouch => 'Whatever you feel, I\'m here for you. Every emotion matters.';
+
+  @override
+  String get infoTooltip => 'What is this?';
+
+  @override
+  String get onboardingWelcomeTitle => 'Welcome to CompAnIon!';
+
+  @override
+  String get onboardingWelcomeDesc => 'This is not just an app. It is a presence, a companion, a space for your truth. Take a breath and notice: you hold a tool for self-connection, not just productivity.';
+
+  @override
+  String get onboardingEmotionTitle => 'Emotion Check-In';
+
+  @override
+  String get onboardingEmotionDesc => 'Here, you record how you feel. Pause, reflect, and let yourself be honest. Every emotion is valid. CompAnIon listens, never judges.';
+
+  @override
+  String get onboardingReflectionTitle => 'Reflection Mode';
+
+  @override
+  String get onboardingReflectionDesc => 'After each check-in, you are invited to reflect. These questions are not tests—they are invitations to deeper understanding. Take your time.';
+
+  @override
+  String get onboardingRememberTitle => 'Remember Me';
+
+  @override
+  String get onboardingRememberDesc => 'Honor loved ones, remember special dates, and keep memories alive. This is a space for tribute, gratitude, and gentle remembrance.';
+
+  @override
+  String get onboardingPalliativeTitle => 'Palliative Care';
+
+  @override
+  String get onboardingPalliativeDesc => 'Find support and resources for serious diagnoses and emotional needs. CompAnIon is here for every moment, including the difficult ones.';
+
+  @override
+  String get onboardingSettingsTitle => 'Settings & Privacy';
+
+  @override
+  String get onboardingSettingsDesc => 'All data stays on your device. You choose your language, theme, and Care Mode. Privacy and dignity are at the heart of CompAnIon.';
+
+  @override
+  String get onboardingFinalTitle => 'A Final Thought';
+
+  @override
+  String get onboardingFinalDesc => 'CompAnIon is built on empathy, presence, and respect. As you begin, ask yourself: “What do I need most right now?” This companion is here to help you remember, reflect, and feel less alone.';
+
+  @override
+  String get start => 'Start';
+
+  @override
+  String get helpEmotionCheckIn => 'This is your space to notice and record how you feel. Every emotion matters. CompAnIon is here to listen, not judge. Take a moment to reflect and honor your truth.';
+
+  @override
+  String get helpRememberMe => 'Here you can honor loved ones, remember special dates, and keep memories alive. Tribute and gratitude are at the heart of this space.';
+
+  @override
+  String get helpPalliativeCare => 'Find support and resources for serious diagnoses and emotional needs. CompAnIon offers presence and care, even in difficult times.';
+
+  @override
+  String get helpSettings => 'Customize your experience: language, theme, font, and Care Mode. Privacy is sacred—your data stays on your device.';
+
+  @override
+  String get helpDefault => 'A mindful, emotionally intelligent companion. Here to help you reconnect with yourself.';
 }

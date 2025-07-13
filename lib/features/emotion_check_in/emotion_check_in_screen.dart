@@ -4,9 +4,6 @@ import '../reflection/reflection_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:share_plus/share_plus.dart';
-import 'package:intl/intl.dart';
-import '../../core/logic/context_signals.dart';
-import '../../core/emotion_hierarchy.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +12,8 @@ import '../../core/logic/cpl_engine.dart';
 import '../../core/logic/flow_feedback.dart';
 import '../../core/logic/action_reaction_module.dart';
 import '../../core/ui/action_reaction_law_card.dart';
+import '../../core/logic/context_signals.dart'; // <-- Add this import
+import '../../core/emotion_hierarchy.dart'; // <-- Add this import
 
 /// EmotionCheckInScreen
 /// A simple screen where the user can select and record their current emotion.
@@ -22,7 +21,7 @@ class EmotionCheckInScreen extends StatefulWidget {
   final VoidCallback? onToggleTheme;
   final bool? isDark;
   final String gender; // Add gender field
-  const EmotionCheckInScreen({Key? key, this.onToggleTheme, this.isDark, this.gender = 'neutral'}) : super(key: key);
+  const EmotionCheckInScreen({super.key, this.onToggleTheme, this.isDark, this.gender = 'neutral'});
 
   @override
   State<EmotionCheckInScreen> createState() => _EmotionCheckInScreenState();
@@ -43,8 +42,6 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
 
   // Context signals
   String _timeOfDay = '';
-  String _location = '';
-  String _weather = '';
 
   AnimationController? _emojiAnimController;
 
@@ -88,8 +85,6 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
 
   void _detectContextSignals() {
     _timeOfDay = ContextSignals.getTimeOfDay();
-    _location = ContextSignals.getLocation();
-    _weather = ContextSignals.getWeather();
     setState(() {});
   }
 
@@ -242,6 +237,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
       final file = File('${dir.path}/$filename');
       await file.writeAsString(csv.toString());
       if (share) {
+        // Fix: Use Share.shareXFiles (from share_plus) with positional argument
         await Share.shareXFiles([XFile(file.path)], text: 'Reflection History Export');
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -309,26 +305,6 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
     return 'Συνέχισε να καταγράφεις τα συναισθήματά σου!';
   }
 
-  // Context-aware prompt
-  String get _contextPrompt {
-    final loc = AppLocalizations.of(context)!;
-    String prompt = loc.contextPrompt ?? "How are you feeling right now?";
-    if (_timeOfDay == 'morning') {
-      prompt = loc.contextPromptMorning ?? "Good morning! How do you feel as you start your day?";
-    } else if (_timeOfDay == 'evening') {
-      prompt = loc.contextPromptEvening ?? "Evenings are for reflection. How are you feeling tonight?";
-    }
-    if (_location == 'work') {
-      prompt += "\n(${loc.atWork ?? "At work"})";
-    } else if (_location == 'home') {
-      prompt += "\n(${loc.atHome ?? "At home"})";
-    }
-    if (_weather == 'rainy') {
-      prompt += "\n${loc.weatherRainy ?? "It's rainy outside. Does the weather affect your mood?"}";
-    }
-    return prompt;
-  }
-
   // Use emotion history to adapt feedback
   String get _personalizedFeedback {
     final cat = _dominantEmotionCategory;
@@ -351,7 +327,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
   String? get _dominantEmotionCategory {
     final dom = _dominantEmotion;
     if (dom == null) return null;
-    return classifyEmotion(dom);
+    return classifyEmotion(dom); // <-- Now defined
   }
 
   // Προσωποποιημένο μήνυμα καλωσορίσματος
@@ -391,174 +367,161 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
     }
   }
 
-  // Localized emotions list
-  late final List<String> _emotions;
+  // Use a getter for emotions so it's always available and localized
+  List<String> get _emotions {
+    final loc = AppLocalizations.of(context)!;
+    return [
+      '😊 ${loc.happy}',
+      '😢 ${loc.sad}',
+      '😡 ${loc.angry}',
+      '😱 ${loc.anxious}',
+      '😐 ${loc.neutral}',
+      '🥳 ${loc.excited}',
+      '😔 ${loc.disappointed}',
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final loc = AppLocalizations.of(context)!;
 
-    _emotions = [
-      '😊 ${loc.happy ?? "Happy"}',
-      '😢 ${loc.sad ?? "Sad"}',
-      '😡 ${loc.angry ?? "Angry"}',
-      '😱 ${loc.anxious ?? "Anxious"}',
-      '😐 ${loc.neutral ?? "Neutral"}',
-      '🥳 ${loc.excited ?? "Excited"}',
-      '😔 ${loc.disappointed ?? "Disappointed"}',
-    ];
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(loc.menuEmotionCheckIn),
-        actions: [
-          if (widget.onToggleTheme != null && widget.isDark != null)
-            IconButton(
-              icon: Icon(widget.isDark! ? Icons.dark_mode : Icons.light_mode),
-              tooltip: widget.isDark! ? 'Switch to Light Theme' : 'Switch to Dark Theme',
-              onPressed: widget.onToggleTheme,
-            ),
-        ],
-        elevation: 0,
-        backgroundColor: theme.colorScheme.primary,
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 24.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (_careMode && _loveMessage != null) ...[
-              Card(
-                color: Colors.pink[50],
-                margin: EdgeInsets.only(bottom: 18.h),
-                child: Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.favorite, color: Colors.pink),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: Text(
-                          _loveMessage!,
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            color: Colors.pink[900],
-                            fontWeight: FontWeight.w600,
-                          ),
+    // Remove Scaffold and AppBar, return only the body
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 24.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (_careMode && _loveMessage != null) ...[
+            Card(
+              color: Colors.pink[50],
+              margin: EdgeInsets.only(bottom: 18.h),
+              child: Padding(
+                padding: EdgeInsets.all(16.w),
+                child: Row(
+                  children: [
+                    const Icon(Icons.favorite, color: Colors.pink),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: Text(
+                        _loveMessage!,
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          color: Colors.pink[900],
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-            // Animated greeting
-            TweenAnimationBuilder<double>(
-              tween: Tween(begin: 0, end: 1),
-              duration: const Duration(milliseconds: 900),
-              curve: Curves.easeInOut,
-              builder: (context, value, child) => Opacity(
-                opacity: value,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 8 * value),
-                  child: Text(
-                    _animatedGreeting,
-                    style: GoogleFonts.nunito(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: theme.colorScheme.primary,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
+                  ],
                 ),
               ),
             ),
-            // Welcome message (keep, as it's not a duplicate title)
-            Text(
-              _welcomeMessage,
-              style: GoogleFonts.nunito(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.secondary,
+          ],
+          // Animated greeting
+          TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0, end: 1),
+            duration: const Duration(milliseconds: 900),
+            curve: Curves.easeInOut,
+            builder: (context, value, child) => Opacity(
+              opacity: value,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 8 * value),
+                child: Text(
+                  _animatedGreeting,
+                  style: GoogleFonts.nunito(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    color: theme.colorScheme.primary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 18.h),
-            // Emotion selection
-            Wrap(
-              spacing: 12.w,
-              runSpacing: 12.h,
-              children: _emotions.map((emotion) {
-                final isSelected = _selectedEmotion == emotion;
-                return Semantics(
-                  button: true,
-                  label: '${loc.selectEmotion ?? "Select emotion"}: ${emotion.substring(emotion.indexOf(' ') + 1)}',
-                  selected: isSelected,
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedEmotion = isSelected ? null : emotion;
-                      });
-                      if (isSelected) {
-                        _emojiAnimController?.reverse();
-                      } else {
-                        _emojiAnimController?.forward();
-                      }
-                    },
-                    child: ScaleTransition(
-                      scale: Tween(begin: 0.9, end: 1.15).animate(
-                        CurvedAnimation(
-                          parent: _emojiAnimController!,
-                          curve: Curves.easeInOut,
-                        ),
+          ),
+          // Welcome message (keep, as it's not a duplicate title)
+          Text(
+            _welcomeMessage,
+            style: GoogleFonts.nunito(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+              color: theme.colorScheme.secondary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 18.h),
+          // Emotion selection
+          Wrap(
+            spacing: 12.w,
+            runSpacing: 12.h,
+            children: _emotions.map((emotion) {
+              final isSelected = _selectedEmotion == emotion;
+              return Semantics(
+                button: true,
+                label: '${loc.selectEmotion}: ${emotion.substring(emotion.indexOf(' ') + 1)}',
+                selected: isSelected,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedEmotion = isSelected ? null : emotion;
+                    });
+                    if (isSelected) {
+                      _emojiAnimController?.reverse();
+                    } else {
+                      _emojiAnimController?.forward();
+                    }
+                  },
+                  child: ScaleTransition(
+                    scale: Tween(begin: 0.9, end: 1.15).animate(
+                      CurvedAnimation(
+                        parent: _emojiAnimController!,
+                        curve: Curves.easeInOut,
                       ),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-                        decoration: BoxDecoration(
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? theme.colorScheme.secondary.withAlpha((0.1 * 255).toInt())
+                            : theme.cardColor,
+                        borderRadius: BorderRadius.circular(22.r),
+                        border: Border.all(
                           color: isSelected
-                              ? theme.colorScheme.secondary.withOpacity(0.1)
-                              : theme.cardColor,
-                          borderRadius: BorderRadius.circular(22.r),
-                          border: Border.all(
-                            color: isSelected
-                                ? theme.colorScheme.secondary
-                                : Colors.grey.withOpacity(0.2),
-                            width: isSelected ? 2.2.w : 1.0.w,
+                              ? theme.colorScheme.secondary
+                              : Colors.grey.withAlpha((0.2 * 255).toInt()),
+                          width: isSelected ? 2.2.w : 1.0.w,
+                        ),
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: theme.colorScheme.secondary.withAlpha((0.18 * 255).toInt()),
+                                  blurRadius: 12.r,
+                                  offset: Offset(0, 4.h),
+                                )
+                              ]
+                            : [],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Semantics(
+                            label: 'Emoji for ${emotion.split(' ').last}',
+                            child: Text(
+                              emotion.split(' ').first,
+                              style: const TextStyle(fontSize: 18),
+                            ),
                           ),
-                          boxShadow: isSelected
-                              ? [
-                                  BoxShadow(
-                                    color: theme.colorScheme.secondary.withOpacity(0.18),
-                                    blurRadius: 12.r,
-                                    offset: Offset(0, 4.h),
-                                  )
-                                ]
-                              : [],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Semantics(
-                              label: 'Emoji for ${emotion.split(' ').last}',
-                              child: Text(
-                                emotion.split(' ').first,
-                                style: TextStyle(fontSize: 32.sp),
-                              ),
+                          SizedBox(width: 8.w),
+                          Text(
+                            emotion.substring(emotion.indexOf(' ') + 1),
+                            style: GoogleFonts.nunito(
+                              fontSize: 18.sp,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                              color: isSelected
+                                  ? theme.colorScheme.secondary
+                                  : theme.textTheme.bodyLarge?.color,
                             ),
-                            SizedBox(width: 8.w),
-                            Text(
-                              emotion.substring(emotion.indexOf(' ') + 1),
-                              style: GoogleFonts.nunito(
-                                fontSize: 18.sp,
-                                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                                color: isSelected
-                                    ? theme.colorScheme.secondary
-                                    : theme.textTheme.bodyLarge?.color,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -647,7 +610,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(formatted ?? ''),
+                          Text(formatted),
                           if (comment.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(top: 4.0),
@@ -670,7 +633,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
               ),
               // Στατιστικά συναισθημάτων
               const SizedBox(height: 16),
-              Text(loc.stats ?? 'Stats:', style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(loc.stats, style: const TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 80,
                 child: Row(
@@ -688,7 +651,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                             width: 18,
                             margin: const EdgeInsets.symmetric(vertical: 2),
                             decoration: BoxDecoration(
-                              color: Colors.blueAccent.withOpacity(0.7),
+                              color: Colors.blueAccent.withAlpha((0.7 * 255).toInt()),
                               borderRadius: BorderRadius.circular(6),
                             ),
                           ),
@@ -807,8 +770,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                   ),
                 ),
               ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -983,6 +945,7 @@ class _CSVPreviewDialogState extends State<_CSVPreviewDialog> {
       final file = File('${dir.path}/$filename');
       await file.writeAsString(csv.toString());
       if (share) {
+        // Fix: Use Share.shareXFiles (from share_plus) with positional argument
         await Share.shareXFiles([XFile(file.path)], text: 'Reflection History Export');
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

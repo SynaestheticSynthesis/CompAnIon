@@ -113,6 +113,12 @@ abstract class AppLocalizations {
   /// **'Remember Me'**
   String get menuRememberMe;
 
+  /// No description provided for @menuPalliativeCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Palliative Care'**
+  String get menuPalliativeCare;
+
   /// No description provided for @welcomeMessageEmpty.
   ///
   /// In en, this message translates to:
@@ -640,6 +646,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Whatever you feel, I\'m here for you. Every emotion matters.'**
   String get feedbackHumanTouch;
+
+  /// No description provided for @infoTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'What is this?'**
+  String get infoTooltip;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to CompAnIon!'**
+  String get onboardingWelcomeTitle;
+
+  /// No description provided for @onboardingWelcomeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not just an app. It is a presence, a companion, a space for your truth. Take a breath and notice: you hold a tool for self-connection, not just productivity.'**
+  String get onboardingWelcomeDesc;
+
+  /// No description provided for @onboardingEmotionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Emotion Check-In'**
+  String get onboardingEmotionTitle;
+
+  /// No description provided for @onboardingEmotionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Here, you record how you feel. Pause, reflect, and let yourself be honest. Every emotion is valid. CompAnIon listens, never judges.'**
+  String get onboardingEmotionDesc;
+
+  /// No description provided for @onboardingReflectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reflection Mode'**
+  String get onboardingReflectionTitle;
+
+  /// No description provided for @onboardingReflectionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'After each check-in, you are invited to reflect. These questions are not tests—they are invitations to deeper understanding. Take your time.'**
+  String get onboardingReflectionDesc;
+
+  /// No description provided for @onboardingRememberTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember Me'**
+  String get onboardingRememberTitle;
+
+  /// No description provided for @onboardingRememberDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Honor loved ones, remember special dates, and keep memories alive. This is a space for tribute, gratitude, and gentle remembrance.'**
+  String get onboardingRememberDesc;
+
+  /// No description provided for @onboardingPalliativeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Palliative Care'**
+  String get onboardingPalliativeTitle;
+
+  /// No description provided for @onboardingPalliativeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Find support and resources for serious diagnoses and emotional needs. CompAnIon is here for every moment, including the difficult ones.'**
+  String get onboardingPalliativeDesc;
+
+  /// No description provided for @onboardingSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings & Privacy'**
+  String get onboardingSettingsTitle;
+
+  /// No description provided for @onboardingSettingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'All data stays on your device. You choose your language, theme, and Care Mode. Privacy and dignity are at the heart of CompAnIon.'**
+  String get onboardingSettingsDesc;
+
+  /// No description provided for @onboardingFinalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A Final Thought'**
+  String get onboardingFinalTitle;
+
+  /// No description provided for @onboardingFinalDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'CompAnIon is built on empathy, presence, and respect. As you begin, ask yourself: “What do I need most right now?” This companion is here to help you remember, reflect, and feel less alone.'**
+  String get onboardingFinalDesc;
+
+  /// No description provided for @start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
+
+  /// No description provided for @helpEmotionCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'This is your space to notice and record how you feel. Every emotion matters. CompAnIon is here to listen, not judge. Take a moment to reflect and honor your truth.'**
+  String get helpEmotionCheckIn;
+
+  /// No description provided for @helpRememberMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can honor loved ones, remember special dates, and keep memories alive. Tribute and gratitude are at the heart of this space.'**
+  String get helpRememberMe;
+
+  /// No description provided for @helpPalliativeCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Find support and resources for serious diagnoses and emotional needs. CompAnIon offers presence and care, even in difficult times.'**
+  String get helpPalliativeCare;
+
+  /// No description provided for @helpSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize your experience: language, theme, font, and Care Mode. Privacy is sacred—your data stays on your device.'**
+  String get helpSettings;
+
+  /// No description provided for @helpDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'A mindful, emotionally intelligent companion. Here to help you reconnect with yourself.'**
+  String get helpDefault;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

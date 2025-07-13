@@ -114,104 +114,83 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
              r.memory.toLowerCase().contains(query);
     }).toList();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(loc.menuRememberMe),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            tooltip: loc.addReminder,
-            onPressed: _addReminder,
-          ),
-          IconButton(
-            icon: const Icon(Icons.download),
-            tooltip: loc.exportHistoryCSV,
-            onPressed: _exportReminders,
-          ),
-          IconButton(
-            icon: const Icon(Icons.upload),
-            tooltip: loc.importReminders ?? 'Import Reminders',
-            onPressed: _importReminders,
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(18),
-        children: [
-          if (_reminderFeedback.isNotEmpty)
-            Card(
-              color: Colors.orange[50],
-              margin: const EdgeInsets.only(bottom: 8),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Row(
-                  children: [
-                    const Icon(Icons.bolt, color: Colors.orange),
-                    const SizedBox(width: 8),
-                    Expanded(child: Text(_reminderFeedback, style: const TextStyle(fontSize: 15))),
-                  ],
-                ),
-              ),
-            ),
-          if (upcoming.isNotEmpty)
-            ...upcoming.map((e) => _RememberMeReminderCard(entry: e, parentMounted: mounted)),
-          if (upcoming.isEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32),
-              child: Text(
-                loc.noSpecialDatesToday,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 18, color: Colors.grey),
-              ),
-            ),
-          const Divider(height: 32),
-          Text(loc.allReminders, style: const TextStyle(fontWeight: FontWeight.bold)),
-          // Add search bar
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: loc.searchReminders ?? 'Search reminders',
-                prefixIcon: const Icon(Icons.search),
-                border: const OutlineInputBorder(),
-              ),
-              onChanged: (val) => setState(() => _searchText = val),
-            ),
-          ),
-          ...filteredReminders.asMap().entries.map((entry) => Semantics(
-            container: true,
-            label: entry.value.isLoss
-              ? '${loc.inMemory}: ${entry.value.name}, ${entry.value.relation}'
-              : '${loc.specialDay}: ${entry.value.name}, ${entry.value.relation}',
-            child: ListTile(
-              leading: entry.value.isLoss
-                  ? Text(loc.inMemoryEmoji, style: const TextStyle(fontSize: 24))
-                  : const Icon(Icons.cake, semanticLabel: 'Birthday or special day'),
-              title: Text('${entry.value.name} (${entry.value.relation})'),
-              subtitle: Text(
-                '${DateFormat('d MMM').format(entry.value.date)}'
-                '${entry.value.isLoss ? ' (${loc.inMemory})' : ''}\n'
-                '${entry.value.memory}',
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
+    // Remove Scaffold and AppBar, return only the body
+    return ListView(
+      padding: const EdgeInsets.all(18),
+      children: [
+        if (_reminderFeedback.isNotEmpty)
+          Card(
+            color: Colors.orange[50],
+            margin: const EdgeInsets.only(bottom: 8),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Row(
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit, color: Colors.blue, semanticLabel: 'Edit reminder'),
-                    onPressed: () => _editReminder(entry.key),
-                    tooltip: loc.edit ?? 'Edit',
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red, semanticLabel: 'Delete reminder'),
-                    onPressed: () => _removeReminder(entry.key),
-                    tooltip: loc.delete ?? 'Delete',
-                  ),
+                  const Icon(Icons.bolt, color: Colors.orange),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(_reminderFeedback, style: const TextStyle(fontSize: 15))),
                 ],
               ),
             ),
-          )),
-        ],
-      ),
+          ),
+        if (upcoming.isNotEmpty)
+          ...upcoming.map((e) => _RememberMeReminderCard(entry: e, parentMounted: mounted)),
+        if (upcoming.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 32),
+            child: Text(
+              loc.noSpecialDatesToday,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 18, color: Colors.grey),
+            ),
+          ),
+        const Divider(height: 32),
+        Text(loc.allReminders, style: const TextStyle(fontWeight: FontWeight.bold)),
+        // Add search bar
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: TextField(
+            decoration: InputDecoration(
+              labelText: loc.searchReminders ?? 'Search reminders',
+              prefixIcon: const Icon(Icons.search),
+              border: const OutlineInputBorder(),
+            ),
+            onChanged: (val) => setState(() => _searchText = val),
+          ),
+        ),
+        ...filteredReminders.asMap().entries.map((entry) => Semantics(
+          container: true,
+          label: entry.value.isLoss
+            ? '${loc.inMemory}: ${entry.value.name}, ${entry.value.relation}'
+            : '${loc.specialDay}: ${entry.value.name}, ${entry.value.relation}',
+          child: ListTile(
+            leading: entry.value.isLoss
+                ? Text(loc.inMemoryEmoji, style: const TextStyle(fontSize: 24))
+                : const Icon(Icons.cake, semanticLabel: 'Birthday or special day'),
+            title: Text('${entry.value.name} (${entry.value.relation})'),
+            subtitle: Text(
+              '${DateFormat('d MMM').format(entry.value.date)}'
+              '${entry.value.isLoss ? ' (${loc.inMemory})' : ''}\n'
+              '${entry.value.memory}',
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.blue, semanticLabel: 'Edit reminder'),
+                  onPressed: () => _editReminder(entry.key),
+                  tooltip: loc.edit ?? 'Edit',
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red, semanticLabel: 'Delete reminder'),
+                  onPressed: () => _removeReminder(entry.key),
+                  tooltip: loc.delete ?? 'Delete',
+                ),
+              ],
+            ),
+          ),
+        )),
+      ],
     );
   }
 }
@@ -422,20 +401,41 @@ class _RememberMeReminderCard extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 12),
-            Row(
+            Wrap( // Use Wrap instead of Row for buttons
+              spacing: 8,
+              runSpacing: 8,
               children: [
                 if (!entry.isLoss)
-                  ...[
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.phone),
-                      label: const Text('Call'),
-                      onPressed: () => _call(context, entry.name, phone),
-                    ),
-                    const SizedBox(width: 8),
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.edit_note),
-                      label: const Text('Write'),
-                      onPressed: () => _writeTribute(context, entry.name),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.phone),
+                    label: const Text('Call'),
+                    onPressed: () => _call(context, entry.name, phone),
+                  ),
+                if (!entry.isLoss)
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.edit_note),
+                    label: const Text('Write'),
+                    onPressed: () => _writeTribute(context, entry.name),
+                  ),
+                if (!entry.isLoss)
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.sms),
+                    label: const Text('SMS'),
+                    onPressed: () => _sms(context, entry.name, phone),
+                  ),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.favorite),
+                  label: Text(entry.isLoss ? 'Light a candle' : 'Remember silently'),
+                  onPressed: () => _rememberSilently(context),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton.icon(
