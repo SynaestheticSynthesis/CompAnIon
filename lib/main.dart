@@ -96,6 +96,27 @@ class _CompAnIonAppState extends State<CompAnIonApp> {
     setState(() => _showOnboarding = false);
   }
 
+  ThemeData get theme => _isDark ? _darkTheme : _lightTheme;
+
+  List<Widget> get screens => [
+    EmotionCheckInScreen(
+      onToggleTheme: () => setState(() => _isDark = !_isDark),
+      isDark: _isDark,
+      gender: _gender,
+    ),
+    const RememberMeScreen(),
+    const PalliativeCareScreen(),
+    SettingsScreen(
+      currentLocale: _locale,
+      onLocaleChanged: (locale) => setState(() => _locale = locale),
+      onThemeChanged: () => setState(() => _isDark = !_isDark),
+      onFontChanged: (font) => setState(() => _fontFamily = font),
+      gender: _gender,
+      onGenderChanged: (g) => setState(() => _gender = g),
+      fontFamily: _fontFamily,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     // Remove unused local variable

@@ -142,7 +142,3 @@ class _PalliativeCareScreenState extends State<PalliativeCareScreen> {
     );
   }
 }
-      ),
-    );
-  }
-}

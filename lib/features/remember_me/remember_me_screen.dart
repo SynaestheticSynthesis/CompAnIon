@@ -401,7 +401,7 @@ class _RememberMeReminderCard extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 12),
-            Wrap( // Use Wrap instead of Row for buttons
+            Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
@@ -423,27 +423,6 @@ class _RememberMeReminderCard extends StatelessWidget {
                     label: const Text('SMS'),
                     onPressed: () => _sms(context, entry.name, phone),
                   ),
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.favorite),
-                  label: Text(entry.isLoss ? 'Light a candle' : 'Remember silently'),
-                  onPressed: () => _rememberSilently(context),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-                    ),
-                    const SizedBox(width: 8),
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.sms),
-                      label: const Text('SMS'),
-                      onPressed: () => _sms(context, entry.name, phone),
-                    ),
-                  ],
                 ElevatedButton.icon(
                   icon: const Icon(Icons.favorite),
                   label: Text(entry.isLoss ? 'Light a candle' : 'Remember silently'),

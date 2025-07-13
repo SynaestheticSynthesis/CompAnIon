@@ -525,251 +525,251 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                       ),
                     ),
                   ),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 18.h),
-            // Comment input
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.h),
-              child: TextField(
-                controller: _commentController,
-                decoration: InputDecoration(
-                  labelText: loc.addCommentOptional,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14.r),
-                  ),
-                  filled: true,
-                  fillColor: theme.cardColor.withOpacity(0.95),
                 ),
-                minLines: 1,
-                maxLines: 2,
+              );
+            }).toList(),
+          ),
+          // Comment input
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.h),
+            child: TextField(
+              controller: _commentController,
+              decoration: InputDecoration(
+                labelText: loc.addCommentOptional,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(14.r),
+                ),
+                filled: true,
+                fillColor: theme.cardColor.withOpacity(0.95),
               ),
+              minLines: 1,
+              maxLines: 2,
             ),
-            ElevatedButton.icon(
-              onPressed: _selectedEmotion == null ? null : _recordEmotion,
-              icon: const Icon(Icons.check_circle_outline, semanticLabel: 'Record emotion'),
-              label: Text(loc.recordEmotion),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-              ),
+          ),
+          ElevatedButton.icon(
+            onPressed: _selectedEmotion == null ? null : _recordEmotion,
+            icon: const Icon(Icons.check_circle_outline, semanticLabel: 'Record emotion'),
+            label: Text(loc.recordEmotion),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             ),
-            const SizedBox(height: 24),
-            if (_history.isNotEmpty) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    loc.emotionHistory,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextButton(
-                    onPressed: _clearHistory,
-                    child: Text(loc.clearAll),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.download, semanticLabel: 'Export history as CSV'),
-                    tooltip: loc.exportHistoryCSV,
-                    onPressed: _exportHistoryAsCSV,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.share, semanticLabel: 'Share history as CSV'),
-                    tooltip: loc.shareHistoryCSV,
-                    onPressed: () => _exportHistoryAsCSV(share: true),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.preview, semanticLabel: 'Preview CSV'),
-                    tooltip: loc.previewCSV,
-                    onPressed: _previewCSV,
-                  ),
-                ],
-              ),
-              // Remove fixed height from ListView and use shrinkWrap + physics
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _history.length,
-                itemBuilder: (context, index) {
-                  final entry = _history[index];
-                  final dt = DateTime.tryParse(entry['timestamp'] ?? '');
-                  final formatted = dt != null
-                      ? '${dt.year}-${dt.month.toString().padLeft(2, '0')}-${dt.day.toString().padLeft(2, '0')} ${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}'
-                      : entry['timestamp'];
-                  final emotion = entry['emotion'] ?? '';
-                  final comment = entry['comment'] ?? '';
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 4),
-                    child: ListTile(
-                      leading: Text(
-                        emotion.split(' ').first,
-                        style: const TextStyle(fontSize: 24),
-                      ),
-                      title: Text(emotion.substring(emotion.indexOf(' ') + 1)),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(formatted),
-                          if (comment.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 4.0),
-                              child: Text('“$comment”', style: const TextStyle(fontStyle: FontStyle.italic)),
-                            ),
-                          if ((entry['reflection'] ?? '').isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 4.0),
-                              child: Text('Reflection: ${(entry['reflection'] as String).replaceAll('||', '\n')}', style: const TextStyle(color: Colors.blueGrey)),
-                            ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => _deleteEntry(index),
-                      ),
+          ),
+          const SizedBox(height: 24),
+          if (_history.isNotEmpty) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  loc.emotionHistory,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextButton(
+                  onPressed: _clearHistory,
+                  child: Text(loc.clearAll),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.download, semanticLabel: 'Export history as CSV'),
+                  tooltip: loc.exportHistoryCSV,
+                  onPressed: _exportHistoryAsCSV,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.share, semanticLabel: 'Share history as CSV'),
+                  tooltip: loc.shareHistoryCSV,
+                  onPressed: () => _exportHistoryAsCSV(share: true),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.preview, semanticLabel: 'Preview CSV'),
+                  tooltip: loc.previewCSV,
+                  onPressed: _previewCSV,
+                ),
+              ],
+            ),
+            // Remove fixed height from ListView and use shrinkWrap + physics
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _history.length,
+              itemBuilder: (context, index) {
+                final entry = _history[index];
+                final dt = DateTime.tryParse(entry['timestamp'] ?? '');
+                final formatted = dt != null
+                    ? '${dt.year}-${dt.month.toString().padLeft(2, '0')}-${dt.day.toString().padLeft(2, '0')} ${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}'
+                    : (entry['timestamp'] ?? '');
+                final emotion = entry['emotion'] ?? '';
+                final comment = entry['comment'] ?? '';
+                return Card(
+                  margin: const EdgeInsets.symmetric(vertical: 4),
+                  child: ListTile(
+                    leading: Text(
+                      emotion.split(' ').first,
+                      style: const TextStyle(fontSize: 24),
                     ),
-                  );
-                },
-              ),
-              // Στατιστικά συναισθημάτων
-              const SizedBox(height: 16),
-              Text(loc.stats, style: const TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(
-                height: 80,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: _emotions.map((emotion) {
-                    final count = _emotionCounts[emotion] ?? 0;
-                    final percent = _history.isEmpty ? 0.0 : count / _history.length;
-                    return Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text('${(percent * 100).round()}%', style: const TextStyle(fontSize: 12)),
-                          Container(
-                            height: percent * 50 + 8,
-                            width: 18,
-                            margin: const EdgeInsets.symmetric(vertical: 2),
-                            decoration: BoxDecoration(
-                              color: Colors.blueAccent.withAlpha((0.7 * 255).toInt()),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          ),
-                          Text(emotion.split(' ').first, style: const TextStyle(fontSize: 18)),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              const SizedBox(height: 8),
-              if (_personalizedFeedback.isNotEmpty)
-                Card(
-                  color: Colors.yellow[100],
-                  margin: const EdgeInsets.only(bottom: 8),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
+                    title: Text(emotion.substring(emotion.indexOf(' ') + 1)),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.lightbulb, color: Colors.orange),
-                        const SizedBox(width: 8),
-                        Expanded(child: Text(_personalizedFeedback)),
+                        Text(formatted),
+                        if (comment.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text('“$comment”', style: const TextStyle(fontStyle: FontStyle.italic)),
+                          ),
+                        if ((entry['reflection'] ?? '').isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text('Reflection: ${(entry['reflection'] as String).replaceAll('||', '\n')}', style: const TextStyle(color: Colors.blueGrey)),
+                          ),
                       ],
                     ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => _deleteEntry(index),
+                    ),
                   ),
-                ),
-            ],
-            // CPL Feedback
-            if (_cplFeedback != null)
-              Card(
-                color: Colors.blue[50],
-                margin: const EdgeInsets.only(bottom: 12),
-                child: Padding(
-                  padding: const EdgeInsets.all(14),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.science, color: Colors.blueAccent),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          '${_cplFeedback!.law}: ${_cplFeedback!.message}',
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                );
+              },
+            ),
+            // Στατιστικά συναισθημάτων
+            const SizedBox(height: 16),
+            Text(loc.stats, style: const TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(
+              height: 80,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: _emotions.map((emotion) {
+                  final count = _emotionCounts[emotion] ?? 0;
+                  final percent = _history.isEmpty ? 0.0 : count / _history.length;
+                  return Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text('${(percent * 100).round()}%', style: const TextStyle(fontSize: 12)),
+                        Container(
+                          height: percent * 50 + 8,
+                          width: 18,
+                          margin: const EdgeInsets.symmetric(vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent.withAlpha((0.7 * 255).toInt()),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                        Text(emotion.split(' ').first, style: const TextStyle(fontSize: 18)),
+                      ],
+                    ),
+                  );
+                }).toList(),
               ),
-            // Flow Feedback
-            if (_flowFeedbacks.isNotEmpty)
-              ..._flowFeedbacks.map((msg) => Card(
-                color: Colors.green[50],
+            ),
+            const SizedBox(height: 8),
+            if (_personalizedFeedback.isNotEmpty)
+              Card(
+                color: Colors.yellow[100],
                 margin: const EdgeInsets.only(bottom: 8),
                 child: Padding(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(12.0),
                   child: Row(
                     children: [
-                      const Icon(Icons.energy_savings_leaf, color: Colors.green),
+                      const Icon(Icons.lightbulb, color: Colors.orange),
                       const SizedBox(width: 8),
-                      Expanded(child: Text(msg, style: const TextStyle(fontSize: 15))),
-                    ],
-                  ),
-                ),
-              )),
-            // Show Action–Reaction Law Card after check-in, with fade-in animation
-            if (_history.isNotEmpty)
-              AnimatedOpacity(
-                opacity: _cardOpacity,
-                duration: const Duration(milliseconds: 700),
-                curve: Curves.easeInOut,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Column(
-                    children: [
-                      ActionReactionLawCard(
-                        action: _history.first['emotion'] ?? '',
-                        reaction: _actionReaction.getLatestActionReaction()['reactions']?.isNotEmpty == true
-                            ? (_actionReaction.getLatestActionReaction()['reactions'] as List).first.description
-                            : 'No reaction detected yet',
-                        intensity: _actionReaction.getLatestActionReaction()['reactions']?.isNotEmpty == true
-                            ? (_actionReaction.getLatestActionReaction()['reactions'] as List).first.intensity
-                            : 0,
-                        message: _actionReaction.getFeedbackMessage(),
-                      ),
-                      // User can log a reaction
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                decoration: const InputDecoration(
-                                  hintText: 'Log a reaction (e.g. pressure, doubt, support)...',
-                                  border: OutlineInputBorder(),
-                                ),
-                                onChanged: (val) => _userReactionText = val,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.sync_alt),
-                              label: const Text('Log Reaction'),
-                              onPressed: () {
-                                if (_userReactionText.trim().isNotEmpty) {
-                                  setState(() {
-                                    _actionReaction.logUserReaction(_userReactionText.trim(), intensity: 5);
-                                    _userReactionText = '';
-                                  });
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
+                      Expanded(child: Text(_personalizedFeedback)),
                     ],
                   ),
                 ),
               ),
+          ],
+          // CPL Feedback
+          if (_cplFeedback != null)
+            Card(
+              color: Colors.blue[50],
+              margin: const EdgeInsets.only(bottom: 12),
+              child: Padding(
+                padding: const EdgeInsets.all(14),
+                child: Row(
+                  children: [
+                    const Icon(Icons.science, color: Colors.blueAccent),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        '${_cplFeedback!.law}: ${_cplFeedback!.message}',
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // Flow Feedback
+          if (_flowFeedbacks.isNotEmpty)
+            ..._flowFeedbacks.map((msg) => Card(
+              color: Colors.green[50],
+              margin: const EdgeInsets.only(bottom: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    const Icon(Icons.energy_savings_leaf, color: Colors.green),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(msg, style: const TextStyle(fontSize: 15))),
+                  ],
+                ),
+              ),
+            )),
+          // Show Action–Reaction Law Card after check-in, with fade-in animation
+          if (_history.isNotEmpty)
+            AnimatedOpacity(
+              opacity: _cardOpacity,
+              duration: const Duration(milliseconds: 700),
+              curve: Curves.easeInOut,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Column(
+                  children: [
+                    ActionReactionLawCard(
+                      action: _history.first['emotion'] ?? '',
+                      reaction: _actionReaction.getLatestActionReaction()['reactions']?.isNotEmpty == true
+                          ? (_actionReaction.getLatestActionReaction()['reactions'] as List).first.description
+                          : 'No reaction detected yet',
+                      intensity: _actionReaction.getLatestActionReaction()['reactions']?.isNotEmpty == true
+                          ? (_actionReaction.getLatestActionReaction()['reactions'] as List).first.intensity
+                          : 0,
+                      message: _actionReaction.getFeedbackMessage(),
+                    ),
+                    // User can log a reaction
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              decoration: const InputDecoration(
+                                hintText: 'Log a reaction (e.g. pressure, doubt, support)...',
+                                border: OutlineInputBorder(),
+                              ),
+                              onChanged: (val) => _userReactionText = val,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.sync_alt),
+                            label: const Text('Log Reaction'),
+                            onPressed: () {
+                              if (_userReactionText.trim().isNotEmpty) {
+                                setState(() {
+                                  _actionReaction.logUserReaction(_userReactionText.trim(), intensity: 5);
+                                  _userReactionText = '';
+                                });
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
