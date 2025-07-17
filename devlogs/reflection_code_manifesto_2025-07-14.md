@@ -24,13 +24,14 @@ Let every commit be a line in the living manifesto.
 Let every module encode not just features, but values:
 
 ```dart
+// filepath: c:\Users\kaval\Documents\CompAnIon\lib\core\presence.dart
 // Example: A function that encodes presence, not prescription
 Future<void> offerPresence(BuildContext context, String message) async {
   // No advice, no judgment, just presence
   await showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text('Presence'),
+      title: const Text('Presence'),`
       content: Text(message),
       actions: [
         TextButton(

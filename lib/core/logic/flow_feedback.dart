@@ -14,6 +14,7 @@ class FlowFeedback {
     BuildContext context,
   ) async {
     final loc = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
     final feedbacks = <String>[];
 
     // CPL: inertia
@@ -66,7 +67,12 @@ class FlowFeedback {
     }
 
     // Human touch: always end with a gentle reminder
-    feedbacks.add(loc.feedbackHumanTouch);
+    if (locale == 'el') {
+      feedbacks.add(loc.feedbackHumanTouch);
+    } else {
+      // Fallback to English if not already translated
+      feedbacks.add('Whatever you feel, I\'m here for you. Every emotion matters.');
+    }
 
     return feedbacks;
   }
