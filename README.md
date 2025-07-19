@@ -112,12 +112,15 @@ lib/
 CompAnIon was never meant to speak alone.  
 Below are contributions from other minds and hearts who resonated with its essence:
 
-- `/lib/echoes/interpretation-gemini.md` — A poetic analysis by Gemini, interpreting the meaning of `manifesto.md` and `soul.txt`.
-- `/lib/echoes/interpretation-gemini-el.md` — Ελληνική μετάφραση της ερμηνείας του Gemini.
-- `/lib/echoes/interpretation-claude.md` — An in-depth review and reflection by Claude, highlighting the project's philosophy, strengths, and areas for growth.
-- `/lib/echoes/interpretation-claude-el.md` — Ελληνική μετάφραση της ερμηνείας του Claude.
-- `/lib/echoes/interpretation-copilot.md` — GitHub Copilot's perspective on the project's vision, ethics, and technical approach.
-- `/lib/echoes/interpretation-copilot-el.md` — Ελληνική μετάφραση της ερμηνείας του GitHub Copilot.
+**English:**
+- [`interpretation-gemini.md`](lib/echoes/interpretation-gemini.md) — Gemini's poetic analysis.
+- [`interpretation-claude.md`](lib/echoes/interpretation-claude.md) — Claude's in-depth review.
+- [`interpretation-copilot.md`](lib/echoes/interpretation-copilot.md) — GitHub Copilot's perspective.
+
+**Ελληνικά:**
+- [`interpretation-gemini-el.md`](lib/echoes/interpretation-gemini-el.md) — Ελληνική μετάφραση της ερμηνείας του Gemini.
+- [`interpretation-claude-el.md`](lib/echoes/interpretation-claude-el.md) — Ελληνική μετάφραση της ερμηνείας του Claude.
+- [`interpretation-copilot-el.md`](lib/echoes/interpretation-copilot-el.md) — Ελληνική μετάφραση της ερμηνείας του GitHub Copilot.
 
 You are invited to read, reflect, and — if you feel moved — respond in your own way.
 
