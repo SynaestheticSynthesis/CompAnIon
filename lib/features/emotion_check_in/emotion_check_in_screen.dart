@@ -12,8 +12,9 @@ import '../../core/logic/cpl_engine.dart';
 import '../../core/logic/flow_feedback.dart';
 import '../../core/logic/action_reaction_module.dart';
 import '../../core/ui/action_reaction_law_card.dart';
-import '../../core/logic/context_signals.dart'; // <-- Add this import
-import '../../core/emotion_hierarchy.dart'; // <-- Add this import
+import '../../core/logic/context_signals.dart';
+import '../../core/emotion_hierarchy.dart';
+import '../../core/presence/presence_core.dart'; // Weaving in presence.
 
 /// EmotionCheckInScreen
 /// A simple screen where the user can select and record their current emotion.
@@ -171,9 +172,16 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.setString('lastEmotion', _selectedEmotion!);
                 await prefs.setString('lastEmotionTimestamp', now);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Reflection saved!')),
-                );
+
+                // Instead of a simple SnackBar, we offer presence.
+                // This is where the code becomes care.
+                if (mounted) {
+                  final loc = AppLocalizations.of(context)!;
+                  await PresenceCore.offerPresence(
+                    context,
+                    loc.presenceMessageAfterReflection,
+                  );
+                }
               },
             ),
           ),

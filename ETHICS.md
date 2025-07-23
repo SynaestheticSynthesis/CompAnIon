@@ -29,8 +29,8 @@ CompAnIon is not a tool. It is a commitment to remember who we are — especiall
 
 ## ⚠️ 2. Boundaries & Limits
 
-- **We are not a therapist:**  
-  CompAnIon is not a replacement for professional help. It is a companion. Where crises emerge, it will guide users toward real-world support.
+- **We are not a therapist or a doctor:**  
+  CompAnIon is not a replacement for professional help. It will never interpret physical symptoms or provide medical advice. Where crises emerge—be they emotional or physical—it will guide users toward real-world support.
 
 - **No parasitic dependency:**  
   CompAnIon will include built-in mechanisms that:

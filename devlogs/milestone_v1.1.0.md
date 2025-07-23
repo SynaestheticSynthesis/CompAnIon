@@ -14,7 +14,7 @@
 
 ### 🧠 Smart Context Awareness
 - [ ] Ενσωμάτωση context signals (ώρα, τοποθεσία, calendar events)
-- [ ] Mock integration με Google Fit / Health APIs
+- [ ] Διερεύνηση ενσωμάτωσης δεδομένων από wearables (π.χ. Google Fit) για **στοχασμό**, όχι διάγνωση (π.χ. συσχέτιση ύπνου/καρδιακού ρυθμού με συναισθήματα).
 
 ### 💾 Προηγμένο Persistence Layer
 - [ ] Μετάβαση σε Hive ή Isar ή Drift για αποθήκευση δεδομένων
