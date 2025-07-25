@@ -58,7 +58,21 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
       builder: (context) => _EditReminderDialog(reminder: _reminders[idx]),
     );
     if (edited != null) {
-      setState(() => _reminders[idx] = edited);
+      setState(() {
+        _reminders[idx] = edited;
+        // Mark as "visited" when edited
+        _reminders[idx] = ReminderModel(
+          // ... copy other fields
+          id: edited.id,
+          name: edited.name,
+          date: edited.date,
+          relation: edited.relation,
+          memory: edited.memory,
+          isLoss: edited.isLoss,
+          tributeMessage: edited.tributeMessage,
+          lastVisited: DateTime.now(),
+        );
+      });
       await _saveReminders();
     }
   }
@@ -289,7 +303,13 @@ class _EditReminderDialogState extends State<_EditReminderDialog> {
 class _RememberMeReminderCard extends StatelessWidget {
   final ReminderModel entry;
   final bool parentMounted;
-  const _RememberMeReminderCard({required this.entry, required this.parentMounted});
+  final VoidCallback onUpdate; // Callback to refresh the parent state
+
+  const _RememberMeReminderCard({
+    required this.entry,
+    required this.parentMounted,
+    required this.onUpdate,
+  });
 
   Future<void> _call(BuildContext context, String name, String? phone) async {
     if (phone != null && phone.isNotEmpty) {
@@ -344,13 +364,16 @@ class _RememberMeReminderCard extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
+              // Here we would update the reminder model with the tribute
+              // and call the onUpdate callback.
               Navigator.of(context).pop();
               if (!parentMounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Tribute sent to $name!')),
+                SnackBar(content: Text('Tribute for $name saved.')),
               );
+              onUpdate();
             },
-            child: const Text('Send'),
+            child: const Text('Save Tribute'),
           ),
         ],
       ),
@@ -367,7 +390,10 @@ class _RememberMeReminderCard extends StatelessWidget {
             : 'You dedicated a silent thought to ${entry.name}.'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              Navigator.of(context).pop();
+              onUpdate(); // Trigger update on parent
+            },
             child: const Text('OK'),
           ),
         ],

@@ -5,6 +5,8 @@ class ReminderModel {
   final String relation;
   final String memory;
   final bool isLoss;
+  final String? tributeMessage; // A message or memory the user leaves
+  final DateTime? lastVisited;   // When the user last "visited" this memory
 
   ReminderModel({
     required this.id,
@@ -13,6 +15,8 @@ class ReminderModel {
     required this.relation,
     required this.memory,
     this.isLoss = false,
+    this.tributeMessage,
+    this.lastVisited,
   });
 
   Map<String, dynamic> toJson() => {
@@ -22,6 +26,8 @@ class ReminderModel {
     'relation': relation,
     'memory': memory,
     'isLoss': isLoss,
+    'tributeMessage': tributeMessage,
+    'lastVisited': lastVisited?.toIso8601String(),
   };
 
   static ReminderModel fromJson(Map<String, dynamic> json) => ReminderModel(
@@ -31,5 +37,7 @@ class ReminderModel {
     relation: json['relation'],
     memory: json['memory'],
     isLoss: json['isLoss'] ?? false,
+    tributeMessage: json['tributeMessage'],
+    lastVisited: json['lastVisited'] != null ? DateTime.parse(json['lastVisited']) : null,
   );
 }

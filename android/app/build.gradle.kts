@@ -41,3 +41,8 @@ android {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    implementation("androidx.health.connect:connect-client:1.1.0-alpha07")
+    implementation("androidx.activity:activity-ktx:1.8.0")
+}
