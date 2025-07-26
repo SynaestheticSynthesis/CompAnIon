@@ -47,16 +47,11 @@
   "helpPalliativeCare": "Find support and resources for serious diagnoses and emotional needs. CompAnIon offers presence and care, even in difficult times.",
   "helpSettings": "Customize your experience: language, theme, font, and Care Mode. Privacy is sacred—your data stays on your device.",
   "helpDefault": "A mindful, emotionally intelligent companion. Here to help you reconnect with yourself.",
-  "noSpecialDatesToday": "No special dates today. A good day to be present.",
-  "allReminders": "All Reminders",
-  "searchReminders": "Search reminders",
-  "inMemory": "In Memory",
-  "inMemoryEmoji": "🕯️",
-  "specialDay": "Special Day",
-  "edit": "Edit",
-  "delete": "Delete"
+  "aboutTitle": "About CompAnIon",
+  "manifestoTab": "Our Promise",
+  "ethicsTab": "Our Ethics",
+  "menuAbout": "About & Ethics"
 }
-  "atWork": "At work",
   "atHome": "At home",
   "weatherRainy": "It's rainy outside. Does the weather affect your mood?",
   "greetingMorning": "🌅 Good morning, friend!",
@@ -112,5 +107,10 @@
   "helpRememberMe": "Here you can honor loved ones, remember special dates, and keep memories alive. Tribute and gratitude are at the heart of this space.",
   "helpPalliativeCare": "Find support and resources for serious diagnoses and emotional needs. CompAnIon offers presence and care, even in difficult times.",
   "helpSettings": "Customize your experience: language, theme, font, and Care Mode. Privacy is sacred—your data stays on your device.",
-  "helpDefault": "A mindful, emotionally intelligent companion. Here to help you reconnect with yourself."
+  "helpDefault": "A mindful, emotionally intelligent companion. Here to help you reconnect with yourself.",
+  "aboutTitle": "About CompAnIon",
+  "manifestoTab": "Our Promise",
+  "ethicsTab": "Our Ethics",
+  "menuAbout": "About & Ethics"
+}
 }
