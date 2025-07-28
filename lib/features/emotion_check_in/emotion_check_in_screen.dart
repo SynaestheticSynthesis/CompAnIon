@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/care_mode.dart';
 import '../../core/logic/cpl_engine.dart';
 import '../../core/logic/flow_feedback.dart';
+import '../../core/logic/spectral_engine.dart'; // Import the new engine
 import '../../core/logic/action_reaction_module.dart';
 import '../../core/ui/action_reaction_law_card.dart';
 import '../../core/logic/context_signals.dart';
@@ -50,6 +51,7 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
   bool _careMode = false;
 
   CPLFeedback? _cplFeedback;
+  SpectralFeedback? _spectralFeedback; // Add state for spectral feedback
 
   List<String> _flowFeedbacks = [];
 
@@ -121,6 +123,11 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
       final flowFeedbacks = await FlowFeedback.emotionCheckInFeedback(_history, context); // <-- pass context
       setState(() {
         _flowFeedbacks = flowFeedbacks;
+      });
+      // SpectralEngine: analyze the latest state
+      final spectralFeedback = SpectralEngine.analyze(_history);
+      setState(() {
+        _spectralFeedback = spectralFeedback;
       });
     }
   }
@@ -724,6 +731,46 @@ class _EmotionCheckInScreenState extends State<EmotionCheckInScreen> with Single
                 ),
               ),
             )),
+          // Spectral Feedback
+          if (_spectralFeedback != null)
+            Card(
+              color: Colors.teal[50],
+              margin: const EdgeInsets.only(bottom: 12),
+              child: Padding(
+                padding: const EdgeInsets.all(14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.auto_graph, color: Colors.teal[700]),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Spectrum: ${_spectralFeedback!.spectrumName}',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.teal[800]),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    LinearProgressIndicator(
+                      value: (_spectralFeedback!.position + 1) / 2, // Normalize from -1..1 to 0..1
+                      backgroundColor: Colors.grey[300],
+                      color: Colors.teal,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _spectralFeedback!.message,
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      _spectralFeedback!.prompt,
+                      style: const TextStyle(fontSize: 15, fontStyle: FontStyle.italic, color: Colors.black54),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           // Show Action–Reaction Law Card after check-in, with fade-in animation
           if (_history.isNotEmpty)
             AnimatedOpacity(
