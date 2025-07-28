@@ -265,4 +265,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeSystem => 'System';
+
+  @override
+  String get inMemory => 'In Memory';
+
+  @override
+  String get specialDay => 'Special Day';
+
+  @override
+  String get noSpecialDatesToday => 'No special dates today. A good day to be present.';
+
+  @override
+  String get allReminders => 'All Reminders';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get reflection => 'Reflection';
+
+  @override
+  String get emotion => 'Emotion';
+
+  @override
+  String get comment => 'Comment';
+
+  @override
+  String get yourAnswer => 'Your answer...';
+
+  @override
+  String get previous => 'Previous';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get saveReflection => 'Save Reflection';
+
+  @override
+  String get fillAnswerToContinue => 'Fill in the answer to continue';
 }

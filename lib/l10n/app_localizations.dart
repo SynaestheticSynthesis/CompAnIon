@@ -610,6 +610,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System'**
   String get themeSystem;
+
+  /// No description provided for @inMemory.
+  ///
+  /// In en, this message translates to:
+  /// **'In Memory'**
+  String get inMemory;
+
+  /// No description provided for @specialDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Special Day'**
+  String get specialDay;
+
+  /// No description provided for @noSpecialDatesToday.
+  ///
+  /// In en, this message translates to:
+  /// **'No special dates today. A good day to be present.'**
+  String get noSpecialDatesToday;
+
+  /// No description provided for @allReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'All Reminders'**
+  String get allReminders;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @reflection.
+  ///
+  /// In en, this message translates to:
+  /// **'Reflection'**
+  String get reflection;
+
+  /// No description provided for @emotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Emotion'**
+  String get emotion;
+
+  /// No description provided for @comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get comment;
+
+  /// No description provided for @yourAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answer...'**
+  String get yourAnswer;
+
+  /// No description provided for @previous.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get previous;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @saveReflection.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Reflection'**
+  String get saveReflection;
+
+  /// No description provided for @fillAnswerToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the answer to continue'**
+  String get fillAnswerToContinue;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

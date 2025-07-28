@@ -8,7 +8,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import '../../modules/remember_me/reminder_model.dart';
 import '../../modules/remember_me/reminder_service.dart';
-import '../../modules/remember_me/reminder_utils.dart';
+import '../../modules/remember_me/reminder_utils.dart'; // Add this import
 import '../../core/logic/flow_feedback.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -132,6 +132,25 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
     return ListView(
       padding: const EdgeInsets.all(18),
       children: [
+        // Add Reminder Button - This was missing!
+        Card(
+          color: Colors.blue[50],
+          child: ListTile(
+            leading: const Icon(Icons.add_circle, color: Colors.blue, size: 32),
+            title: Text(
+              'Add New Reminder',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue[800],
+              ),
+            ),
+            subtitle: const Text('Remember a loved one or special date'),
+            onTap: _addReminder,
+          ),
+        ),
+        const SizedBox(height: 16),
+        
         if (_reminderFeedback.isNotEmpty)
           Card(
             color: Colors.orange[50],
@@ -147,19 +166,51 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
               ),
             ),
           ),
-        if (upcoming.isNotEmpty)
-          ...upcoming.map((e) => _RememberMeReminderCard(entry: e, parentMounted: mounted)),
+        if (upcoming.isNotEmpty) ...[
+          Text(
+            'Today\'s Special Dates',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          const SizedBox(height: 8),
+          ...upcoming.map((e) => _RememberMeReminderCard(
+            entry: e, 
+            parentMounted: mounted, 
+            onUpdate: _loadReminders
+          )),
+        ],
         if (upcoming.isEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 32),
             child: Text(
-              loc.noSpecialDatesToday,
+              'No special dates today. A good day to be present.',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 18, color: Colors.grey),
             ),
           ),
         const Divider(height: 32),
-        Text(loc.allReminders, style: const TextStyle(fontWeight: FontWeight.bold)),
+        
+        // All Reminders Section
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('All Reminders', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.file_upload),
+                  tooltip: 'Import Reminders',
+                  onPressed: _importReminders,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.file_download),
+                  tooltip: 'Export Reminders',
+                  onPressed: _exportReminders,
+                ),
+              ],
+            ),
+          ],
+        ),
+        
         // Add search bar
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -172,38 +223,79 @@ class _RememberMeScreenState extends State<RememberMeScreen> {
             onChanged: (val) => setState(() => _searchText = val),
           ),
         ),
+        
+        // Show filtered reminders
+        if (filteredReminders.isEmpty && _reminders.isNotEmpty)
+          const Padding(
+            padding: EdgeInsets.all(32),
+            child: Text(
+              'No reminders match your search.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
+        
         ...filteredReminders.asMap().entries.map((entry) => Semantics(
           container: true,
           label: entry.value.isLoss
-            ? '${loc.inMemory}: ${entry.value.name}, ${entry.value.relation}'
-            : '${loc.specialDay}: ${entry.value.name}, ${entry.value.relation}',
-          child: ListTile(
-            leading: entry.value.isLoss
-                ? Text(loc.inMemoryEmoji, style: const TextStyle(fontSize: 24))
-                : const Icon(Icons.cake, semanticLabel: 'Birthday or special day'),
-            title: Text('${entry.value.name} (${entry.value.relation})'),
-            subtitle: Text(
-              '${DateFormat('d MMM').format(entry.value.date)}'
-              '${entry.value.isLoss ? ' (${loc.inMemory})' : ''}\n'
-              '${entry.value.memory}',
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.blue, semanticLabel: 'Edit reminder'),
-                  onPressed: () => _editReminder(entry.key),
-                  tooltip: loc.edit ?? 'Edit',
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red, semanticLabel: 'Delete reminder'),
-                  onPressed: () => _removeReminder(entry.key),
-                  tooltip: loc.delete ?? 'Delete',
-                ),
-              ],
+            ? 'In Memory: ${entry.value.name}, ${entry.value.relation}'
+            : 'Special Day: ${entry.value.name}, ${entry.value.relation}',
+          child: Card(
+            margin: const EdgeInsets.symmetric(vertical: 4),
+            child: ListTile(
+              leading: entry.value.isLoss
+                  ? Text(loc.inMemoryEmoji, style: const TextStyle(fontSize: 24))
+                  : const Icon(Icons.cake, semanticLabel: 'Birthday or special day'),
+              title: Text('${entry.value.name} (${entry.value.relation})'),
+              subtitle: Text(
+                '${DateFormat('d MMM').format(entry.value.date)}'
+                '${entry.value.isLoss ? ' (In Memory)' : ''}\n'
+                '${entry.value.memory}',
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.blue, semanticLabel: 'Edit reminder'),
+                    onPressed: () => _editReminder(entry.key),
+                    tooltip: loc.edit ?? 'Edit',
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red, semanticLabel: 'Delete reminder'),
+                    onPressed: () => _removeReminder(entry.key),
+                    tooltip: loc.delete ?? 'Delete',
+                  ),
+                ],
+              ),
             ),
           ),
         )),
+        
+        // If no reminders at all, show helpful message
+        if (_reminders.isEmpty)
+          Card(
+            color: Colors.green[50],
+            margin: const EdgeInsets.only(top: 32),
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  Icon(Icons.favorite, size: 48, color: Colors.green[600]),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'No reminders yet',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Tap "Add New Reminder" above to remember a loved one or special date.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+          ),
       ],
     );
   }

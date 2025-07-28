@@ -218,7 +218,7 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
     final progress = (_currentIndex + 1) / total;
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(loc.reflection ?? 'Reflection')),
+      appBar: AppBar(title: Text('Reflection')),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -226,8 +226,8 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
           children: [
             // Remove duplicate screen name from body (do not show loc.reflection in body)
             // Keep only emotion/comment info if needed
-            Text('${loc.emotion}: ${widget.emotion}', style: const TextStyle(fontSize: 18)),
-            Text('${loc.comment}: ${widget.comment}', style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic)),
+            Text('Emotion: ${widget.emotion}', style: const TextStyle(fontSize: 18)),
+            Text('Comment: ${widget.comment}', style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic)),
             const SizedBox(height: 16),
             // Animated progress bar
             TweenAnimationBuilder<double>(
@@ -256,7 +256,7 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
                             maxLines: 4,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
-                              hintText: loc.yourAnswer ?? 'Η απάντησή σου...',
+                              hintText: 'Η απάντησή σου...',
                             ),
                             onChanged: (val) => _onAnswerChanged(_currentIndex, val),
                           ),
@@ -275,7 +275,7 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
                               border: const OutlineInputBorder(),
                               hintText: _expandedPrompts.isNotEmpty && _expandedPrompts.first['follow_up'] != null
                                   ? (_expandedPrompts.first['follow_up'] as List).join('\n')
-                                  : loc.yourAnswer ?? 'Η απάντησή σου...',
+                                  : 'Η απάντησή σου...',
                             ),
                           ),
                         ],
@@ -318,7 +318,7 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
                 if (_currentIndex > 0 && _followUp == null)
                   TextButton(
                     onPressed: _prevQuestion,
-                    child: Text(loc.previous ?? 'Προηγούμενο'),
+                    child: Text('Προηγούμενο'),
                   ),
                 ElevatedButton(
                   onPressed: () {
@@ -327,7 +327,7 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
                         _nextQuestion();
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(loc.fillAnswerToContinue ?? 'Συμπλήρωσε την απάντηση για να συνεχίσεις.')),
+                          SnackBar(content: Text('Συμπλήρωσε την απάντηση για να συνεχίσεις.')),
                         );
                       }
                     } else {
@@ -335,15 +335,15 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
                         _submit();
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(loc.fillAnswerToContinue ?? 'Συμπλήρωσε την απάντηση για να συνεχίσεις.')),
+                          SnackBar(content: Text('Συμπλήρωσε την απάντηση για να συνεχίσεις.')),
                         );
                       }
                     }
                   },
                   child: Text(
                     _followUp == null
-                        ? (_currentIndex == _questions.length - 1 ? loc.next ?? 'Επόμενο' : loc.next ?? 'Επόμενο')
-                        : loc.saveReflection ?? 'Αποθήκευση Reflection',
+                        ? 'Επόμενο'
+                        : 'Αποθήκευση Reflection',
                   ),
                 ),
               ],

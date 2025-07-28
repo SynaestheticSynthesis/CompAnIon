@@ -1,12 +1,12 @@
 buildscript {
-    ext.kotlin_version = '1.9.22' // Upgrade to at least 1.8.10
+    ext.kotlin_version = '1.9.22'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.3.0' // Upgrade to at least 8.3.0
+        classpath 'com.android.tools.build:gradle:8.6.0' // <-- This must be 8.6.0 or higher
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -25,3 +25,6 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+// NOTE: All 'includeBuild' statements must be placed in 'settings.gradle' or 'settings.gradle.kts', not here.
+// If you previously had any 'includeBuild' statements here, move them to 'settings.gradle' or 'settings.gradle.kts' to avoid errors.

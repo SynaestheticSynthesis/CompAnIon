@@ -85,5 +85,18 @@
   "start": "Start",
   "themeLight": "Light",
   "themeDark": "Dark",
-  "themeSystem": "System"
+  "themeSystem": "System",
+  "inMemory": "In Memory",
+  "specialDay": "Special Day",
+  "noSpecialDatesToday": "No special dates today. A good day to be present.",
+  "allReminders": "All Reminders",
+  "language": "Language",
+  "reflection": "Reflection",
+  "emotion": "Emotion",
+  "comment": "Comment",
+  "yourAnswer": "Your answer...",
+  "previous": "Previous",
+  "next": "Next",
+  "saveReflection": "Save Reflection",
+  "fillAnswerToContinue": "Fill in the answer to continue"
 }

@@ -144,7 +144,8 @@ class PresenceCore {
   }
 
   /// Creates space for silence and breathing
-  static Widget createBreathingSpace({
+  static Widget createBreathingSpace(
+    BuildContext context, {
     String? message,
     Duration? duration,
   }) {

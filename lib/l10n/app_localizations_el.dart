@@ -265,4 +265,43 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get themeSystem => 'System';
+
+  @override
+  String get inMemory => 'Στη μνήμη';
+
+  @override
+  String get specialDay => 'Ειδική Ημέρα';
+
+  @override
+  String get noSpecialDatesToday => 'Δεν υπάρχουν ειδικές ημερομηνίες σήμερα. Μια καλή μέρα για να είσαι παρών/ούσα.';
+
+  @override
+  String get allReminders => 'Όλες οι Υπενθυμίσεις';
+
+  @override
+  String get language => 'Γλώσσα';
+
+  @override
+  String get reflection => 'Στοχασμός';
+
+  @override
+  String get emotion => 'Συναίσθημα';
+
+  @override
+  String get comment => 'Σχόλιο';
+
+  @override
+  String get yourAnswer => 'Η απάντησή σου...';
+
+  @override
+  String get previous => 'Προηγούμενο';
+
+  @override
+  String get next => 'Επόμενο';
+
+  @override
+  String get saveReflection => 'Αποθήκευση Reflection';
+
+  @override
+  String get fillAnswerToContinue => 'Συμπλήρωσε την απάντηση για να συνεχίσεις.';
 }
