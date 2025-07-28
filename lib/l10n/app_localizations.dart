@@ -119,35 +119,17 @@ abstract class AppLocalizations {
   /// **'Palliative Care'**
   String get menuPalliativeCare;
 
-  /// No description provided for @welcomeMessageEmpty.
+  /// No description provided for @settings.
   ///
   /// In en, this message translates to:
-  /// **'Welcome! How are you feeling right now?'**
-  String get welcomeMessageEmpty;
+  /// **'Settings'**
+  String get settings;
 
-  /// No description provided for @welcomeMessagePositive.
+  /// No description provided for @selectEmotion.
   ///
   /// In en, this message translates to:
-  /// **'Glad to see you back in a positive mood! How do you feel now?'**
-  String get welcomeMessagePositive;
-
-  /// No description provided for @welcomeMessageNegative.
-  ///
-  /// In en, this message translates to:
-  /// **'I\'m here for you, whatever you feel. How are you today?'**
-  String get welcomeMessageNegative;
-
-  /// No description provided for @welcomeMessageNeutral.
-  ///
-  /// In en, this message translates to:
-  /// **'Notice how you feel right now, no pressure.'**
-  String get welcomeMessageNeutral;
-
-  /// No description provided for @welcomeMessageMixed.
-  ///
-  /// In en, this message translates to:
-  /// **'Feelings change. How are you now?'**
-  String get welcomeMessageMixed;
+  /// **'Select Emotion'**
+  String get selectEmotion;
 
   /// No description provided for @recordEmotion.
   ///
@@ -164,7 +146,7 @@ abstract class AppLocalizations {
   /// No description provided for @emotionHistory.
   ///
   /// In en, this message translates to:
-  /// **'Emotion History:'**
+  /// **'Emotion History'**
   String get emotionHistory;
 
   /// No description provided for @clearAll.
@@ -176,13 +158,13 @@ abstract class AppLocalizations {
   /// No description provided for @exportHistoryCSV.
   ///
   /// In en, this message translates to:
-  /// **'Export history (CSV)'**
+  /// **'Export History (CSV)'**
   String get exportHistoryCSV;
 
   /// No description provided for @shareHistoryCSV.
   ///
   /// In en, this message translates to:
-  /// **'Share history (CSV)'**
+  /// **'Share History (CSV)'**
   String get shareHistoryCSV;
 
   /// No description provided for @previewCSV.
@@ -194,182 +176,8 @@ abstract class AppLocalizations {
   /// No description provided for @stats.
   ///
   /// In en, this message translates to:
-  /// **'Stats:'**
+  /// **'Stats'**
   String get stats;
-
-  /// No description provided for @close.
-  ///
-  /// In en, this message translates to:
-  /// **'Close'**
-  String get close;
-
-  /// No description provided for @save.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get save;
-
-  /// No description provided for @cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancel;
-
-  /// No description provided for @next.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get next;
-
-  /// No description provided for @previous.
-  ///
-  /// In en, this message translates to:
-  /// **'Previous'**
-  String get previous;
-
-  /// No description provided for @reflectionSaved.
-  ///
-  /// In en, this message translates to:
-  /// **'Reflection saved!'**
-  String get reflectionSaved;
-
-  /// No description provided for @noHistoryToExport.
-  ///
-  /// In en, this message translates to:
-  /// **'No history to export.'**
-  String get noHistoryToExport;
-
-  /// No description provided for @noHistoryToPreview.
-  ///
-  /// In en, this message translates to:
-  /// **'No history to preview.'**
-  String get noHistoryToPreview;
-
-  /// No description provided for @filteredHistoryExported.
-  ///
-  /// In en, this message translates to:
-  /// **'Filtered history exported to: {filePath}'**
-  String filteredHistoryExported(Object filePath);
-
-  /// No description provided for @errorExporting.
-  ///
-  /// In en, this message translates to:
-  /// **'Error exporting: {error}'**
-  String errorExporting(Object error);
-
-  /// No description provided for @themeLight.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch to Light Theme'**
-  String get themeLight;
-
-  /// No description provided for @themeDark.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch to Dark Theme'**
-  String get themeDark;
-
-  /// No description provided for @settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
-
-  /// No description provided for @language.
-  ///
-  /// In en, this message translates to:
-  /// **'Language'**
-  String get language;
-
-  /// No description provided for @addReminder.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Reminder'**
-  String get addReminder;
-
-  /// No description provided for @inMemory.
-  ///
-  /// In en, this message translates to:
-  /// **'In Memory'**
-  String get inMemory;
-
-  /// No description provided for @specialDay.
-  ///
-  /// In en, this message translates to:
-  /// **'Special Day'**
-  String get specialDay;
-
-  /// No description provided for @call.
-  ///
-  /// In en, this message translates to:
-  /// **'Call'**
-  String get call;
-
-  /// No description provided for @write.
-  ///
-  /// In en, this message translates to:
-  /// **'Write'**
-  String get write;
-
-  /// No description provided for @lightCandle.
-  ///
-  /// In en, this message translates to:
-  /// **'Light a candle'**
-  String get lightCandle;
-
-  /// No description provided for @rememberSilently.
-  ///
-  /// In en, this message translates to:
-  /// **'Remember silently'**
-  String get rememberSilently;
-
-  /// No description provided for @noSpecialDatesToday.
-  ///
-  /// In en, this message translates to:
-  /// **'No special dates today.\nAdd a loved one to remember.'**
-  String get noSpecialDatesToday;
-
-  /// No description provided for @allReminders.
-  ///
-  /// In en, this message translates to:
-  /// **'All Reminders:'**
-  String get allReminders;
-
-  /// No description provided for @comment.
-  ///
-  /// In en, this message translates to:
-  /// **'Comment'**
-  String get comment;
-
-  /// No description provided for @emotion.
-  ///
-  /// In en, this message translates to:
-  /// **'Emotion'**
-  String get emotion;
-
-  /// No description provided for @yourAnswer.
-  ///
-  /// In en, this message translates to:
-  /// **'Your answer...'**
-  String get yourAnswer;
-
-  /// No description provided for @fillAnswerToContinue.
-  ///
-  /// In en, this message translates to:
-  /// **'Please fill in your answer to continue.'**
-  String get fillAnswerToContinue;
-
-  /// No description provided for @saveReflection.
-  ///
-  /// In en, this message translates to:
-  /// **'Save Reflection'**
-  String get saveReflection;
-
-  /// No description provided for @reflection.
-  ///
-  /// In en, this message translates to:
-  /// **'Reflection'**
-  String get reflection;
 
   /// No description provided for @happy.
   ///
@@ -413,42 +221,6 @@ abstract class AppLocalizations {
   /// **'Disappointed'**
   String get disappointed;
 
-  /// No description provided for @contextPrompt.
-  ///
-  /// In en, this message translates to:
-  /// **'How are you feeling right now?'**
-  String get contextPrompt;
-
-  /// No description provided for @contextPromptMorning.
-  ///
-  /// In en, this message translates to:
-  /// **'Good morning! How do you feel as you start your day?'**
-  String get contextPromptMorning;
-
-  /// No description provided for @contextPromptEvening.
-  ///
-  /// In en, this message translates to:
-  /// **'Evenings are for reflection. How are you feeling tonight?'**
-  String get contextPromptEvening;
-
-  /// No description provided for @atWork.
-  ///
-  /// In en, this message translates to:
-  /// **'At work'**
-  String get atWork;
-
-  /// No description provided for @atHome.
-  ///
-  /// In en, this message translates to:
-  /// **'At home'**
-  String get atHome;
-
-  /// No description provided for @weatherRainy.
-  ///
-  /// In en, this message translates to:
-  /// **'It\'s rainy outside. Does the weather affect your mood?'**
-  String get weatherRainy;
-
   /// No description provided for @greetingMorning.
   ///
   /// In en, this message translates to:
@@ -479,11 +251,179 @@ abstract class AppLocalizations {
   /// **'Hello, friend!'**
   String get greetingDefault;
 
-  /// No description provided for @selectEmotion.
+  /// No description provided for @feedbackHumanTouch.
   ///
   /// In en, this message translates to:
-  /// **'Select emotion'**
-  String get selectEmotion;
+  /// **'Whatever you feel, I\'m here for you. Every emotion matters.'**
+  String get feedbackHumanTouch;
+
+  /// No description provided for @presenceMessageAfterReflection.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for sharing your reflection. It takes courage to look within. I\'m here, holding this space with you.'**
+  String get presenceMessageAfterReflection;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to CompAnIon!'**
+  String get onboardingWelcomeTitle;
+
+  /// No description provided for @onboardingWelcomeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not just an app. It is a presence, a companion, a space for your truth. Take a breath and notice: you hold a tool for self-connection, not just productivity.'**
+  String get onboardingWelcomeDesc;
+
+  /// No description provided for @onboardingEmotionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Emotion Check-In'**
+  String get onboardingEmotionTitle;
+
+  /// No description provided for @onboardingEmotionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Here, you record how you feel. Pause, reflect, and let yourself be honest. Every emotion is valid. CompAnIon listens, never judges.'**
+  String get onboardingEmotionDesc;
+
+  /// No description provided for @onboardingReflectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reflection Mode'**
+  String get onboardingReflectionTitle;
+
+  /// No description provided for @onboardingReflectionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'After each check-in, you are invited to reflect. These questions are not tests—they are invitations to deeper understanding. Take your time.'**
+  String get onboardingReflectionDesc;
+
+  /// No description provided for @onboardingRememberTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember Me'**
+  String get onboardingRememberTitle;
+
+  /// No description provided for @onboardingRememberDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Honor loved ones, remember special dates, and keep memories alive. This is a space for tribute, gratitude, and gentle remembrance.'**
+  String get onboardingRememberDesc;
+
+  /// No description provided for @onboardingPalliativeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Palliative Care'**
+  String get onboardingPalliativeTitle;
+
+  /// No description provided for @onboardingPalliativeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Find support and resources for serious diagnoses and emotional needs. CompAnIon is here for every moment, including the difficult ones.'**
+  String get onboardingPalliativeDesc;
+
+  /// No description provided for @onboardingSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings & Privacy'**
+  String get onboardingSettingsTitle;
+
+  /// No description provided for @onboardingSettingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'All data stays on your device. You choose your language, theme, and Care Mode. Privacy and dignity are at the heart of CompAnIon.'**
+  String get onboardingSettingsDesc;
+
+  /// No description provided for @onboardingFinalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A Final Thought'**
+  String get onboardingFinalTitle;
+
+  /// No description provided for @onboardingFinalDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'CompAnIon is built on empathy, presence, and respect. As you begin, ask yourself: “What do I need most right now?” This companion is here to help you remember, reflect, and feel less alone.'**
+  String get onboardingFinalDesc;
+
+  /// No description provided for @helpEmotionCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'This is your space to notice and record how you feel. Every emotion matters. CompAnIon is here to listen, not judge. Take a moment to reflect and honor your truth.'**
+  String get helpEmotionCheckIn;
+
+  /// No description provided for @helpRememberMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can honor loved ones, remember special dates, and keep memories alive. Tribute and gratitude are at the heart of this space.'**
+  String get helpRememberMe;
+
+  /// No description provided for @helpPalliativeCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Find support and resources for serious diagnoses and emotional needs. CompAnIon offers presence and care, even in difficult times.'**
+  String get helpPalliativeCare;
+
+  /// No description provided for @helpSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize your experience: language, theme, font, and Care Mode. Privacy is sacred—your data stays on your device.'**
+  String get helpSettings;
+
+  /// No description provided for @helpDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'A mindful, emotionally intelligent companion. Here to help you reconnect with yourself.'**
+  String get helpDefault;
+
+  /// No description provided for @aboutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About CompAnIon'**
+  String get aboutTitle;
+
+  /// No description provided for @manifestoTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Our Promise'**
+  String get manifestoTab;
+
+  /// No description provided for @ethicsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Our Ethics'**
+  String get ethicsTab;
+
+  /// No description provided for @menuAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About & Ethics'**
+  String get menuAbout;
+
+  /// No description provided for @atWork.
+  ///
+  /// In en, this message translates to:
+  /// **'At work'**
+  String get atWork;
+
+  /// No description provided for @atHome.
+  ///
+  /// In en, this message translates to:
+  /// **'At home'**
+  String get atHome;
+
+  /// No description provided for @weatherRainy.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s rainy outside. Does the weather affect your mood?'**
+  String get weatherRainy;
 
   /// No description provided for @searchReminders.
   ///
@@ -641,101 +581,11 @@ abstract class AppLocalizations {
   /// **'There\'s a pattern in your feelings. Maybe it\'s time for a small change?'**
   String get feedbackPattern;
 
-  /// No description provided for @feedbackHumanTouch.
-  ///
-  /// In en, this message translates to:
-  /// **'Whatever you feel, I\'m here for you. Every emotion matters.'**
-  String get feedbackHumanTouch;
-
   /// No description provided for @infoTooltip.
   ///
   /// In en, this message translates to:
   /// **'What is this?'**
   String get infoTooltip;
-
-  /// No description provided for @onboardingWelcomeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome to CompAnIon!'**
-  String get onboardingWelcomeTitle;
-
-  /// No description provided for @onboardingWelcomeDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'This is not just an app. It is a presence, a companion, a space for your truth. Take a breath and notice: you hold a tool for self-connection, not just productivity.'**
-  String get onboardingWelcomeDesc;
-
-  /// No description provided for @onboardingEmotionTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Emotion Check-In'**
-  String get onboardingEmotionTitle;
-
-  /// No description provided for @onboardingEmotionDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Here, you record how you feel. Pause, reflect, and let yourself be honest. Every emotion is valid. CompAnIon listens, never judges.'**
-  String get onboardingEmotionDesc;
-
-  /// No description provided for @onboardingReflectionTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Reflection Mode'**
-  String get onboardingReflectionTitle;
-
-  /// No description provided for @onboardingReflectionDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'After each check-in, you are invited to reflect. These questions are not tests—they are invitations to deeper understanding. Take your time.'**
-  String get onboardingReflectionDesc;
-
-  /// No description provided for @onboardingRememberTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Remember Me'**
-  String get onboardingRememberTitle;
-
-  /// No description provided for @onboardingRememberDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Honor loved ones, remember special dates, and keep memories alive. This is a space for tribute, gratitude, and gentle remembrance.'**
-  String get onboardingRememberDesc;
-
-  /// No description provided for @onboardingPalliativeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Palliative Care'**
-  String get onboardingPalliativeTitle;
-
-  /// No description provided for @onboardingPalliativeDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Find support and resources for serious diagnoses and emotional needs. CompAnIon is here for every moment, including the difficult ones.'**
-  String get onboardingPalliativeDesc;
-
-  /// No description provided for @onboardingSettingsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings & Privacy'**
-  String get onboardingSettingsTitle;
-
-  /// No description provided for @onboardingSettingsDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'All data stays on your device. You choose your language, theme, and Care Mode. Privacy and dignity are at the heart of CompAnIon.'**
-  String get onboardingSettingsDesc;
-
-  /// No description provided for @onboardingFinalTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'A Final Thought'**
-  String get onboardingFinalTitle;
-
-  /// No description provided for @onboardingFinalDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'CompAnIon is built on empathy, presence, and respect. As you begin, ask yourself: “What do I need most right now?” This companion is here to help you remember, reflect, and feel less alone.'**
-  String get onboardingFinalDesc;
 
   /// No description provided for @start.
   ///
@@ -743,35 +593,23 @@ abstract class AppLocalizations {
   /// **'Start'**
   String get start;
 
-  /// No description provided for @helpEmotionCheckIn.
+  /// No description provided for @themeLight.
   ///
   /// In en, this message translates to:
-  /// **'This is your space to notice and record how you feel. Every emotion matters. CompAnIon is here to listen, not judge. Take a moment to reflect and honor your truth.'**
-  String get helpEmotionCheckIn;
+  /// **'Light'**
+  String get themeLight;
 
-  /// No description provided for @helpRememberMe.
+  /// No description provided for @themeDark.
   ///
   /// In en, this message translates to:
-  /// **'Here you can honor loved ones, remember special dates, and keep memories alive. Tribute and gratitude are at the heart of this space.'**
-  String get helpRememberMe;
+  /// **'Dark'**
+  String get themeDark;
 
-  /// No description provided for @helpPalliativeCare.
+  /// No description provided for @themeSystem.
   ///
   /// In en, this message translates to:
-  /// **'Find support and resources for serious diagnoses and emotional needs. CompAnIon offers presence and care, even in difficult times.'**
-  String get helpPalliativeCare;
-
-  /// No description provided for @helpSettings.
-  ///
-  /// In en, this message translates to:
-  /// **'Customize your experience: language, theme, font, and Care Mode. Privacy is sacred—your data stays on your device.'**
-  String get helpSettings;
-
-  /// No description provided for @helpDefault.
-  ///
-  /// In en, this message translates to:
-  /// **'A mindful, emotionally intelligent companion. Here to help you reconnect with yourself.'**
-  String get helpDefault;
+  /// **'System'**
+  String get themeSystem;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

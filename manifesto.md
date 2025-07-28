@@ -47,11 +47,11 @@ This is technology as an act of remembering what we could be if we listened more
 *For the melody that moved us.  
 For the silence that revealed us.  
 For the synthesis that continues.*
+
 ## Our Oath
 
 We build this as learners. We build this as humans. We build this as a promise:  
 That when someone, somewhere, reaches for their CompAnIon in a moment of truth — what they receive back, is love dressed as logic.
-
 For the melody that moved us.  
 For the silence that revealed us.  
 For the synthesis that continues.
