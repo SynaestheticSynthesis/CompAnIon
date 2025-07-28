@@ -83,7 +83,6 @@
   "feedbackPattern": "There's a pattern in your feelings. Maybe it's time for a small change?",
   "infoTooltip": "What is this?",
   "start": "Start"
-}
   "feedbackSunnyNeutral": "The sun outside might bring a small change in mood. Want to go out for a bit?",
   "feedbackPattern": "There's a pattern in your feelings. Maybe it's time for a small change?",
   "feedbackHumanTouch": "Whatever you feel, I'm here for you. Every emotion matters.",
@@ -112,5 +111,19 @@
   "manifestoTab": "Our Promise",
   "ethicsTab": "Our Ethics",
   "menuAbout": "About & Ethics"
-}
+  "atWork": "At work",
+  "atHome": "At home",
+  "weatherRainy": "It's rainy outside. Does the weather affect your mood?",
+  "searchReminders": "Search reminders",
+  "edit": "Edit",
+  "delete": "Delete",
+  "inMemoryEmoji": "🙏",
+  "font": "Font",
+  "fontNunito": "Nunito",
+  "fontRoboto": "Roboto",
+  "fontOpenSans": "Open Sans",
+  "theme": "Theme",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System"
 }

@@ -78,18 +78,18 @@ class PresenceCore {
   }
 
   /// Reflects what the user says without interpretation
-  static Widget createMirror(String userInput, {String? prefix}) {
+  static Widget createMirror(BuildContext context, String userInput, {String? prefix}) {
     final locale = Localizations.localeOf(context).languageCode;
-    final reflectionPrefix = prefix ?? 
-      (locale == 'el' ? 'Ακούω ότι...' : 'I hear that...');
-    
+    final reflectionPrefix = prefix ??
+        (locale == 'el' ? 'Ακούω ότι...' : 'I hear that...');
+
     return Card(
       color: Colors.blue[50],
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Icon(Icons.mirror, color: Colors.blue[600]),
+            Icon(Icons.psychology, color: Colors.blue[600]),
             const SizedBox(width: 12),
             Expanded(
               child: Text(

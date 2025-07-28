@@ -1,10 +1,13 @@
 buildscript {
+    ext.kotlin_version = '1.9.22' // Upgrade to at least 1.8.10
     repositories {
         google()
         mavenCentral()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath 'com.android.tools.build:gradle:8.3.0' // Upgrade to at least 8.3.0
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -16,9 +19,9 @@ allprojects {
 }
 
 subprojects {
-    afterEvaluate { project ->
-        if (project.hasProperty("android")) {
-            project.android.compileSdkVersion = 35
-        }
-    }
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
 }
