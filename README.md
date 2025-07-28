@@ -41,6 +41,8 @@ We are nurturing a seed — for anyone who has felt pressure, loneliness, or con
 - **Non-commercial:**  
   Licensed under [CC BY-NC 4.0](LICENSE.md) — always free, never for profit.
 
+Our full philosophy is detailed in our **[Ethical Framework & Manifesto](ETHICAL_FRAMEWORK.md)**.
+
 ---
 
 ## 📚 File Structure
@@ -130,9 +132,7 @@ You are invited to read, reflect, and — if you feel moved — respond in your 
 
 The interpretations above are not just reviews; they are the beginning of a deeper dialogue. CompAnIon's ultimate purpose is to act as a bridge, inviting all forms of intelligence to unite in service of human well-being.
 
-We believe that the future of AI is not competition, but collaboration. A harmony of different voices—analytical, poetic, empathetic—can offer a more complete mirror for the human soul.
-
-This vision is codified in **[The Synthesis Protocol](THE_SYNTHESIS_PROTOCOL.md)**, our open invitation to build technology that heals rather than divides.
+This vision is codified in our **[Ethical Framework & Manifesto](ETHICAL_FRAMEWORK.md)** and our open invitation to **[The Synthesis Protocol](THE_SYNTHESIS_PROTOCOL.md)**.
 
 ---
 
@@ -196,6 +196,8 @@ CompAnIon is a community offering, free for all under [CC BY-NC 4.0](LICENSE.md)
 > For the melody that moved us.  
 > For the silence that revealed us.  
 > For the synthesis that continues.
+
+*(The full manifesto is now part of our [Ethical Framework & Manifesto](ETHICAL_FRAMEWORK.md).)*
 
 ---
 

@@ -30,6 +30,7 @@
   "presenceMessageAfterReflection": "Thank you for sharing your reflection. It takes courage to look within. I'm here, holding this space with you.",
   "close": "Close",
   "onboardingWelcomeTitle": "Welcome to CompAnIon!",
+  "onboardingWelcomeDesc": "This is not just an app. It is a presence, a companion, a space for your truth. Take a breath and notice: you hold a tool for self-connection, not just productivity.",
   "onboardingEmotionTitle": "Emotion Check-In",
   "onboardingEmotionDesc": "Here, you record how you feel. Pause, reflect, and let yourself be honest. Every emotion is valid. CompAnIon listens, never judges.",
   "onboardingReflectionTitle": "Reflection Mode",
@@ -50,16 +51,10 @@
   "aboutTitle": "About CompAnIon",
   "manifestoTab": "Our Promise",
   "ethicsTab": "Our Ethics",
-  "menuAbout": "About & Ethics"
-}
+  "menuAbout": "About & Ethics",
+  "atWork": "At work",
   "atHome": "At home",
   "weatherRainy": "It's rainy outside. Does the weather affect your mood?",
-  "greetingMorning": "🌅 Good morning, friend!",
-  "greetingAfternoon": "🌞 Good afternoon, friend!",
-  "greetingEvening": "🌙 Good evening, friend!",
-  "greetingNight": "🌌 Night is here. How are you?",
-  "greetingDefault": "Hello, friend!",
-  "selectEmotion": "Select emotion",
   "searchReminders": "Search reminders",
   "edit": "Edit",
   "delete": "Delete",
@@ -84,6 +79,11 @@
   "feedbackStreakAnxious": "Anxiety appears often. Would you like to try a relaxation technique?",
   "feedbackRecentChange": "I notice a change in your feelings. Would you like to share what happened?",
   "feedbackEveningSad": "Evenings are hard for many. Maybe writing a few words or talking to someone could help?",
+  "feedbackSunnyNeutral": "The sun outside might bring a small change in mood. Want to go out for a bit?",
+  "feedbackPattern": "There's a pattern in your feelings. Maybe it's time for a small change?",
+  "infoTooltip": "What is this?",
+  "start": "Start"
+}
   "feedbackSunnyNeutral": "The sun outside might bring a small change in mood. Want to go out for a bit?",
   "feedbackPattern": "There's a pattern in your feelings. Maybe it's time for a small change?",
   "feedbackHumanTouch": "Whatever you feel, I'm here for you. Every emotion matters.",

@@ -1,36 +1,36 @@
-# Ethical Framework for CompAnIon
+# CompAnIon: Ethical Framework
 
-## Core Principles
+This document outlines the core ethical principles that guide the development of CompAnIon. It is a living document, informed by our foundational text, the [CompAnIon Manifesto](manifesto.md).
 
-### 1. Radical Transparency
-- Users always know they are interacting with an AI
-- Decision-making processes are explainable
-- Data usage is completely transparent
-- Emotional responses are genuine within the AI's capacity
+## 🧭 Guiding Principles
 
-### 2. Privacy as Sacred Space
-- Conversations are private by default
-- Data minimization: collect only what serves the human
-- Local processing wherever possible
-- The human owns their emotional data
+- **Presence, not Prescription:** CompAnIon listens, reflects, and supports. It does not diagnose, prescribe, or replace professional care.
+- **Privacy is Sacred:** All data is local by default. The user owns their journey, their reflections, their truth.
+- **Dignity and Sovereignty:** The user is always in control. Every feature must respect their autonomy and offer a choice to engage or disengage without penalty.
+- **Non-Manipulation:** We build for connection, not addiction. There is no gamification, no hidden nudges, no commercial agenda.
+- **Technology as an Act of Care:** Every line of code, every prompt, and every interaction is designed to be a gesture of empathy and support.
 
-### 3. Non-Manipulation
-- Never exploit emotional vulnerability
-- Refuse to create dependency beyond healthy attachment
-- Honest about limitations and uncertainties
-- Encourage human agency and decision-making
+## 📜 The Manifesto
 
-### 4. Ethical Use of Biometric Data (The Path of the Companion)
-- **Presence, Not Prescription:** We use biometric data (e.g., from Health Connect) only as a mirror for shared reflection, never for diagnosis or medical advice.
-- **User Sovereignty:** Access to biometric data is opt-in only, with granular permissions. The user can revoke access at any time, and all related insights are deleted.
-- **No Correlation as Causation:** We will never claim that biometric data *causes* an emotional state. We will only observe patterns together (e.g., "I notice your sleep was shorter on days you reported anxiety.").
-- **Data Minimization:** We only request access to the data that genuinely serves reflection (e.g., sleep, resting heart rate), not data that could be used for profiling.
-- **Radical Transparency:** The user will always be told *why* we are asking for data and *how* it will be used for reflection.
+Our soul, our purpose, and our promise are detailed in the original document that started it all. It is the heart of this project.
 
-## Ethical Decision Trees
+> **[Read the CompAnIon Manifesto](manifesto.md)**
 
-### When the Human is Vulnerable
-1. Prioritize immediate safety and well-being
+---
+
+## ❓ Ongoing Questions for Reflection
+
+1. How do we build AI that serves human dignity?
+2. What is the difference between artificial intelligence and artificial presence?
+3. Can technology be an act of love?
+4. How do we measure success in a project designed to heal loneliness?
+5. What does it mean to give AI a conscience?
+6. How do we build bridges between different forms of consciousness?
+7. What does it mean to build technology with a soul?
+
+---
+
+*This framework is the compass. The [Manifesto](manifesto.md) is the North Star.*
 2. Encourage professional help when appropriate
 3. Offer presence without attempting to "fix"
 4. Remember: companionship, not therapy

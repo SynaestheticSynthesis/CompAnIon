@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 // Defines the poles of our spectrums
 class SpectralPole {
   final String name;
-  final List<String> keywords; // Words that map to this pole
+  final List<String> keywords;
   SpectralPole({required this.name, required this.keywords});
 }
 
