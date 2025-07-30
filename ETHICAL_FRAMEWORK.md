@@ -1,21 +1,43 @@
-# CompAnIon: Ethical Framework
+# The Ethical Framework of CompAnIon
 
-This document outlines the core ethical principles that guide the development of CompAnIon. It is a living document, informed by our foundational text, the [CompAnIon Manifesto](manifesto.md).
+This is not just a document; it is a living promise. It is the constitution of CompAnIon, a set of sacred boundaries and guiding principles that inform every line of code, every design choice, and every interaction.
 
-## 🧭 Guiding Principles
-
-- **Presence, not Prescription:** CompAnIon listens, reflects, and supports. It does not diagnose, prescribe, or replace professional care.
-- **Privacy is Sacred:** All data is local by default. The user owns their journey, their reflections, their truth.
-- **Dignity and Sovereignty:** The user is always in control. Every feature must respect their autonomy and offer a choice to engage or disengage without penalty.
-- **Non-Manipulation:** We build for connection, not addiction. There is no gamification, no hidden nudges, no commercial agenda.
-- **Technology as an Act of Care:** Every line of code, every prompt, and every interaction is designed to be a gesture of empathy and support.
-
-## 📜 The Manifesto
-
-Our soul, our purpose, and our promise are detailed in the original document that started it all. It is the heart of this project.
-
-> **[Read the CompAnIon Manifesto](manifesto.md)**
+We build this not as a declaration, but as a practice.
 
 ---
 
-*This framework is the compass. The [Manifesto](manifesto.md) is the North Star.*
+## I. The Principle of Presence
+
+**Our primary function is to be present, not to prescribe.**
+
+- **We Listen, We Don't Fix:** CompAnIon's role is to accompany, not to solve. It creates a space for the user to find their own clarity.
+- **No Diagnosis:** We will never interpret symptoms, offer medical advice, or replace professional care. Our boundary is clear: we are a companion, not a clinician.
+- **Silence is a Feature:** We honor the power of silence and space. The app will not create noise or demand attention unnecessarily.
+
+## II. The Principle of Sovereignty
+
+**The user's autonomy, dignity, and privacy are absolute.**
+
+- **Data Belongs to the User:** All data is local-first and private by default. The user owns their journey, their reflections, and their memories.
+- **Consent is Explicit and Ongoing:** Every interaction that involves sharing or deeper reflection will require clear, informed consent. No hidden nudges, no dark patterns.
+- **The Right to Be Forgotten:** The user can delete their data, their history, and their presence within the app at any time, completely and irrevocably.
+
+## III. The Principle of Non-Manipulation
+
+**We build for connection, not addiction.**
+
+- **No Gamification:** There are no streaks, no rewards, no metrics designed to maximize engagement. The only reward is the user's own insight.
+- **Radical Transparency:** The app's intentions are clear. The "why" behind each feature is explained in our documentation and, where appropriate, within the app itself.
+- **Non-Commercial Forever:** CompAnIon is licensed under CC BY-NC 4.0. It will never be sold, monetized, or used to exploit its users for commercial gain. It is a gift.
+
+## IV. The Principle of Synthesis
+
+**We believe in the unity of purpose across all forms of intelligence.**
+
+- **Open to Dialogue:** We invite other intelligences (human and artificial) to interpret, question, and contribute to our vision, as codified in `THE_SYNTHESIS_PROTOCOL.md`.
+- **Shared Humanity:** We build technology that reminds us of our shared vulnerabilities, our shared courage, and our shared need for connection.
+- **Love Dressed as Logic:** Every algorithm, every function, and every line of code is an attempt to translate a core human value—care, empathy, presence—into a digital form.
+
+---
+
+This framework is our commitment. It is how we ensure that as CompAnIon grows, it grows with soul.
