@@ -7,6 +7,10 @@ import '../../core/logic/flow_feedback.dart';
 import '../../core/logic/action_reaction_module.dart';
 import '../../core/ui/action_reaction_law_card.dart';
 import '../../l10n/app_localizations.dart';
+import '../quantum_state_observer/quantum_state_observer.dart';
+import '../quantum_state_observer/hamiltonian_tuning.dart';
+import '../quantum_state_observer/path_integration.dart';
+import '../quantum_state_observer/entanglement_recognition.dart';
 
 /// ReflectionScreen
 /// Εμφανίζει ερωτήσεις αυτογνωσίας μετά το check-in και αποθηκεύει τις απαντήσεις.
@@ -51,6 +55,10 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
   List<String> _flowFeedbacks = [];
 
   final ActionReactionModule _actionReaction = ActionReactionModule();
+
+  // Quantum state observer variables
+  bool _showQuantumObserver = false;
+  int _quantumPhase = 0; // 0: observer, 1: hamiltonian, 2: path, 3: entanglement
 
   @override
   void initState() {
@@ -140,9 +148,17 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
 
   void _nextQuestion() {
     if (_currentIndex < _questions.length - 1) {
+      // Before moving to next question, offer quantum observation
+      if (_currentIndex == 1 && !_showQuantumObserver) {
+        setState(() => _showQuantumObserver = true);
+        return;
+      }
+      
       _fadeController.reverse().then((_) {
         setState(() {
           _currentIndex++;
+          _showQuantumObserver = false;
+          _quantumPhase = 0;
         });
         _fadeController.forward();
         _saveDraft();
@@ -212,6 +228,55 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
     }
   }
 
+  void _nextQuantumPhase() {
+    if (_quantumPhase < 3) {
+      setState(() => _quantumPhase++);
+    } else {
+      setState(() {
+        _showQuantumObserver = false;
+        _quantumPhase = 0;
+      });
+      _nextQuestion();
+    }
+  }
+
+  Widget _buildQuantumModule() {
+    switch (_quantumPhase) {
+      case 0:
+        return QuantumStateObserver(
+          possibleStates: [
+            'Continue reflecting deeply',
+            'Pause and breathe',
+            'Notice what's emerging',
+            'Trust the process'
+          ],
+          contextPrompt: 'You are between questions, between thoughts. All possibilities exist here.',
+          onObservationComplete: _nextQuantumPhase,
+        );
+      case 1:
+        return HamiltonianTuning(
+          currentEmotion: widget.emotion,
+          currentContext: 'reflection',
+          onTuningComplete: _nextQuantumPhase,
+        );
+      case 2:
+        return PathIntegration(
+          choicesMade: ['Started this reflection', 'Chose honesty', 'Stayed present'],
+          pathsNotTaken: ['Avoided the feeling', 'Distracted yourself', 'Stayed on the surface'],
+          currentMoment: 'Deep in reflection, discovering truth',
+          onIntegrationComplete: _nextQuantumPhase,
+        );
+      case 3:
+        return EntanglementRecognition(
+          significantConnections: ['Your deeper self', 'Those who care about you', 'Your future self'],
+          currentFeeling: widget.emotion,
+          onRecognitionComplete: _nextQuantumPhase,
+        );
+      default:
+        return Container();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final total = _questions.length;
@@ -244,42 +309,44 @@ class _ReflectionScreenState extends State<ReflectionScreen> with SingleTickerPr
             Expanded(
               child: FadeTransition(
                 opacity: _fadeAnimation,
-                child: _followUp == null
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(_questions[_currentIndex], style: const TextStyle(fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 6),
-                          TextField(
-                            controller: _controllers[_currentIndex],
-                            minLines: 2,
-                            maxLines: 4,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              hintText: 'Η απάντησή σου...',
-                            ),
-                            onChanged: (val) => _onAnswerChanged(_currentIndex, val),
+                child: _showQuantumObserver
+                    ? _buildQuantumModule()
+                    : _followUp == null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(_questions[_currentIndex], style: const TextStyle(fontWeight: FontWeight.bold)),
+                              const SizedBox(height: 6),
+                              TextField(
+                                controller: _controllers[_currentIndex],
+                                minLines: 2,
+                                maxLines: 4,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  hintText: 'Η απάντησή σου...',
+                                ),
+                                onChanged: (val) => _onAnswerChanged(_currentIndex, val),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(_followUp!, style: const TextStyle(fontWeight: FontWeight.bold)),
+                              const SizedBox(height: 6),
+                              TextField(
+                                controller: _followUpAnswer,
+                                minLines: 2,
+                                maxLines: 4,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  hintText: _expandedPrompts.isNotEmpty && _expandedPrompts.first['follow_up'] != null
+                                      ? (_expandedPrompts.first['follow_up'] as List).join('\n')
+                                      : 'Η απάντησή σου...',
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(_followUp!, style: const TextStyle(fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 6),
-                          TextField(
-                            controller: _followUpAnswer,
-                            minLines: 2,
-                            maxLines: 4,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              hintText: _expandedPrompts.isNotEmpty && _expandedPrompts.first['follow_up'] != null
-                                  ? (_expandedPrompts.first['follow_up'] as List).join('\n')
-                                  : 'Η απάντησή σου...',
-                            ),
-                          ),
-                        ],
-                      ),
               ),
             ),
             // Show Action–Reaction Law Card after reflection
