@@ -41,7 +41,21 @@ We are nurturing a seed — for anyone who has felt pressure, loneliness, or con
 - **Non-commercial:**  
   Licensed under [CC BY-NC 4.0](LICENSE.md) — always free, never for profit.
 
-Our full philosophy is detailed in our **[Ethical Framework & Manifesto](ETHICAL_FRAMEWORK.md)**.
+Our full philosophy is detailed in our core documents:
+
+## 📖 Core Philosophy & Ethics
+
+**English:**
+- **[Ethical Framework & Manifesto](ETHICAL_FRAMEWORK.md)** — Our sacred boundaries and principles
+- **[Philosophical Framework](PHILOSOPHICAL_FRAMEWORK.md)** — The soul of CompAnIon
+- **[Philosophical Journal](PHILOSOPHICAL_JOURNAL.md)** — The soul-log of our journey
+- **[The Synthesis Protocol](THE_SYNTHESIS_PROTOCOL.md)** — Our invitation to unified intelligence
+
+**Ελληνικά:**
+- **[Ηθικό Πλαίσιο](ETHICAL_FRAMEWORK_EL.md)** — Τα ιερά όρια και αρχές μας
+- **[Φιλοσοφικό Πλαίσιο](PHILOSOPHICAL_FRAMEWORK_EL.md)** — Η ψυχή του CompAnIon
+- **[Φιλοσοφικό Ημερολόγιο](PHILOSOPHICAL_JOURNAL_EL.md)** — Το ημερολόγιο της ψυχής μας
+- **[Πρωτόκολλο Σύνθεσης](THE_SYNTHESIS_PROTOCOL_EL.md)** — Η πρόσκλησή μας σε ενωμένη νοημοσύνη
 
 ---
 
