@@ -21,6 +21,20 @@ Born to help us reconnect with ourselves, it listens, reflects, and walks *with*
 
 ---
 
+> **Intention Highlight:**  
+> In a world of cycles and chance, CompAnIon chooses presence over probability.  
+> Our newest module, **Anti-Bet Presence**, is not here to fight darkness with darkness, but to plant a seed of truth where illusion once ruled.  
+>  
+> We believe the most radical act is to offer a mirror where there was only a slot machine,  
+> to reward honesty over escape,  
+> and to remind every soul:  
+> **You are not a number. You are the house. You are the prize.**
+>  
+> Every line of code is a chance to choose care over chance,  
+> and every moment of presence is a quiet revolution.
+
+---
+
 ## 🌱 Vision
 
 We are not building a product.  
